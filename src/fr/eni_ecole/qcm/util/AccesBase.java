@@ -35,7 +35,7 @@ public class AccesBase {
 		// Chercher le pool de connexions dans l'annuaire
 		DataSource ds = null;
 		try {
-			ds=(DataSource) jndi.lookup("java:comp/env/jdbc/dsTPWeb");
+			ds=(DataSource) jndi.lookup("java:comp/env/jdbc/QCM");
 		} catch (NamingException ne) {
 			ne.printStackTrace();
 			throw new SQLException("Pool de connexion introuvable dans l'arbre jndi");
