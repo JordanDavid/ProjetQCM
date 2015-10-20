@@ -19,8 +19,8 @@ public class Section implements Serializable {
 	private static final long serialVersionUID = 834957358647674588L;
 
 	private int numSection;
-	private String idTest;
-	private String idTheme;
+	private Test test;
+	private Theme theme;
 	private int nbQuestion;
 	
 	/**
@@ -31,11 +31,51 @@ public class Section implements Serializable {
 	 * @param idTheme idTheme de la section
 	 * @param nbQuestion nbQuestion de la section
 	 */
-	public Section(int numSection, String idTest, String idTheme, int nbQuestion){
+	public Section(int numSection, Test test, Theme theme, int nbQuestion){
 		setNumSection(numSection);
-		setIdTest(idTest);
-		setIdTheme(idTheme);
+		setTest(test);
+		setTheme(theme);
 		setNbQuestion(nbQuestion);
+	}
+	
+	/**
+	 * d1410gerardm
+	 * Classe Section
+	 */
+	public Section(){
+		super();
+	}
+
+	/**
+	 * Getter for test
+	 * @return the test
+	 */
+	public Test getTest() {
+		return test;
+	}
+
+	/**
+	 * Setter for test
+	 * @param test the test to set
+	 */
+	public void setTest(Test test) {
+		this.test = test;
+	}
+
+	/**
+	 * Getter for theme
+	 * @return the theme
+	 */
+	public Theme getTheme() {
+		return theme;
+	}
+
+	/**
+	 * Setter for theme
+	 * @param theme the theme to set
+	 */
+	public void setTheme(Theme theme) {
+		this.theme = theme;
 	}
 
 	/**
@@ -52,38 +92,6 @@ public class Section implements Serializable {
 	 */
 	public void setNumSection(int numSection) {
 		this.numSection = numSection;
-	}
-
-	/**
-	 * Getter for idTest
-	 * @return the idTest
-	 */
-	public String getIdTest() {
-		return idTest;
-	}
-
-	/**
-	 * Setter for idTest
-	 * @param idTest the idTest to set
-	 */
-	public void setIdTest(String idTest) {
-		this.idTest = idTest;
-	}
-
-	/**
-	 * Getter for idTheme
-	 * @return the idTheme
-	 */
-	public String getIdTheme() {
-		return idTheme;
-	}
-
-	/**
-	 * Setter for idTheme
-	 * @param idTheme the idTheme to set
-	 */
-	public void setIdTheme(String idTheme) {
-		this.idTheme = idTheme;
 	}
 
 	/**

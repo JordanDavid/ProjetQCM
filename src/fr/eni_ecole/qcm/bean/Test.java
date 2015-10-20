@@ -19,31 +19,54 @@ public class Test implements Serializable {
 	 */
 	private static final long serialVersionUID = 5123537307675054395L;
 	
+	private int idTest;
 	private String libelle;
 	private int duree;
 	private int seuil_minimum;
 	private int seuil_maximum;
 	
 	private List<Section> listeSections;
+	private List<PlageHoraire> listePlageHoraire;
 	
-	public Test(){
-		super();
-	}
 	/**
 	 * d1410gerardm
-	 * Classe Test 
+	 * Classe Test
+	 * @param idTest Identifiant du test
 	 * @param libelle Libelle du test
 	 * @param duree Duree du test
 	 * @param seuil_minimum Seuil_minimum du test
 	 * @param seuil_maximum Seuil_maximum du test
 	 */
-	public Test(String libelle, int duree, int seuil_minimum, int seuil_maximum){
+	public Test(int idTest, String libelle, int duree, int seuil_minimum, int seuil_maximum){
+		setId(idTest);
 		setLibelle(libelle);
 		setDuree(duree);
 		setSeuil_minimum(seuil_minimum);
 		setSeuil_maximum(seuil_maximum);
 	}
 
+	/**
+	 * d1410gerardm
+	 * Classe Test
+	 */
+	public Test(){
+		super();
+	}
+	
+	/**
+	 * Getter for id
+	 * @return the id
+	 */
+	public int getId() {
+		return idTest;
+	}
+	/**
+	 * Setter for id
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.idTest = id;
+	}
 	/**
 	 * Getter for libelle
 	 * @return the libelle
@@ -123,12 +146,29 @@ public class Test implements Serializable {
 	public List<Section> getListeSections() {
 		return listeSections;
 	}
+	
 	/**
 	 * Setter for listeSections
 	 * @param listeSections the listeSections to set
 	 */
 	public void setListeSections(List<Section> listeSections) {
 		this.listeSections = listeSections;
+	}
+	
+	/**
+	 * Getter for listePlageHoraire
+	 * @return the listePlageHoraire
+	 */
+	public List<PlageHoraire> getListePlageHoraire() {
+		return listePlageHoraire;
+	}
+	
+	/**
+	 * Setter for listePlageHoraire
+	 * @param listePlageHoraire the listePlageHoraire to set
+	 */
+	public void setListePlageHoraire(List<PlageHoraire> listePlageHoraire) {
+		this.listePlageHoraire = listePlageHoraire;
 	}
 	
 }
