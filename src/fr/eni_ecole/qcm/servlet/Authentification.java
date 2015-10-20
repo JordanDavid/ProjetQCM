@@ -55,10 +55,8 @@ public class Authentification extends HttpServlet {
 		processRequest(request,response);
 	}
 
-	private void processRequest(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+				
 	}
 
 }
