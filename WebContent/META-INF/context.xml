@@ -36,7 +36,7 @@
       	type="javax.sql.DataSource" 
       	
       	driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-      	url="jdbc:sqlserver://localhost:1433;databasename=GestionQCM"
+      	url="jdbc:sqlserver://10.21.200.3:1433;databasename=GestionQCM"
       	username="qcm"
       	password="secret$01"
       	
