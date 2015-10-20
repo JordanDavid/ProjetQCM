@@ -1,11 +1,16 @@
 package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.eni_ecole.qcm.bean.Utilisateur;
+import fr.eni_ecole.qcm.dal.DALUtilisateur;
 
 /**
  * Servlet implementation class Authentification
@@ -56,7 +61,24 @@ public class Authentification extends HttpServlet {
 	}
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-				
+		String login = request.getParameter("login");
+		String password = request.getParameter("password");
+		Utilisateur utilisateur = new Utilisateur();
+		RequestDispatcher dispatcher = null;
+		
+		// if the user isn't connected
+		try {
+			utilisateur.setLogin(login);
+			utilisateur.setMotdepasse(password);
+			
+			utilisateur = DALUtilisateur.rechercher(utilisateur);
+			request.getSession().setAttribute("user", utilisateur);
+			
+			dispatcher = request.getRequestDispatcher("/accueil.jsp");
+			dispatcher.forward(request, response);			
+		} catch (Exception e) {
+			
+		}
 	}
 
 }

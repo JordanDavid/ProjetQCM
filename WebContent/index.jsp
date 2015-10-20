@@ -13,7 +13,7 @@
 	<p>Merci de vous connecter à l'aide de vos identifiants
 	<form action="<%= request.getContextPath()%>/authentification" method="POST">
 		<p><input type="text" name="login" id="login" value="Login"></input></p>
-		<p><input type="text" name="password" id="password" value="Mot de passe"></input></p>
+		<p><input type="password" name="password" id="password" value="Mot de passe"></input></p>
 		<p><input type="submit" name="valider" id="valider" value="Se connnecter"></p>
 	</form>
 </div>
