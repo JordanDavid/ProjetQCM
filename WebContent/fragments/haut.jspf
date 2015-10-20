@@ -4,17 +4,20 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basique/style.css">
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/style.css">
 		<title><%=titre%></title>
 	</head>
 	<body>
 		<div id="entete">
 			<div id="entete_user">Bonjour, user</div>
-			<div id="entete_deconnexion"><a href="#">Déconnexion</a></div>
+			<div id="entete_deconnexion"><a href="#" class="blueText">Déconnexion</a></div>
 		</div>
 		<div id="milieu">
 			<%@include file="/fragments/menu.jspf" %> 
 			<div id="corps">
-				<div id="titre"><h1><%=titre%></h1></div>
+				<div class="blueText id="titre"><h1><%=titre%></h1></div>
 				<div id="contenu">
 				

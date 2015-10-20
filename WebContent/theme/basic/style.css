@@ -1,1 +1,105 @@
 @CHARSET "UTF-8";
+
+*{
+	font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+
+html{
+	background-color: #FFFFFF;
+}
+
+body{
+	width : 80%;
+	max-width : 80%;
+	min-height : 800px;
+	/* background-color : #98b5d8; */
+	margin : auto;
+	text-align : justify;
+}
+
+.blueText,
+a.blueText,
+a.blueText:VISITED{
+	color : #5f96fc;
+}
+
+/* entete */
+#entete{
+	padding-top : 2%;
+	padding-left : 1%;
+	padding-right : 1%;
+	margin-bottom : 2%;
+	height : 10%;
+}
+
+#entete_user{
+	display: inline-block;
+}
+
+#entete_deconnexion{
+	display : inline-block;
+	float : right;
+}
+
+/* milieu de page */
+#milieu {
+	min-height : 700px;
+	width : 100%;
+}
+
+/* menu */
+#menu {
+	display: inline-block;
+	float : left;
+	width : 15%;
+}
+
+#menu ul{
+	width : 100%;
+	border-top: 1px solid rgb(204, 204, 204);
+	margin: 0px;
+	padding : 0px;
+}
+
+#menu ul li{
+	list-style-type : none;
+	background: none repeat scroll 0% 0% rgb(238, 238, 238);
+	border-bottom: 1px solid rgb(204, 204, 204);
+	margin: 0px;
+	padding-top : 4px;
+	padding-bottom : 4px;
+	width : 100%;
+}
+
+#menu ul li a {
+	text-decoration: none;
+	color : black;
+}
+
+#menu ul li:HOVER {
+	background-color: #808080;
+}
+
+#menu ul li.active {
+	background-color: white;
+}
+
+
+/* corps de page */
+#corps{	
+	display: inline-block;
+	margin-left : 1%;
+	border-top : 2px solid black;
+	border-bottom : 2px solid black;
+	border-right : 2px solid black;
+	border-left : 1px solid black;
+	width : 83%;
+	min-height : 700px;
+	height : 100%;
+}
+
+/* pied de page */
+#pied{
+	margin-top : 2%;
+	height : 10%;
+}

@@ -2,10 +2,12 @@
     pageEncoding="UTF-8"%>
 
     <div id="menu">
-    	<a href="<%=request.getContextPath()%>/#">Accueil</a><br/>
-    	<a href="<%=request.getContextPath()%>/#">Passer un test</a><br/>
-    	<a href="<%=request.getContextPath()%>/#">Résultats</a><br/>
-    	<a href="<%=request.getContextPath()%>/#">Inscription</a><br/>
-    	<a href="<%=request.getContextPath()%>/#">Gestion des tests</a><br/>
-    	<a href="<%=request.getContextPath()%>/#">Référentiel</a>
+	    <ul>
+	    	<li class="liMenu active" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Accueil</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Passer un test</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Inscription</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Gestion des tests</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Référentiel</a></li>
+	    </ul>
     </div>
