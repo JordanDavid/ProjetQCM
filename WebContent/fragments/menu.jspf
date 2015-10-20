@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
-</body>
-</html>
+    <div id="menu">
+    	<a href="<%=request.getContextPath()%>/#">Accueil</a><br/>
+    	<a href="<%=request.getContextPath()%>/#">Passer un test</a><br/>
+    	<a href="<%=request.getContextPath()%>/#">Résultats</a><br/>
+    	<a href="<%=request.getContextPath()%>/#">Inscription</a><br/>
+    	<a href="<%=request.getContextPath()%>/#">Gestion des tests</a><br/>
+    	<a href="<%=request.getContextPath()%>/#">Référentiel</a>
+    </div>

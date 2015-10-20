@@ -2,11 +2,19 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basique/style.css">
+		<title><%=titre%></title>
+	</head>
+	<body>
+		<div id="entete">
+			<div id="entete_user">Bonjour, user</div>
+			<div id="entete_deconnexion"><a href="#">Déconnexion</a></div>
+		</div>
+		<div id="milieu">
+			<%@include file="/fragments/menu.jspf" %> 
+			<div id="corps">
+				<div id="titre"><h1><%=titre%></h1></div>
+				<div id="contenu">
+				
