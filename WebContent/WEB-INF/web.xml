@@ -19,4 +19,14 @@
     <servlet-name>Authentification</servlet-name>
     <url-pattern>/authentification</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Gestion du réfrentiel accessible depuis le menu formateur</description>
+    <display-name>Referentiel</display-name>
+    <servlet-name>Referentiel</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.Referentiel</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Referentiel</servlet-name>
+    <url-pattern>/formateur/referentiel</url-pattern>
+  </servlet-mapping>
 </web-app>

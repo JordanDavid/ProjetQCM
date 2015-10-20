@@ -28,7 +28,6 @@ a.blueText:VISITED{
 	padding-top : 2%;
 	padding-left : 1%;
 	padding-right : 1%;
-	margin-bottom : 2%;
 	height : 10%;
 }
 
@@ -43,6 +42,7 @@ a.blueText:VISITED{
 
 /* milieu de page */
 #milieu {
+	margin-top : 3%;
 	min-height : 700px;
 	width : 100%;
 }
@@ -52,6 +52,7 @@ a.blueText:VISITED{
 	display: inline-block;
 	float : left;
 	width : 15%;
+	margin-top: 2%;
 }
 
 #menu ul{
@@ -98,8 +99,26 @@ a.blueText:VISITED{
 	height : 100%;
 }
 
+#titre{
+	text-align : center;
+}
+
+#titre h1 {
+	font-size : 1.5em;
+}
+
+#contenu{
+	padding-top : 1%;
+	padding-bottom : 1%;
+	padding-left : 2%;
+	padding-right : 2%;
+}
+
+
 /* pied de page */
 #pied{
 	margin-top : 2%;
 	height : 10%;
+	font-size : 0.8em;
+	font-style: italic;
 }

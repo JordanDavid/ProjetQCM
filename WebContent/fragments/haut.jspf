@@ -18,6 +18,6 @@
 		<div id="milieu">
 			<%@include file="/fragments/menu.jspf" %> 
 			<div id="corps">
-				<div class="blueText id="titre"><h1><%=titre%></h1></div>
+				<div class="blueText" id="titre"><h1><%=titre%></h1></div>
 				<div id="contenu">
 				
