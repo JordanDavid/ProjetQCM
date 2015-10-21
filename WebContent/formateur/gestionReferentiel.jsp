@@ -72,8 +72,8 @@
 				</div>
 			</div>
 			<div class="inline_div_reponse" align="right">
-				<p class="blueLink underlineLink" onclick="ajouterReponse();">Ajouter
-					une reponse</p>
+				<a class="blueText underlineLink" onclick="ajouterReponse();">Ajouter
+					une reponse</a>
 			</div>
 			<div class="inline_div_reponse" align="center">
 				<input type="submit" name="enregisterQuestion"
