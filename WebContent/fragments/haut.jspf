@@ -13,7 +13,7 @@
 	<body>
 		<div id="entete">
 			<div id="entete_user">Bonjour, user</div>
-			<div id="entete_deconnexion"><a href="#" class="blueText">Déconnexion</a></div>
+			<div id="entete_deconnexion"><a href="<%= request.getContextPath()%>/deconnexion" class="blueText">Déconnexion</a></div>
 		</div>
 		<div id="milieu">
 			<%@include file="/fragments/menu.jspf" %> 

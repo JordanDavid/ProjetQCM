@@ -29,4 +29,14 @@
     <servlet-name>Referentiel</servlet-name>
     <url-pattern>/formateur/referentiel</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Deconnexion de l'utilisateur</description>
+    <display-name>Deconnexion</display-name>
+    <servlet-name>Deconnexion</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.Deconnexion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Deconnexion</servlet-name>
+    <url-pattern>/deconnexion</url-pattern>
+  </servlet-mapping>
 </web-app>

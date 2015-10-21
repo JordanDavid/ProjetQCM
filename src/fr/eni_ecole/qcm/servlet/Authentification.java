@@ -17,13 +17,13 @@ import fr.eni_ecole.qcm.dal.DALUtilisateur;
  */
 public class Authentification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Authentification() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Authentification() {
+		super();
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -40,44 +40,63 @@ public class Authentification extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		super.service(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request,response);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request,response);
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
 	}
 
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+	private void processRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		Utilisateur utilisateur = new Utilisateur();
 		RequestDispatcher dispatcher = null;
-		
-		// if the user isn't connected
+
 		try {
 			utilisateur.setLogin(login);
 			utilisateur.setMotdepasse(password);
-			
-			utilisateur = DALUtilisateur.rechercher(utilisateur);
-			request.getSession().setAttribute("user", utilisateur);
-			
-			dispatcher = request.getRequestDispatcher("/accueil.jsp");
-			dispatcher.forward(request, response);			
+
+			if (request.getSession().getAttribute("user") == null) {
+				utilisateur = DALUtilisateur.rechercher(utilisateur);
+				if (utilisateur == null) {
+					dispatcher = request.getRequestDispatcher("/index.jsp");
+					request.setAttribute("message", "Login ou mot de passe incorrect");
+					dispatcher.forward(request, response);
+				} else {
+					dispatcher = request.getRequestDispatcher("/accueil.jsp");
+					request.getSession().setAttribute("user", utilisateur);
+					dispatcher.forward(request, response);					
+				}
+			}
+			else {
+				dispatcher = request.getRequestDispatcher("/accueil.jsp");
+				dispatcher.forward(request, response);
+			}
 		} catch (Exception e) {
-			
+			dispatcher = request.getRequestDispatcher("/erreur.jsp");
+			request.setAttribute("erreur", e);
+			dispatcher.forward(request, response);
 		}
 	}
 

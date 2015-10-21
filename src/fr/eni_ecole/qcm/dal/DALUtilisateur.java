@@ -43,9 +43,9 @@ public class DALUtilisateur implements Serializable{
 		Utilisateur ret = null;
 		try{
 			cnx = AccesBase.getConnection();
-			rqt = cnx.prepareStatement("SELECT * FROM UTILISATEUR u"
-					+ "INNER JOIN TYPE_UTILISATEUR tu ON tu.idType = u.idType"
-					+ "WHERE u.login = ? AND motdepasse = ?");
+			rqt = cnx.prepareStatement("SELECT * FROM UTILISATEUR u "
+					+ "INNER JOIN TYPE_UTILISATEUR tu ON tu.idType = u.idType "
+					+ "WHERE u.login = ? AND u.motdepasse = ?");
 			rqt.setString(1, utilisateur.getLogin());
 			rqt.setString(2, ManipString.encode(utilisateur.getMotdepasse()));
 			rs = rqt.executeQuery();
