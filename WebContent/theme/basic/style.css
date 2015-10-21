@@ -96,11 +96,12 @@ a.blueText:VISITED{
 	border-left : 1px solid black;
 	width : 83%;
 	min-height : 700px;
-	height : 100%;
+	height : 700px;
 }
 
 #titre{
 	text-align : center;
+	height : 10%;
 }
 
 #titre h1 {
@@ -112,6 +113,7 @@ a.blueText:VISITED{
 	padding-bottom : 1%;
 	padding-left : 2%;
 	padding-right : 2%;
+	height : 85%;
 }
 
 
@@ -121,4 +123,91 @@ a.blueText:VISITED{
 	height : 10%;
 	font-size : 0.8em;
 	font-style: italic;
+}
+
+
+/************************/
+/***** REFERENTIEL ******/
+/************************/
+#gestion_referentiel{
+	height : 100%;
+}
+
+#div_theme{
+	width : 100%;
+	height : 4%;
+}
+
+#div_select_theme{
+	width : 30%;
+	height : 100%;
+	display: inline-block;
+}
+
+#themes{
+	width : 100%;
+	height : 100%;
+}
+
+#div_gestion_theme{
+	display : inline-block;
+	margin-left : 15%;
+}
+
+#div_questions_theme{
+	width : 48%;
+	display: inline-block;
+	height : 90%;
+	margin-top : 4%;
+}
+
+#div_btn_question{
+	text-align: center;
+}
+
+#div_btn_question input{
+	margin-top : 6px;
+}
+
+#div_details_question{
+	width : 48%;
+	margin-top : 4%;
+	display : inline-block;
+	float : right;
+	height : 90%;
+}
+
+#div_questions_theme fieldset{
+	height : 85%;
+}
+
+#div_details_question fieldset{
+	
+}
+
+.inline_div_reponse{
+	width: 100%;
+	margin-top: 3%;
+}
+
+.inline_div_reponse textarea{
+	width : 100%;
+	resize : none;
+}
+
+#div_reponses_question{
+	min-height : 100px;
+	max-height : 100px;
+	overflow-y : auto;
+}
+
+.reponse{
+	width : 100%;
+	margin-top : 2%;
+}
+
+.reponse input[type="text"]{
+	width : 80%;
+	margin-right : 5%;
+	margin-left : 1%;
 }
