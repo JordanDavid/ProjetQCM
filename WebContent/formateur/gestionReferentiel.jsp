@@ -10,7 +10,9 @@
 	<div id="div_theme">
 		<div id="div_select_theme">
 			<select id="themes" name="theme">
-				<option></option>
+				<% for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
+					<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%>
+				<% } %>
 			</select>
 		</div>
 		<div id="div_gestion_theme">

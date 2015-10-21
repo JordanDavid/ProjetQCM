@@ -33,7 +33,7 @@ public class DALTheme {
 		Statement cmd = null;
 		List<Theme> ret = new ArrayList<Theme>();
 	
-		String sql = "SELECT * FROM THEME";
+		String sql = "SELECT * FROM THEME ORDER BY libelle_theme";
 		
 		try{
 			cnx = AccesBase.getConnection();

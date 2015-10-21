@@ -15,7 +15,7 @@ $(document).ready(function() {
 	}
 	
 	$('#tableauCandidat').DataTable( {
-		"jQueryUI": true	
+//		"bJQueryUI": true	
 	});
 	
 	
