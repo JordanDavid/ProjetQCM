@@ -9,10 +9,16 @@
 	method="post">
 	<div id="div_theme">
 		<div id="div_select_theme">
-			<select id="themes" name="theme">
-				<% for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
-					<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%>
-				<% } %>
+			<select id="themes" name="theme" onchange="SelectionTheme()">
+				<%  int i =0;
+					for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
+						<% if(i==0){ %>
+							<option selected="selected" value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
+						<% }else{ %>						
+							<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
+						<%} %>
+				<% 	i++;
+					} %>
 			</select>
 		</div>
 		<div id="div_gestion_theme">
@@ -25,8 +31,10 @@
 	<div id="div_questions_theme">
 		<fieldset>
 			<legend>Liste des questions</legend>
-			<table id="lst_questions">
-				<tbody></tbody>
+			<table id="lst_questions" class="display">
+				<tbody>
+					
+				</tbody>
 			</table>
 		</fieldset>
 		<div id="div_btn_question">

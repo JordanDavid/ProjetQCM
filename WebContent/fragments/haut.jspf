@@ -4,15 +4,22 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<script type="text/javascript" src="<%=request.getContextPath()%>/Tools/Jquery/jquery.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/Tools/Jquery/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/Tools/DataTables/media/js/dataTables.jqueryui.min.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath()%>/Tools/DataTables/media/js/jquery.dataTables.min.js"></script>
+		
+		<!-- Script pour Jquery et Jquery UI -->
+		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.js"></script>
+        <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/JQuery-Flick/jquery-ui.min.js"></script>
+		<!-- Script pour les datatables -->
+        <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/extensions/Plugins/fnReloadAjax.js"></script>
+		<!-- Script JavaScrip projet -->
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script>
-		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/Jquery/jquery-ui.theme.min.css">
-		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/Jquery/jquery-ui.structure.min.css">
-		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/DataTables/media/css/jquery.dataTables.min.css">
-		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/DataTables/media/css/dataTables.jqueryui.min.css">
+		
+		<!-- Feuille CSS Jquery et Jquery UI -->
+        <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.theme.min.css"/>
+        <!-- Feuille CSS Datatables -->        
+        <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/DataTables-1.10.9/media/css/jquery.dataTables.min.css"/>
+		<!-- Feuille CSS projet -->
 		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/style.css">
 		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/structure.css">
 		<title><%=titre%></title>

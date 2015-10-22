@@ -14,9 +14,44 @@ $(document).ready(function() {
 		$(li).addClass("active");	
 	}
 	
-	$('#tableauCandidat').DataTable( {
-//		"bJQueryUI": true	
+	$('#tableauCandidat').dataTable( {
+		"language" : {
+			"url" : "../Tools/French.json"
+		}
 	});
 	
+	//Création de la datatable contenant les questions du thème sélectionné
+	oTableQuestions = $("#lst_questions").dataTable({
+		"bSort" : false,
+		"bFilter" : false,
+		"bInfo" : false,
+		"bLengthChange" : false,
+		"iDisplayLength": 5,
+		"language" : {
+			"url" : "../Tools/French.json"
+		},
+		"columns" : [
+    		 {
+    			 "data" : "idQuestion",
+    			 "bVisible" : false
+    		 },
+    		 {
+    			 "data" : "enonce"
+    		 }
+         ],
+		"sAjaxSource" : "./referentiel?action=getQuestions&id="+$("#themes option:selected")[0].value,
+		"fnCreatedRow" : function(nRow, aData,iDataIndex){
+			$(nRow).addClass("onclickRow")
+			$(nRow).attr("onclick","SelectionQuestion();");
+			$(nRow).attr("title","Cliquer pour afficher le détail de la question");
+		}
+	});	
+	
+	/**
+	 * Gestion du changement du thème
+	 */
+	SelectionTheme = function(){
+		oTableQuestions.fnReloadAjax("./referentiel?action=getQuestions&id="+$("#themes option:selected")[0].value);			
+	}
 	
 });

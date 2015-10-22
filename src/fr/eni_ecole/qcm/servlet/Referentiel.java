@@ -1,7 +1,8 @@
 package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,7 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
+
+import com.google.gson.Gson;
+
+import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Theme;
+import fr.eni_ecole.qcm.dal.DALQuestion;
 import fr.eni_ecole.qcm.dal.DALTheme;
 
 /**
@@ -70,13 +78,30 @@ public class Referentiel extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		String action = request.getParameter("action");
 		List<Theme> themes = null;
-
 		try {
 			if("afficher".equals(action)){
 				themes = DALTheme.selectAll();				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionReferentiel.jsp");
 				request.setAttribute("themes", themes);
 				dispatcher.forward(request, response);
+			} else if("getQuestions".equals(action)){
+
+				HashMap<String, List<Question>> map = new HashMap<String, List<Question>>();
+				Gson gson = new Gson();
+				
+				Theme theme = new Theme();
+				theme.setIdTheme(Integer.parseInt(request.getParameter("id"))); ;
+				
+				List<Question> questions = DALQuestion.getQuestionByTheme(theme);
+				
+				response.setContentType("application/json");        
+				response.setHeader("Cache-Control", "no-store");
+				
+				map.put("data", questions);
+				
+				PrintWriter out = response.getWriter();		
+				out.println(gson.toJson(map));
+				out.flush();
 			}
 			
 		} catch (Exception e) {

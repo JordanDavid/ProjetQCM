@@ -3,3 +3,7 @@
 a.underlineLink {
 	text-decoration: underline;	
 }
+
+tr.onclickRow {
+	cursor : pointer;
+}
