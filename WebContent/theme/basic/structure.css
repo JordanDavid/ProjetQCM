@@ -4,6 +4,14 @@ a.underlineLink {
 	text-decoration: underline;	
 }
 
-tr.onclickRow {
+.pointer {
 	cursor : pointer;
+}
+
+.hide{
+	display: none;
+}
+
+.show{
+	display: block;
 }

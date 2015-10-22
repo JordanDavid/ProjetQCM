@@ -36,7 +36,7 @@ $(document).ready(function() {
          ],
 		"sAjaxSource" : "./referentiel?action=getQuestions&id="+$("#themes option:selected")[0].value,
 		"fnCreatedRow" : function(nRow, aData,iDataIndex){
-			$(nRow).addClass("onclickRow")
+			$(nRow).addClass("pointer")
 			$(nRow).attr("onclick","SelectionQuestion(this);");
 			$(nRow).attr("title","Cliquer pour afficher le détail de la question");
 		}
@@ -76,8 +76,8 @@ $(document).ready(function() {
 					divreponse += "<div class=\"reponse\">";
 					
 					divreponse += "<input type=\"text\" name=\"reponses[]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
-				
-					if(data.bonneReponse == true)
+
+					if(data[i].bonneReponse === true)
 						checked="checked=\"checked\"";
 						
 					if(aadata.typeReponse == 0)
@@ -90,7 +90,7 @@ $(document).ready(function() {
 				$("#div_reponses_question").html(divreponse);
 			}
 		});
-	}
+	};
 	
 	/**
 	 * Gestion de la selection du type de réponse
@@ -106,6 +106,45 @@ $(document).ready(function() {
 		$(".input_reponse").each(function(){
 			$(this)[0].type = type;
 		});
-	}
+	};
+	
+	/**
+	 * Créeation de la div pour ajouter un thème
+	 */
+    dialog = $( "#ajoutTheme" ).dialog({
+        autoOpen: false,
+        height: 250,
+        resizable : false,
+        width: 350,
+        modal: true,
+        position : {
+        	my: "left top",
+        	at: "left bottom",
+        	of: $("#ajouterTheme") 
+    	},
+    	buttons : {
+    		"Valider" : function(){
+    			$("#formAjoutTheme").submit();
+    		},
+    		"Annuler" : function(){
+    		   dialog.dialog("close");
+    		}
+        },
+        close: function() {
+          $("#formAjoutTheme")[0].reset();
+        }
+    });
+	
+	/**
+	 * Affiche la div pour ajouter un thème
+	 */
+	AfficherAjoutTheme = function(){
+				
+		if(dialog.dialog( "isOpen" ))
+			dialog.dialog( "close" );
+		else
+			dialog.dialog( "open" );
+	};
 	
 });
+

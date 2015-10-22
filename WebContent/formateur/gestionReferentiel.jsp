@@ -23,8 +23,8 @@
 		</div>
 		<div id="div_gestion_theme">
 			<input type="button" name="ajouterTheme" id="ajouterTheme"
-				value="Ajouter un thème" onclick="AfficherAjoutTheme();"> <input
-				type="submit" name="supprimerTheme" id="supprimerTheme"
+				value="Ajouter un thème" onclick="AfficherAjoutTheme();"> 
+			<input type="submit" name="supprimerTheme" id="supprimerTheme"
 				value="Supprimer le thème" />
 		</div>
 	</div>
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 			<div class="inline_div_reponse" align="right">
-				<a class="blueText underlineLink" onclick="ajouterReponse();">Ajouter
+				<a class="blueText underlineLink pointer" onclick="ajouterReponse();">Ajouter
 					une reponse</a>
 			</div>
 			<div class="inline_div_reponse" align="center">
@@ -94,4 +94,18 @@
 		</fieldset>
 	</div>
 </form>
+
+<div class="hide" id="ajoutTheme" title="Ajouter un thème">
+	<form id="formAjoutTheme" action="<%=request.getContextPath()%>/referentiel?action=ajoutTheme" method="post">
+		<div class="inline_div_reponse" align="left">
+			<label>Libelle</label>
+			<textarea id="new_theme" name="new_theme" rows="3" cols="100"></textarea>
+		</div>
+		<!-- <div class="inline_div_reponse" align="center">
+			<input type="submit" id="valider" name="valider" value="Valider"/>
+			<input type="reset" id="annuler" name="annuler" value="Annuler"/> 
+		</div> -->
+	</form>
+</div>
+
 <%@include file="/fragments/bas.jspf"%>

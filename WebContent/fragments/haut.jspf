@@ -16,8 +16,8 @@
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
 		
 		<!-- Feuille CSS Jquery et Jquery UI -->
-        <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.min.css"/>
-        <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.theme.min.css"/>
+        <%-- <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.min.css"/> --%>
+       <%--  <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.theme.min.css"/> --%>
         <!-- Feuille CSS Datatables -->        
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/DataTables-1.10.9/media/css/jquery.dataTables.min.css"/>
 		<!-- Feuille CSS projet -->
