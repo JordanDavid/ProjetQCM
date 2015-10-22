@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/extensions/Plugins/fnReloadAjax.js"></script>
 		<!-- Script JavaScrip projet -->
 		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
 		
 		<!-- Feuille CSS Jquery et Jquery UI -->
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Flick/jquery-ui.min.css"/>

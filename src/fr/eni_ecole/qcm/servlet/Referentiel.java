@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import com.google.gson.Gson;
 
 import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Reponse;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.dal.DALQuestion;
+import fr.eni_ecole.qcm.dal.DALReponse;
 import fr.eni_ecole.qcm.dal.DALTheme;
 
 /**
@@ -115,7 +117,16 @@ public class Referentiel extends HttpServlet {
 				Question question = new Question();
 				question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
 				
+				List<Reponse>reponses = DALReponse.selectByThemeQuestion(theme, question);
 				
+				response.setContentType("application/json");        
+				response.setHeader("Cache-Control", "no-store");
+				
+				map.put("data", reponses);
+				
+				PrintWriter out = response.getWriter();		
+				out.println(gson.toJson(map));
+				out.flush();
 				
 			}
 			

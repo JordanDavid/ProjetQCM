@@ -49,10 +49,11 @@
 	<div id="div_details_question">
 		<fieldset>
 			<legend>Détail de la question</legend>
+			<input type="hidden" name="idQuestion" id="idQuestion"/>
 			<div class="inline_div_reponse" align="left">
 				<label for="enonce">Énoncé :</label>
 			</div>
-			<div class="inline_div_reponse" align="left">
+			<div class="inline_div_reponse" align="left" style="min-height: 70px">
 				<textarea id="enonce" name="enonce" ></textarea>
 			</div>
 			<div class="inline_div_reponse" align="left">
@@ -73,11 +74,11 @@
 				<div id="div_reponses_question">
 					<div class="reponse">
 						<input type="text" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
-						<input type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
+						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>		
 					<div class="reponse">
 						<input type="text" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
-						<input type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
+						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>					
 				</div>
 			</div>

@@ -193,6 +193,8 @@ a.blueText:VISITED{
 .inline_div_reponse textarea{
 	width : 100%;
 	resize : none;
+	min-height : 70px;
+	height : 100%;
 }
 
 #div_reponses_question{
