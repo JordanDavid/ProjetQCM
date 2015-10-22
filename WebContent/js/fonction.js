@@ -42,7 +42,7 @@ $(document).ready(function() {
 		"sAjaxSource" : "./referentiel?action=getQuestions&id="+$("#themes option:selected")[0].value,
 		"fnCreatedRow" : function(nRow, aData,iDataIndex){
 			$(nRow).addClass("onclickRow")
-			$(nRow).attr("onclick","SelectionQuestion();");
+			$(nRow).attr("onclick","SelectionQuestion(this);");
 			$(nRow).attr("title","Cliquer pour afficher le détail de la question");
 		}
 	});	
@@ -52,6 +52,20 @@ $(document).ready(function() {
 	 */
 	SelectionTheme = function(){
 		oTableQuestions.fnReloadAjax("./referentiel?action=getQuestions&id="+$("#themes option:selected")[0].value);			
+	}
+	
+	SelectionQuestion = function(element){
+		var data = oTableQuestions.fnGetData($(element));
+		var idTheme = $("#themes option:selected")[0].value;
+		var idQuestion = data.idQuestion;
+		$.ajax({
+			url : "./referentiel",
+			method : "POST",
+			data : "action=getReponses&idTheme="+idTheme+"&idQuestion="+idQuestion,
+			success : function(data){
+				console.log(data);
+			}
+		});
 	}
 	
 });

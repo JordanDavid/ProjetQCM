@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import com.google.gson.Gson;
 
 import fr.eni_ecole.qcm.bean.Question;
+import fr.eni_ecole.qcm.bean.Reponse;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.dal.DALQuestion;
 import fr.eni_ecole.qcm.dal.DALTheme;
@@ -78,6 +80,8 @@ public class Referentiel extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		String action = request.getParameter("action");
 		List<Theme> themes = null;
+		Gson gson = null;
+		
 		try {
 			if("afficher".equals(action)){
 				themes = DALTheme.selectAll();				
@@ -87,7 +91,7 @@ public class Referentiel extends HttpServlet {
 			} else if("getQuestions".equals(action)){
 
 				HashMap<String, List<Question>> map = new HashMap<String, List<Question>>();
-				Gson gson = new Gson();
+				gson = new Gson();
 				
 				Theme theme = new Theme();
 				theme.setIdTheme(Integer.parseInt(request.getParameter("id"))); ;
@@ -102,6 +106,17 @@ public class Referentiel extends HttpServlet {
 				PrintWriter out = response.getWriter();		
 				out.println(gson.toJson(map));
 				out.flush();
+			}else if("getReponses".equals(action)){
+				HashMap<String, List<Reponse>> map = new HashMap<String, List<Reponse>>();
+				gson = new Gson();
+				
+				Theme theme = new Theme();
+				theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme"))); ;
+				Question question = new Question();
+				question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+				
+				
+				
 			}
 			
 		} catch (Exception e) {
