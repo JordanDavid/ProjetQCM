@@ -9,10 +9,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni_ecole.qcm.bean.Question;
+import fr.eni_ecole.qcm.bean.Reponse;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.util.AccesBase;
 
@@ -51,6 +53,129 @@ public class DALQuestion {
 			if(cnx!=null)cnx.close();
 		}
 		return ret;
+	}
+
+	/**
+	 * Méthode en charge de récupérer la question en fonction d'un identifiant 
+	 * 21 oct. 2015
+	 * @param question Question avec l'identifiant recherché
+	 * @return La question recherchée
+	 * @throws SQLException
+	 */
+	public static Question selectById(Question question) throws SQLException{
+		Connection cnx= null;
+		PreparedStatement cmd = null;
+	
+		String sql = "SELECT * FROM QUESTION WHERE QUESTION.idQuestion = ?";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, question.getIdQuestion());
+			ResultSet res = cmd.executeQuery();
+			
+			if(res.next()){
+				question = new Question(res.getInt("idQuestion"),res.getString("enonce"),
+						res.getBoolean("type_reponse"), res.getString("image"));
+			}else{
+				question = null;
+			}			
+		}finally{
+			if(cmd != null)cmd.close();
+			if(cnx != null)cnx.close();
+		}
+		return question;
+	}
+	
+	
+	/**
+	 * Méthode en charge d'ajouter une question à la BD 
+	 * 21 oct. 2015
+	 * @param question Question à ajouter
+	 * @return La question avec son id
+	 * @throws SQLException
+	 */
+	public static Question ajouter(Question question) throws SQLException{
+		Connection cnx = null;
+		Statement st = null;
+		PreparedStatement cmd = null;
+		String sql = "INSERT INTO QUESTION(enonce,type_reponse,image) VALUES (?)";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			
+			cnx.setAutoCommit(false);
+			
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1, question.getEnonce());
+			cmd.setBoolean(2, question.getTypeReponse());
+			cmd.setString(3, question.getImage());
+			cmd.executeUpdate();
+			
+			st = cnx.createStatement();
+			ResultSet rs = st.executeQuery("SELECT MAX(id)as New_Id FROM QUESTION");
+			if(rs.next()){
+				question.setIdQuestion(rs.getInt("New_Id"));
+			}
+			
+			cnx.commit();
+			
+		}catch(SQLException sqle){
+			if(cnx != null)
+				cnx.rollback();
+			throw sqle;
+		}finally{
+			if(st != null) st.close();
+			if(cmd != null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+		return question;
+	}
+
+	/**
+	 * Méthode en charge de modifier une question 
+	 * 21 oct. 2015
+	 * @param question Question à modifier
+	 * @throws SQLException
+	 */
+	public static void modifier(Question question) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "UPDATE QUESTION SET enonce=?,type_reponse=?,image=? WHERE idQuestion=?";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1, question.getEnonce());
+			cmd.setBoolean(2, question.getTypeReponse());
+			cmd.setString(3, question.getImage());
+			cmd.setInt(4, question.getIdQuestion());
+			cmd.executeUpdate();			
+		}finally{
+			if(cnx!=null)cnx.close();
+			if(cmd!=null)cmd.close();
+		}
+	}
+
+	/**
+	 * Méthode en charge de supprimer une question 
+	 * 21 oct. 2015
+	 * @param question Question a supprimer
+	 * @throws SQLException
+	 */
+	public static void supprimer(Question question) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE FROM QUESTION WHERE idQuestion=?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, question.getIdQuestion());
+			cmd.executeUpdate();
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
 	}
 
 }

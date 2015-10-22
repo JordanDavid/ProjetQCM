@@ -94,7 +94,7 @@ public class DALReponse {
 	
 	
 	/**
-	 * Méthode en charge d'ajouter un thème à la BD 
+	 * Méthode en charge d'ajouter une reponse à la BD 
 	 * 21 oct. 2015
 	 * @param reponse Reponse à ajouter
 	 * @return La réponse avec son id
@@ -135,5 +135,47 @@ public class DALReponse {
 		return reponse;
 	}
 
+	/**
+	 * Méthode en charge de modifier une réponse 
+	 * 21 oct. 2015
+	 * @param reponse Réponse à modifier
+	 * @throws SQLException
+	 */
+	public static void modifier(Reponse reponse) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "UPDATE REPONSE SET reponse=?,bonne_reponse=? WHERE idReponse=?";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1, reponse.getReponse());
+			cmd.setBoolean(2, reponse.getBonneReponse());
+			cmd.executeUpdate();			
+		}finally{
+			if(cnx!=null)cnx.close();
+			if(cmd!=null)cmd.close();
+		}
+	}
 
+	/**
+	 * Méthode en charge de supprimer une réponse 
+	 * 21 oct. 2015
+	 * @param reponse Réponse a supprimer
+	 * @throws SQLException
+	 */
+	public static void supprimer(Reponse reponse) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE FROM REPONSE WHERE idQuestion=?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, reponse.getIdReponse());
+			cmd.executeUpdate();
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
 }
