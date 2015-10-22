@@ -7,7 +7,7 @@
 		
 		<!-- Script pour Jquery et Jquery UI -->
 		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.js"></script>
-        <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/JQuery-Flick/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/JQuery-Smoothness/jquery-ui.min.js"></script>
 		<!-- Script pour les datatables -->
         <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/extensions/Plugins/fnReloadAjax.js"></script>
