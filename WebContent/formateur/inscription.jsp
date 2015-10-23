@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="WebContent\Tools\DataTables-1.10.9\media\css\jquery.dataTables.min.css"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="fr.eni_ecole.qcm.bean.*,java.util.*"%>
 <%
@@ -71,9 +70,9 @@
 			</table>
 		</div>
 	</div>
-	<div id="ajout_candidat_theme"> 
+	<div id="ajout_candidat_theme">
 		<input type="button" name="ajouterCandidatToTheme" id="ajouterCandidatToTheme"
-				value="Ajouter" onclick="AfficherAjoutCandidatToTheme();"> 
+				value="Ajouter" onclick="AfficherAjoutCandidatToTheme();">
 	</div>	
 	
 </fieldset>
@@ -85,6 +84,7 @@
 			<table id="list_tests_plage_horaire">
 				<tbody>
 					<!-- contenu du tableau -->
+					
 				</tbody>
 			</table>
 			

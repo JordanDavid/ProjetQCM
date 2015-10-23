@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;

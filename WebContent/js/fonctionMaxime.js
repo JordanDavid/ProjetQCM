@@ -1,6 +1,17 @@
 
 $(document).ready(function() {
 	
+	afficherCandidats = function(){
+		$('#tableauCandidat').DataTable( {
+			"bInfo":  false,
+			"bLengthChange": false,
+			"oLanguage": {
+				"url": "../Tools/French.json"
+			},
+			 "searchable":false,
+		});		
+	};	
+	
 //	 Handle click on Select all control
 	$("#select-all").on("click", function(){
 //	       Get all rows with search applied
@@ -49,7 +60,6 @@ $(document).ready(function() {
 		"bSort" : false,
 		"bFilter" : false,
 		"bInfo" : false,
-		select : true,
 		"bLengthChange" : false,
 		"iDisplayLength": 5,
 		"language" : {
@@ -64,16 +74,12 @@ $(document).ready(function() {
     			 "data" : "libelle"
     		 }
          ],
-		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
-		"fnCreatedRow" : function(nRow, aData,iDataIndex){
-			$(nRow).addClass("pointer")
-			$(nRow).attr("onclick","SelectionQuestion(this);");
-			$(nRow).attr("title","Cliquer pour afficher le détail de la question");
-		}
+		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
 	});
 	SelectionThemeForTest = function(){
 		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
 	}
+	
 	
 //	oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
 //		"bSort" : false,
@@ -100,10 +106,10 @@ $(document).ready(function() {
 //    			 "data" : "dateDebut"
 //    		 },
 //    		 {
-//    			 "data" : "dateFin"
+//    			 "data" : "dateDebut"
 //    		 }
 //         ],
-//		"sAjaxSource" : "./inscription?action=getTestsPlageHoraire"
+//		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
 //	});
 	
 	dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
