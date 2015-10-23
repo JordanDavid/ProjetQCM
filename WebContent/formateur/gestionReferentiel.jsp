@@ -45,7 +45,7 @@
 				value="Supprimer la question" disabled="disabled" onclick="AfficherConfirmSupprQuestion()"/> 
 			<input type="button"
 				name="changerTheme" id="changerTheme"
-				value="Changer le thème de la question" disabled="disabled">
+				value="Changer le thème de la question" disabled="disabled" onclick="AfficherChangerTheme()">
 		</div>
 	</div>
 	<div id="div_details_question">
@@ -117,6 +117,24 @@
 	<form id="formConfirmSupprQuestion" action="<%=request.getContextPath()%>/formateur/referentiel?action=supprimerQuestion" method="post">
 		<div id="messageConfirmSupprQuestion"></div>
 		<input type="hidden" name="idQuestion" id="idQuestionToDelete" />
+	</form>
+</div>
+<div class="hide" id="changerThemeQuestion" title="Changer le thème">
+	<form id="formChangerTheme" action="<%=request.getContextPath()%>/formateur/referentiel?action=changerThemeQuestion" method="post">
+		<div id="div_select_change_theme">
+			<select id="select_change_theme" name="theme">
+				<%  int y =0;
+					for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
+						<% if(i==0){ %>
+							<option selected="selected" value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
+						<% }else{ %>						
+							<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
+						<%} %>
+				<% 	y++;
+					} %>
+			</select>
+		</div>
+		<input type="hidden" name="idQuestion" id="idQuestionToChange" />
 	</form>
 </div>
 

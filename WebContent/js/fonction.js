@@ -332,7 +332,7 @@ $(document).ready(function() {
         modal: true,
     	buttons : {
     		"Oui" : function(){
-    			if($("#idQuestion")[0].value != ""){
+    			if($("#idQuestionToDelete")[0].value != ""){
     				//Récupérer l'identifiant de la ligne selectionné
         			$("#formConfirmSupprQuestion").submit();
     			}
@@ -352,6 +352,32 @@ $(document).ready(function() {
 			dialogConfirmSupprQuestion.dialog("close");
 		else
 			dialogConfirmSupprQuestion.dialog("open");
+	}
+	
+	dialogChangerTheme = $( "#changerThemeQuestion" ).dialog({
+        autoOpen: false,
+        height: 200,
+        resizable : false,
+        width: 350,
+        modal: true,
+    	buttons : {
+    		"Valider" : function(){
+    			if($("#idQuestionToChange")[0].value != ""){
+    				//Récupérer l'identifiant de la ligne selectionné
+        			$("#formChangerTheme").submit();
+    			}
+    		},
+    		"Annuler" : function(){
+    			dialogChangerTheme.Close();
+    		}
+        }
+    });
+	
+	AfficherChangerTheme = function() {
+		if(dialogChangerTheme.dialog("isOpen"))
+			dialogChangerTheme.dialog("close");
+		else
+			dialogChangerTheme.dialog("open");
 	}
 });
 
