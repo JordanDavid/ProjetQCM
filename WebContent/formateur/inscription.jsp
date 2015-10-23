@@ -63,7 +63,7 @@
 			</select>
 		</div>
 		<div id="div_tests_theme">
-			<table id="list_tests">
+			<table id="list_tests" cellspacing="0">
 				<tbody>
 					<!-- Affichage en Ajax du tableau. Voir fonctionMaxime.js -->
 				</tbody>

@@ -80,7 +80,6 @@ $(document).ready(function() {
 		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
 	}
 	
-	
 //	oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
 //		"bSort" : false,
 //		"bFilter" : false,
@@ -99,7 +98,7 @@ $(document).ready(function() {
 //    			 "data" : "libelle"
 //    		 },
 //    		 {
-//    			 "data" : "idPlageHoraire",
+//    			 "data" : "idPlageHoraire"
 //    				 "bVisible" : false
 //    		 },
 //    		 {
@@ -111,7 +110,7 @@ $(document).ready(function() {
 //         ],
 //		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
 //	});
-	
+//	
 	dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
 		autoOpen: false,
         height: 230,
