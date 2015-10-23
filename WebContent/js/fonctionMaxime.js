@@ -1,17 +1,6 @@
 
 $(document).ready(function() {
 	
-	afficherCandidats = function(){
-		$('#tableauCandidat').DataTable( {
-			"bInfo":  false,
-			"bLengthChange": false,
-			"oLanguage": {
-				"url": "../Tools/French.json"
-			},
-			 "searchable":false,
-		});		
-	};	
-	
 //	 Handle click on Select all control
 	$("#select-all").on("click", function(){
 //	       Get all rows with search applied
@@ -56,9 +45,130 @@ $(document).ready(function() {
 	      });
 	   });
 	
+	oTableTests = $("#list_tests").dataTable({
+		"bSort" : false,
+		"bFilter" : false,
+		"bInfo" : false,
+		select : true,
+		"bLengthChange" : false,
+		"iDisplayLength": 5,
+		"language" : {
+			"url" : "../Tools/French.json"
+		},
+		"columns" : [
+    		 {
+    			 "data" : "idTest",
+    			 "bVisible" : false
+    		 },
+    		 {
+    			 "data" : "libelle"
+    		 }
+         ],
+		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
+		"fnCreatedRow" : function(nRow, aData,iDataIndex){
+			$(nRow).addClass("pointer")
+			$(nRow).attr("onclick","SelectionQuestion(this);");
+			$(nRow).attr("title","Cliquer pour afficher le détail de la question");
+		}
+	});
+	SelectionThemeForTest = function(){
+		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
+	}
+	
+//	oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
+//		"bSort" : false,
+//		"bFilter" : false,
+//		"bInfo" : false,
+//		"bLengthChange" : false,
+//		"iDisplayLength": 5,
+//		"language" : {
+//			"url" : "../Tools/French.json"
+//		},
+//		"columns" : [
+//    		 {
+//    			 "data" : "idTest",
+//    			 "bVisible" : false
+//    		 },
+//    		 {
+//    			 "data" : "libelle"
+//    		 },
+//    		 {
+//    			 "data" : "idPlageHoraire",
+//    				 "bVisible" : false
+//    		 },
+//    		 {
+//    			 "data" : "dateDebut"
+//    		 },
+//    		 {
+//    			 "data" : "dateFin"
+//    		 }
+//         ],
+//		"sAjaxSource" : "./inscription?action=getTestsPlageHoraire"
+//	});
+	
+	dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
+		autoOpen: false,
+        height: 230,
+        resizable : false,
+        width: 350,
+        modal: true,
+        position : {
+        	my: "left top",
+        	at: "left bottom",
+        	of: $("#ajouterThemeToCandidat") 
+    	},
+    	buttons : {
+    		"Valider" : function(){
+    			$("#formAjoutTheme").submit();
+    		},
+    		"Annuler" : function(){
+    			$("#formAjoutTheme")[0].reset();
+    		}
+        },
+        close: function() {
+          $("#formAjoutCandidatToTheme")[0].reset();
+        }
+    });
+	
+	AfficherAjoutCandidatToTheme = function(){
+		
+		if(dialogAjoutCandidatToTheme.dialog( "isOpen" ))
+			dialogAjoutCandidatToTheme.dialog( "close" );
+		else
+			dialogAjoutCandidatToTheme.dialog( "open" );
+	};
 	
 });
 
 /**
  * 
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
