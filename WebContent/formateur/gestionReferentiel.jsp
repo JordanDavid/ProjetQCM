@@ -5,7 +5,7 @@
 %>
 <%@include file="/fragments/haut.jspf"%>
 <form id="gestion_referentiel"
-	action="<%=request.getContextPath()%>/formation/referentiel"
+	action="<%=request.getContextPath()%>/formateur/referentiel"
 	method="post">
 	<div id="div_theme">
 		<div id="div_select_theme">
@@ -73,12 +73,14 @@
 				<label>Ajouter les différentes réponses possibles :</label>
 				<div id="div_reponses_question">
 					<div class="reponse">
-						<input type="text" class="enonce_reponse" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
-						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
+						<input type="hidden" name="reponses" placeholder="Veuillez saisir la réponse" value="-1"/>
+						<input type="text" class="enonce_reponse" name="reponses" id="reponse_n-1" placeholder="Veuillez saisir la réponse"/>
+						<input class="input_reponse" type="radio" name="reponses" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>		
 					<div class="reponse">
-						<input type="text" class="enonce_reponse" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
-						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
+						<input type="hidden" name="reponses" value="0"/>
+						<input type="text" class="enonce_reponse" name="reponses" id="reponse_n0" placeholder="Veuillez saisir la réponse"/>
+						<input class="input_reponse" type="radio" name="reponses" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>					
 				</div>
 			</div>

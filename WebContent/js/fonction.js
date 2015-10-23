@@ -75,15 +75,16 @@ $(document).ready(function() {
 					var checked = "";
 					divreponse += "<div class=\"reponse\">";
 					
-					divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses[]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
+					divreponse += "<input type=\"hidden\" name=\"reponses\" value=\""+data[i].idReponse+"\"/>";
+					divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses["+data[i].idReponse+"][enonce]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
 
 					if(data[i].bonneReponse === true)
 						checked="checked=\"checked\"";
 						
 					if(aadata.typeReponse == 0)
-						divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+						divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses["+data[i].idReponse+"][valide]\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 					else
-						divreponse += "<input class=\"input_reponse\" type=\"checkbox\" name=\"\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+						divreponse += "<input class=\"input_reponse\" type=\"checkbox\" name=\"reponses["+data[i].idReponse+"][valide]\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 					
 					divreponse += "</div>";
 				}	
@@ -162,8 +163,12 @@ $(document).ready(function() {
     	},
     	buttons : {
     		"Oui" : function(){
-    			$("#idThemeSupprime")[0].value = $("#themes option:selected")[0].value;
-    			$("#formConfirmSupprTheme").submit();
+    			if($("#idThemeSupprime")[0].value != ""){
+        			$("#idThemeSupprime")[0].value = $("#themes option:selected")[0].value;
+        			$("#formConfirmSupprTheme").submit();
+    			}else{
+    				
+    			}
     		},
     		"Non" : function(){
     			dialogConfirmSupprTheme.Close();
@@ -196,8 +201,9 @@ $(document).ready(function() {
 		var divreponse = "";
 		for(var i=0; i<2;i++){
 			divreponse += "<div class=\"reponse\">";
-			divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses[]\" id=\"reponse_n"+i+"\" placeholder=\"Veuillez saisir la réponse\" />";
-			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+			divreponse += "<input type=\"hidden\" name=\"reponses\" value=\""+(i-1)+"\"/>";
+			divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses["+(i-1)+"][enonce]\" id=\"reponse_n"+(i-1)+"\" placeholder=\"Veuillez saisir la réponse\" />";
+			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses["+(i-1)+"][valide]\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 			divreponse += "</div>";
 		}	
 		$("#div_reponses_question").html(divreponse);
@@ -207,47 +213,65 @@ $(document).ready(function() {
 	 * Enregistre la question
 	 */
 	EnregistrerQuestion = function(){
-		if(VerifValideQuestion()){
-//			var enonce = $("#enonce")[0].value;
-//			var image = $("#image")[0].value;
-//			var typeQuestion = $("#typeQuestion option:selected")[0].value;
-						
-			$.ajax({
-				url : "./formateur/referentiel",
-				method : "POST",
-				data : "action=enregistrerQuestion",
-				success : function(){
-					console.log("success");
-				}					
-			});
+		var messageErreur= VerifValideQuestion();
+		if(messageErreur == null){
+			
+			$("#gestion_referentiel")[0].action = "./referentiel?action=enregistrerQuestion";
+			$("#gestion_referentiel").submit();
+//			var formData = new FormData($("#gestion_referentiel")[0]);
+//			formData.append("idTheme",$("#themes option:selected")[0].value);
+//			
+//			
+////			formData.append("action","enregistrerQuestion");
+//			$.ajax({
+//				url : "./referentiel?action=enregistrerQuestion",
+//				method : "POST", 
+//				contentType : "application/x-www-form-urlencoded",
+//			    processData : false,
+//				data : formData,
+//				success : function(data){
+//					console.log(data);
+//				}					
+//			});
+		}else{
+			console.log("Erreur "+messageErreur);
 		}
 	}
 	
 	/**
 	 * Vérifie que la question saisi est valide
+	 * @returns Message d'erreur sinon null;
 	 */
 	VerifValideQuestion = function(){
-		var valide = true;
-		var message = "Erreur lors de l'ajout de la question :";
+		var message = "";
+		var debutmessage = "Erreur lors de l'ajout de la question :";
 		
 		//L'énoncé doit obligatoirement etre saisi
 		if($("#enonce")[0].value == null || $("#enonce")[0].value == ""){
-			valide = valide & false;
 			message += "<br/>L'énoncé doit obligatoirement être saisi"
 		}
 		
 		//vérifier qu'il y ait au moins deux réponse de saisie
 		if(!VerifNbReponse()){
-			valide = valide & false;
-			message += "<br/>Il doit y avoir au minimum deux réponses possibles"
+			message += "<br/>Vous devez saisir au moins deux réponses"
 		}
 		
+		if($("#typeQuestion option:selected")[0].value == 0){
 		//Si le type de question est égale à 0 (une seule bonne réponse), vérifier qu'il y ait une réponse de cochée
-		
+			if(!VerifNbBonnesReponses(1)){
+				message += "<br/>Il doit y avoir une bonne réponse pour ce type de question";				
+			}
+		}else{
 		//Si le type de question est égale à 1 (plusieurs bonne réponse), vérifier qu'il y ait au moins deux réponses de cochées
-		
-		
-		return true;
+			if(!VerifNbBonnesReponses(2)){
+				message += "<br/>Il doit y avoir au minimum deux bonnes réponses possibles pour ce type de question";
+			}			
+		}
+
+		if(message != "")
+			return debutmessage+message;
+		else
+			return null;
 	}
 	
 	/**
@@ -260,9 +284,22 @@ $(document).ready(function() {
 			if($(this)[0].value != "")
 				nbReponseOK++;
 		});
-		
-		if(nbReponseOK < 2)
-			return false;
+		return nbReponseOK >= 2;
+	};
+	
+	/**
+	 * Vérifie que l nombre de bonnes réponses cochées est suffisant
+	 * @param minBonnesReponses Le nombre minimum de réponse à cocher
+	 * @returns {Boolean} Vrai si le nombre de bonnes réponses cochées est supérieur ou égale 
+	 * au nombre minimum de bonnes réponses obligatoire, sinon faux
+	 */
+	VerifNbBonnesReponses = function(minBonnesReponses){
+		var nbBonnesReponses = 0;
+		$(".input_reponse").each(function(){
+			if($(this)[0].checked)
+				nbBonnesReponses++;
+		});
+		return  nbBonnesReponses >= minBonnesReponses;
 	}
 	
 });

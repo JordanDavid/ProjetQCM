@@ -196,6 +196,7 @@ a.blueText:VISITED{
 	resize : none;
 	min-height : 70px;
 	height : 100%;
+	font-size: 0.8em;
 }
 
 #div_reponses_question{

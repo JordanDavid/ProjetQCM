@@ -89,17 +89,18 @@ public class DALQuestion {
 	
 	
 	/**
-	 * Méthode en charge d'ajouter une question à la BD 
+	 * Méthode en charge d'ajouter une question à la BD et de la lié à un thème
 	 * 21 oct. 2015
+	 * @param theme Theme concerné
 	 * @param question Question à ajouter
 	 * @return La question avec son id
 	 * @throws SQLException
 	 */
-	public static Question ajouter(Question question) throws SQLException{
+	public static Question ajouter(Theme theme, Question question) throws SQLException{
 		Connection cnx = null;
 		Statement st = null;
 		PreparedStatement cmd = null;
-		String sql = "INSERT INTO QUESTION(enonce,type_reponse,image) VALUES (?)";
+		String sql = "INSERT INTO QUESTION(idTheme,enonce,type_reponse,image) VALUES (?,?,?,?)";
 		
 		try{
 			cnx = AccesBase.getConnection();
@@ -107,9 +108,10 @@ public class DALQuestion {
 			cnx.setAutoCommit(false);
 			
 			cmd = cnx.prepareStatement(sql);
-			cmd.setString(1, question.getEnonce());
-			cmd.setBoolean(2, question.getTypeReponse());
-			cmd.setString(3, question.getImage());
+			cmd.setInt(1, theme.getIdTheme());
+			cmd.setString(2, question.getEnonce());
+			cmd.setBoolean(3, question.getTypeReponse());
+			cmd.setString(4, question.getImage());
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
@@ -117,7 +119,7 @@ public class DALQuestion {
 			if(rs.next()){
 				question.setIdQuestion(rs.getInt("New_Id"));
 			}
-			
+						
 			cnx.commit();
 			
 		}catch(SQLException sqle){

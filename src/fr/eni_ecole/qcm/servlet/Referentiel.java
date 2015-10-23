@@ -2,6 +2,7 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 
 
@@ -122,6 +124,45 @@ public class Referentiel extends HttpServlet {
 				PrintWriter out = response.getWriter();		
 				out.println(gson.toJson(map));
 				out.flush();				
+			}else if("enregistrerQuestion".equals(action)){
+				//Récupère les paramètre de la requête
+//				String enonce = request.getParameter("enonce");
+				
+				PrintWriter out = response.getWriter();
+				
+				Enumeration<String> params = request.getParameterNames();
+				
+				while(params.hasMoreElements()){
+					out.println(params.nextElement());
+				}
+				
+				String[] values = request.getParameterValues("reponses");
+				
+				for(String s : values){
+					out.println(s);
+				}
+				
+				out.flush();
+				out.close();
+				
+//				String image = request.getParameter("image");					
+//				Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
+//				String enonce = "test";
+//				String image = null;
+//				Boolean typeQuestion = true;
+//				
+//				//Récupère le thème concerné
+//				int idTheme = Integer.parseInt(request.getParameter("idTheme"));
+//				Theme theme = new Theme();
+//				theme.setIdTheme(1);
+//				
+//				//Création de la question
+//				Question question = new Question();
+//				question.setEnonce(enonce);
+//				question.setImage(image);
+//				question.setTypeReponse(typeQuestion);
+//				question = DALQuestion.ajouter(theme,question);
+				
 			} else {
 				
 				if("ajoutTheme".equals(action)){
@@ -134,7 +175,7 @@ public class Referentiel extends HttpServlet {
 					Theme theme = new Theme();
 					theme.setIdTheme(idTheme);
 					DALTheme.supprimer(theme);
-				}
+				} 
 				
 				themes = DALTheme.selectAll();				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionReferentiel.jsp");

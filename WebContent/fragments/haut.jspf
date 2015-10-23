@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
 		<!-- Script pour Jquery et Jquery UI -->
-		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/JQuery-Smoothness/external/jquery/jquery.js"></script>
         <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/JQuery-Smoothness/jquery-ui.min.js"></script>
 		<!-- Script pour les datatables -->
         <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.dataTables.min.js"></script>
