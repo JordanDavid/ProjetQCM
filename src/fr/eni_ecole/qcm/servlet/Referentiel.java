@@ -85,12 +85,7 @@ public class Referentiel extends HttpServlet {
 		Gson gson = null;
 		
 		try {
-			if("afficher".equals(action)){
-				themes = DALTheme.selectAll();				
-				dispatcher = request.getRequestDispatcher("/formateur/gestionReferentiel.jsp");
-				request.setAttribute("themes", themes);
-				dispatcher.forward(request, response);
-			} else if("getQuestions".equals(action)){
+			if("getQuestions".equals(action)){
 
 				HashMap<String, List<Question>> map = new HashMap<String, List<Question>>();
 				gson = new Gson();
@@ -126,8 +121,25 @@ public class Referentiel extends HttpServlet {
 				
 				PrintWriter out = response.getWriter();		
 				out.println(gson.toJson(map));
-				out.flush();
+				out.flush();				
+			} else {
 				
+				if("ajoutTheme".equals(action)){
+					String libelle = request.getParameter("libelle_theme");
+					Theme theme = new Theme();
+					theme.setLibelle(libelle);
+					theme = DALTheme.ajouter(theme);
+				}else if("supprimerTheme".equals(action)){
+					int idTheme = Integer.parseInt(request.getParameter("idTheme"));
+					Theme theme = new Theme();
+					theme.setIdTheme(idTheme);
+					DALTheme.supprimer(theme);
+				}
+				
+				themes = DALTheme.selectAll();				
+				dispatcher = request.getRequestDispatcher("/formateur/gestionReferentiel.jsp");
+				request.setAttribute("themes", themes);
+				dispatcher.forward(request, response);
 			}
 			
 		} catch (Exception e) {

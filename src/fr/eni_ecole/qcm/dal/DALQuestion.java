@@ -113,7 +113,7 @@ public class DALQuestion {
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
-			ResultSet rs = st.executeQuery("SELECT MAX(id)as New_Id FROM QUESTION");
+			ResultSet rs = st.executeQuery("SELECT MAX(idQuestion)as New_Id FROM QUESTION");
 			if(rs.next()){
 				question.setIdQuestion(rs.getInt("New_Id"));
 			}
@@ -171,6 +171,29 @@ public class DALQuestion {
 			cnx = AccesBase.getConnection();
 			cmd = cnx.prepareStatement(sql);
 			cmd.setInt(1, question.getIdQuestion());
+			cmd.executeUpdate();
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
+	
+	/**
+	 * Méthode en charge de supprimer les questions rattachés à un thémes 
+	 * 22 oct. 2015
+	 * @param theme
+	 * @throws SQLException
+	 */
+	public static void supprimerByTheme(Theme theme) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE q FROM QUESTION q "
+					+"INNER JOIN THEME t ON t.idTheme = q.idTheme "
+					+"WHERE t.idTheme = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, theme.getIdTheme());
 			cmd.executeUpdate();
 		}finally{
 			if(cmd!=null)cmd.close();

@@ -39,7 +39,6 @@
       	url="jdbc:sqlserver://10.21.200.3:1433;databasename=GestionQCM"
       	username="qcm"
       	password="secret$01"
-      	
       	maxActive="5"
 		initialSize="1"
     />

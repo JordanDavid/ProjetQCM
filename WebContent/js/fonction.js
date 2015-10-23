@@ -109,11 +109,11 @@ $(document).ready(function() {
 	};
 	
 	/**
-	 * Créeation de la div pour ajouter un thème
+	 * Création de la div pour ajouter un thème
 	 */
-    dialog = $( "#ajoutTheme" ).dialog({
+    dialogAjoutTheme = $( "#ajoutTheme" ).dialog({
         autoOpen: false,
-        height: 250,
+        height: 230,
         resizable : false,
         width: 350,
         modal: true,
@@ -127,7 +127,7 @@ $(document).ready(function() {
     			$("#formAjoutTheme").submit();
     		},
     		"Annuler" : function(){
-    		   dialog.dialog("close");
+    			$("#formAjoutTheme")[0].reset();
     		}
         },
         close: function() {
@@ -140,11 +140,70 @@ $(document).ready(function() {
 	 */
 	AfficherAjoutTheme = function(){
 				
-		if(dialog.dialog( "isOpen" ))
-			dialog.dialog( "close" );
+		if(dialogAjoutTheme.dialog( "isOpen" ))
+			dialogAjoutTheme.dialog( "close" );
 		else
-			dialog.dialog( "open" );
+			dialogAjoutTheme.dialog( "open" );
 	};
+	
+	/**
+	 * Création d'une fenetre de confirmation de suppression de la thématique
+	 */
+	dialogConfirmSupprTheme =  $( "#confirmSupprTheme" ).dialog({
+        autoOpen: false,
+        height: 200,
+        resizable : false,
+        width: 350,
+        modal: true,
+        position : {
+        	my: "left top",
+        	at: "left bottom",
+        	of: $("#ajouterTheme") 
+    	},
+    	buttons : {
+    		"Oui" : function(){
+    			$("#idThemeSupprime")[0].value = $("#themes option:selected")[0].value;
+    			$("#formConfirmSupprTheme").submit();
+    		},
+    		"Non" : function(){
+    			dialogConfirmSupprTheme.Close();
+    		}
+        },
+        open : function(){
+        	$("#messageConfirmSupprTheme").html("<p>Confirmez vous la suppression de ce thème ?</p>" +
+        			"<p>Toutes les questions et réponses associées a ce thème seront également supprimées.</p>");
+        }
+    });
+	
+	/**
+	 * Affiche la div pour supprimer un theme
+	 */
+	AfficherConfirmSupprTheme = function(){
+		if(dialogConfirmSupprTheme.dialog("isOpen"))
+			dialogConfirmSupprTheme.dialog("close");
+		else
+			dialogConfirmSupprTheme.dialog("open");
+	};
+	
+	/**
+	 * Passe en mode création d'une question
+	 */
+	AfficherAjouterQuestion = function(){
+		$("#idQuestion")[0].value = "-1";
+		$("#enonce")[0].value = "";
+		$("#image")[0].value = "";
+		$("#typeQuestion option").eq(0).prop("selected","selected");
+		var divreponse = "";
+		for(var i=0; i<2;i++){
+			divreponse += "<div class=\"reponse\">";
+			divreponse += "<input type=\"text\" name=\"reponses[]\" id=\"reponse_n"+i+"\" placeholder=\"Veuillez saisir la réponse\" />";
+			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+			divreponse += "</div>";
+		}	
+		$("#div_reponses_question").html(divreponse);
+	};
+
+	
 	
 });
 

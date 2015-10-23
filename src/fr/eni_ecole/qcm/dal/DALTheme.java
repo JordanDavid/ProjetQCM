@@ -105,7 +105,7 @@ public class DALTheme {
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
-			ResultSet rs = st.executeQuery("SELECT MAX(id)as New_Id FROM THEME");
+			ResultSet rs = st.executeQuery("SELECT MAX(idTheme)as New_Id FROM THEME");
 			if(rs.next()){
 				theme.setIdTheme(rs.getInt("New_Id"));
 			}

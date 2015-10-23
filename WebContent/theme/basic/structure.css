@@ -15,3 +15,7 @@ a.underlineLink {
 .show{
 	display: block;
 }
+
+.ui-dialog{
+	font-size : 0.8em;
+}

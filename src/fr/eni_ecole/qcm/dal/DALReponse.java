@@ -116,7 +116,7 @@ public class DALReponse {
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
-			ResultSet rs = st.executeQuery("SELECT MAX(id)as New_Id FROM REPONSE");
+			ResultSet rs = st.executeQuery("SELECT MAX(idReponse)as New_Id FROM REPONSE");
 			if(rs.next()){
 				reponse.setIdReponse(rs.getInt("New_Id"));
 			}
@@ -178,4 +178,29 @@ public class DALReponse {
 			if(cnx!=null)cnx.close();
 		}
 	}
+
+	/**
+	 * Méthode en charge de supprimer toutes les réponses liées à un thème 
+	 * 22 oct. 2015
+	 * @param theme Theme concerné
+	 * @throws SQLException 
+	 */
+	public static void supprimerByTheme(Theme theme) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE r FROM REPONSE r "
+					+"INNER JOIN QUESTION q ON q.idQuestion = r.idQuestion "
+					+"INNER JOIN THEME t ON t.idTheme = q.idTheme "
+					+"WHERE t.idTheme = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, theme.getIdTheme());
+			cmd.executeUpdate();
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
+
 }
