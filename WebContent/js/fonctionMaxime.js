@@ -1,38 +1,19 @@
 
 $(document).ready(function() {
 	
-	$('#tableauCandidat').DataTable( {
-		"sAjaxSource": "./inscription",
-		"jQueryUI": true,
-		"bInfo":  false,
-		"bLengthChange": false,
-		"oLanguage": {
-			"url": "../Tools/French.json"
-		},
-		"columns":  [ 
-             {
-            	 "data": "nom"
-    		 },
-    		 {
-            	 "data": "prenom"
-    		 },
-    		 {
-            	 "data": "statut"
-    		 },
-    		 {
-    			 "targets": 0,
-    			 "searchable":false,
-    	         "orderable":false,
-    	         "className": "dt-body-center",
-    	         "render": function (data, type, full, meta){
-    	             return "<input type='checkbox' name='id[]' value='" + $("<div/>").text(data).html() + "'>";
-    	         			}
-    		 }    		 
-          ]
-	});
+	afficherCandidats = function(){
+		$('#tableauCandidat').DataTable( {
+			"bInfo":  false,
+			"bLengthChange": false,
+			"oLanguage": {
+				"url": "../Tools/French.json"
+			},
+			 "searchable":false,
+		});		
+	};	
 	
 //	 Handle click on Select all control
-	$("#example-select-all").on("click", function(){
+	$("#select-all").on("click", function(){
 //	       Get all rows with search applied
 	      var rows = table.rows({ "search": "applied" }).nodes();
 //	       Checkuncheck checkboxes for all rows in the table
@@ -40,10 +21,10 @@ $(document).ready(function() {
 	   });
 	
 //	 Handle click on checkbox to set state of Select all control
-	$("#example tbody").on("change", "input[type=checkbox]", function(){
+	$("#tableauCandidat tbody").on("change", "input[type=checkbox]", function(){
 //	       If checkbox is not checked
 	      if(!this.checked){
-	         var el = $("#example-select-all").get(0);
+	         var el = $("#select-all").get(0);
 //	          If Select all control is checked and has 'indeterminate' property
 	         if(el && el.checked && ("indeterminate" in el)){
 //	             Set visual state of Select all control 
@@ -54,7 +35,7 @@ $(document).ready(function() {
 	   });
 	
 //	 Handle form submission event
-	$("#frm-example").on("submit", function(e){
+	$("#frm-tableauCandidat").on("submit", function(e){
 	      var form = this;
 
 //	       Iterate over all checkboxes in the table

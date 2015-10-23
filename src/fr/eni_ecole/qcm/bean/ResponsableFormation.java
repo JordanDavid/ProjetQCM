@@ -42,9 +42,10 @@ public class ResponsableFormation extends Utilisateur {
 	 * @param nom Nom du responsable de formation
 	 * @param prenom Prenom du responsable de formation
 	 * @param mail Mail du responsable de formation
+	 * @param statut Statut du responsable de formation
 	 */
-	public ResponsableFormation(int id, String login, String motdepasse, String nom, String prenom, String mail){
-		super(id, login, motdepasse, nom, prenom, mail);
+	public ResponsableFormation(int id, String login, String motdepasse, String nom, String prenom, String mail, String statut){
+		super(id, login, motdepasse, nom, prenom, mail, statut);
 	}
 
 }

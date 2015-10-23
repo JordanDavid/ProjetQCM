@@ -26,6 +26,7 @@ public class Utilisateur implements Serializable{
 	private String nom;
 	private String prenom;
 	private String mail;
+	private String statut;
 	
 	/**
 	 * d1410gerardm
@@ -54,17 +55,34 @@ public class Utilisateur implements Serializable{
 	 * @param nom Nom de l'utilisateur
 	 * @param prenom Prenom de l'utilisateur
 	 * @param mail Mail de l'utilisateur
+	 * @param statut Statut de l'utilisateur
 	 */
-	public Utilisateur(int id, String login, String motdepasse, String nom, String prenom, String mail){
+	public Utilisateur(int id, String login, String motdepasse, String nom, String prenom, String mail, String statut){
 		this(id);
 		setLogin(login);
 		setMotdepasse(motdepasse);
 		setNom(nom);
 		setPrenom(prenom);
 		setMail(mail);
+		setStatut(statut);
+	}	
+	
+	/**
+	 * Getter for statut
+	 * @return the statut
+	 */
+	public String getStatut() {
+		return statut;
 	}
-	
-	
+
+	/**
+	 * Setter for statut
+	 * @param statut the statut to set
+	 */
+	public void setStatut(String statut) {
+		this.statut = statut;
+	}
+
 	/**
 	 * Getter for mail
 	 * @return the mail

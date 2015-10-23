@@ -40,13 +40,13 @@
     <url-pattern>/deconnexion</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
+    <description>Inscripion des candidats</description>
     <display-name>Inscription</display-name>
     <servlet-name>Inscription</servlet-name>
     <servlet-class>fr.eni_ecole.qcm.servlet.Inscription</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Inscription</servlet-name>
-    <url-pattern>/inscription</url-pattern>
+    <url-pattern>/formateur/inscription</url-pattern>
   </servlet-mapping>
 </web-app>

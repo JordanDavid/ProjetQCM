@@ -2,7 +2,6 @@
  * 20 oct. 2015
  * QCM V1.0
  * fr.eni_ecole.qcm.bean
- * Test commit
  */
 package fr.eni_ecole.qcm.bean;
 
@@ -43,9 +42,10 @@ public class Candidat extends Utilisateur {
 	 * @param nom Nom du candidat
 	 * @param prenom Prenom du candidat
 	 * @param mail Mail du candidat
+	 * @param statut Statut du candidat
 	 */
-	public Candidat(int id, String login, String motdepasse, String nom, String prenom, String mail){
-		super(id, login, motdepasse, nom, prenom, mail);
+	public Candidat(int id, String login, String motdepasse, String nom, String prenom, String mail, String statut){
+		super(id, login, motdepasse, nom, prenom, mail, statut);
 	}
 	
 }

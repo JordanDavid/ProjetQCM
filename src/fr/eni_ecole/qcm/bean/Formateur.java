@@ -42,9 +42,10 @@ public class Formateur extends Utilisateur {
 	 * @param nom Nom du formateur
 	 * @param prenom Prenom du formateur
 	 * @param mail Mail du formateur
+	 * @param statut Statut du formateur
 	 */
-	public Formateur(int id, String login, String motdepasse, String nom, String prenom, String mail){
-		super(id, login, motdepasse, nom, prenom, mail);
+	public Formateur(int id, String login, String motdepasse, String nom, String prenom, String mail, String statut){
+		super(id, login, motdepasse, nom, prenom, mail, statut);
 	}
 
 }
