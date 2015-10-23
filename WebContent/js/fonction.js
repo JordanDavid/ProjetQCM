@@ -75,7 +75,7 @@ $(document).ready(function() {
 					var checked = "";
 					divreponse += "<div class=\"reponse\">";
 					
-					divreponse += "<input type=\"text\" name=\"reponses[]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
+					divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses[]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
 
 					if(data[i].bonneReponse === true)
 						checked="checked=\"checked\"";
@@ -196,14 +196,74 @@ $(document).ready(function() {
 		var divreponse = "";
 		for(var i=0; i<2;i++){
 			divreponse += "<div class=\"reponse\">";
-			divreponse += "<input type=\"text\" name=\"reponses[]\" id=\"reponse_n"+i+"\" placeholder=\"Veuillez saisir la réponse\" />";
+			divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses[]\" id=\"reponse_n"+i+"\" placeholder=\"Veuillez saisir la réponse\" />";
 			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 			divreponse += "</div>";
 		}	
 		$("#div_reponses_question").html(divreponse);
 	};
 
+	/**
+	 * Enregistre la question
+	 */
+	EnregistrerQuestion = function(){
+		if(VerifValideQuestion()){
+//			var enonce = $("#enonce")[0].value;
+//			var image = $("#image")[0].value;
+//			var typeQuestion = $("#typeQuestion option:selected")[0].value;
+						
+			$.ajax({
+				url : "./formateur/referentiel",
+				method : "POST",
+				data : "action=enregistrerQuestion",
+				success : function(){
+					console.log("success");
+				}					
+			});
+		}
+	}
 	
+	/**
+	 * Vérifie que la question saisi est valide
+	 */
+	VerifValideQuestion = function(){
+		var valide = true;
+		var message = "Erreur lors de l'ajout de la question :";
+		
+		//L'énoncé doit obligatoirement etre saisi
+		if($("#enonce")[0].value == null || $("#enonce")[0].value == ""){
+			valide = valide & false;
+			message += "<br/>L'énoncé doit obligatoirement être saisi"
+		}
+		
+		//vérifier qu'il y ait au moins deux réponse de saisie
+		if(!VerifNbReponse()){
+			valide = valide & false;
+			message += "<br/>Il doit y avoir au minimum deux réponses possibles"
+		}
+		
+		//Si le type de question est égale à 0 (une seule bonne réponse), vérifier qu'il y ait une réponse de cochée
+		
+		//Si le type de question est égale à 1 (plusieurs bonne réponse), vérifier qu'il y ait au moins deux réponses de cochées
+		
+		
+		return true;
+	}
+	
+	/**
+	 * Vérifie que le nombre de réponse est supérieur à 2
+	 * @returns {Boolean} Vrai s'il y a plus de deux réponses sinon faux
+	 */
+	VerifNbReponse = function(){
+		var nbReponseOK = 0;
+		$(".enonce_reponse").each(function(){
+			if($(this)[0].value != "")
+				nbReponseOK++;
+		});
+		
+		if(nbReponseOK < 2)
+			return false;
+	}
 	
 });
 

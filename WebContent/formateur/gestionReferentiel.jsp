@@ -73,11 +73,11 @@
 				<label>Ajouter les différentes réponses possibles :</label>
 				<div id="div_reponses_question">
 					<div class="reponse">
-						<input type="text" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
+						<input type="text" class="enonce_reponse" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
 						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>		
 					<div class="reponse">
-						<input type="text" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
+						<input type="text" class="enonce_reponse" name="reponses[]" id="reponse_n" placeholder="Veuillez saisir la réponse"/>
 						<input class="input_reponse" type="radio" name="" id="" title="Cocher pour indiquer la bonne réponse"/>					
 					</div>					
 				</div>
@@ -87,7 +87,7 @@
 					une reponse</a>
 			</div>
 			<div class="inline_div_reponse" align="center">
-				<input type="submit" name="enregisterQuestion" id="enregistrerQuestion" value="Enregistrer" /> 
+				<input type="button" name="enregisterQuestion" id="enregistrerQuestion" value="Enregistrer" onclick="EnregistrerQuestion();"/> 
 				<input type="button" name="annulerQuestion" id="annuler" value="Annuler" />
 			</div>
 		</fieldset>
