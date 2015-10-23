@@ -2,6 +2,7 @@
  * 20 oct. 2015
  * QCM V1.0
  * fr.eni_ecole.qcm.bean
+ * Test commit
  */
 package fr.eni_ecole.qcm.bean;
 
