@@ -6,7 +6,8 @@
 <%@include file="/fragments/haut.jspf"%>
 <form id="gestion_referentiel"
 	action="<%=request.getContextPath()%>/formateur/referentiel"
-	method="post">
+	method="post"
+	>
 	<div id="div_theme">
 		<div id="div_select_theme">
 			<select id="themes" name="theme" onchange="SelectionTheme()">
@@ -40,10 +41,11 @@
 		<div id="div_btn_question">
 			<input type="button" name="ajouterQuestion" id="ajouterQuestion"
 				value="Ajouter une question" onclick="AfficherAjouterQuestion();" />
-			<input type="submit" name="supprimerQuestion" id="supprimerQuestion"
-				value="Supprimer la question" /> <input type="button"
+			<input type="button" name="supprimerQuestion" id="supprimerQuestion"
+				value="Supprimer la question" disabled="disabled" onclick="AfficherConfirmSupprQuestion()"/> 
+			<input type="button"
 				name="changerTheme" id="changerTheme"
-				value="Changer le thème de la question">
+				value="Changer le thème de la question" disabled="disabled">
 		</div>
 	</div>
 	<div id="div_details_question">
@@ -72,6 +74,7 @@
 			<div class="inline_div_reponse" align="left">
 				<label>Ajouter les différentes réponses possibles :</label>
 				<div id="div_reponses_question">
+					<input type="hidden" name="lst_reponses" id="lst_reponses"/>
 					<div class="reponse">
 						<input type="hidden" name="reponses" placeholder="Veuillez saisir la réponse" value="-1"/>
 						<input type="text" class="enonce_reponse" name="reponses" id="reponse_n-1" placeholder="Veuillez saisir la réponse"/>
@@ -110,6 +113,11 @@
 		<input type="hidden" name="idTheme" id="idThemeSupprime" />
 	</form>
 </div>
-
+<div class="hide" id="confirmSupprQuestion" title="Supprimer la question">
+	<form id="formConfirmSupprQuestion" action="<%=request.getContextPath()%>/formateur/referentiel?action=supprimerQuestion" method="post">
+		<div id="messageConfirmSupprQuestion"></div>
+		<input type="hidden" name="idQuestion" id="idQuestionToDelete" />
+	</form>
+</div>
 
 <%@include file="/fragments/bas.jspf"%>

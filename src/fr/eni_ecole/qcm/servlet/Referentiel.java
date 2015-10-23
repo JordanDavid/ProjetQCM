@@ -2,6 +2,7 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
-
-
+import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Reponse;
@@ -125,8 +124,12 @@ public class Referentiel extends HttpServlet {
 				out.println(gson.toJson(map));
 				out.flush();				
 			}else if("enregistrerQuestion".equals(action)){
+				gson = new Gson();
+
 				//Récupère les paramètre de la requête
-//				String enonce = request.getParameter("enonce");
+				String enonce = request.getParameter("enonce");
+				String image = request.getParameter("image");					
+				Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
 				
 				PrintWriter out = response.getWriter();
 				
@@ -136,17 +139,14 @@ public class Referentiel extends HttpServlet {
 					out.println(params.nextElement());
 				}
 				
-				String[] values = request.getParameterValues("reponses");
-				
-				for(String s : values){
-					out.println(s);
-				}
+				Type listType = new TypeToken<List<String>>() {}.getType();
+				List<String> reponses =  new Gson().fromJson(request.getParameter("lst_reponses"),listType);
+
+				out.println(reponses);
 				
 				out.flush();
 				out.close();
 				
-//				String image = request.getParameter("image");					
-//				Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
 //				String enonce = "test";
 //				String image = null;
 //				Boolean typeQuestion = true;
@@ -156,7 +156,7 @@ public class Referentiel extends HttpServlet {
 //				Theme theme = new Theme();
 //				theme.setIdTheme(1);
 //				
-//				//Création de la question
+				//Création de la question
 //				Question question = new Question();
 //				question.setEnonce(enonce);
 //				question.setImage(image);

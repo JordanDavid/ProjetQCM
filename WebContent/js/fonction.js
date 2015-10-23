@@ -60,9 +60,12 @@ $(document).ready(function() {
 		
 		//Alimentation des détails de la réponse
 		$("#idQuestion")[0].value = aadata.idQuestion;
+		$("#idQuestionToDelete")[0].value = aadata.idQuestion;
 		$("#enonce")[0].value = aadata.enonce;
 		$("#image")[0].value = aadata.image == null ? "" : aadata.image;
 		$("#typeQuestion option").eq(aadata.typeReponse).prop("selected","selected");
+		$("#supprimerQuestion").removeProp("disabled");
+		$("#changerTheme").removeProp("disabled");
 		
 		$.ajax({
 			url : "./referentiel",
@@ -198,6 +201,9 @@ $(document).ready(function() {
 		$("#enonce")[0].value = "";
 		$("#image")[0].value = "";
 		$("#typeQuestion option").eq(0).prop("selected","selected");
+		$("#supprimerQuestion").prop("disabled","disabled");
+		$("#changerTheme").prop("disabled","disabled");
+		
 		var divreponse = "";
 		for(var i=0; i<2;i++){
 			divreponse += "<div class=\"reponse\">";
@@ -217,7 +223,23 @@ $(document).ready(function() {
 		if(messageErreur == null){
 			
 			$("#gestion_referentiel")[0].action = "./referentiel?action=enregistrerQuestion";
+			
+			var reponses = new Object();
+			
+//			$(".reponse").each(function(){
+//				reponses[$(this)[0].children[0].value] = {
+//					"idReponse":$(this)[0].children[0].value,
+//					"reponse":$(this)[0].children[1].value,
+//					"bonneReponse":$(this)[0].children[2].checked
+//				}
+//			});
+						
+			reponses[0] = {"1" : "test"};
+
+			$("#lst_reponses")[0].value = JSON.stringify(reponses);
+			
 			$("#gestion_referentiel").submit();
+			
 //			var formData = new FormData($("#gestion_referentiel")[0]);
 //			formData.append("idTheme",$("#themes option:selected")[0].value);
 //			
@@ -302,5 +324,34 @@ $(document).ready(function() {
 		return  nbBonnesReponses >= minBonnesReponses;
 	}
 	
+	dialogConfirmSupprQuestion = $( "#confirmSupprTheme" ).dialog({
+        autoOpen: false,
+        height: 200,
+        resizable : false,
+        width: 350,
+        modal: true,
+    	buttons : {
+    		"Oui" : function(){
+    			if($("#idQuestion")[0].value != ""){
+    				//Récupérer l'identifiant de la ligne selectionné
+        			$("#formConfirmSupprQuestion").submit();
+    			}
+    		},
+    		"Non" : function(){
+    			dialogConfirmSupprQuestion.Close();
+    		}
+        },
+        open : function(){
+        	$("#messageConfirmSupprTheme").html("<p>Confirmez vous la suppression de cette question ?</p>" +
+        			"<p>Toutes les réponses associées à cette question seront également supprimées.</p>");
+        }
+    });
+	
+	AfficherConfirmSupprQuestion = function(){
+		if(dialogConfirmSupprQuestion.dialog("isOpen"))
+			dialogConfirmSupprQuestion.dialog("close");
+		else
+			dialogConfirmSupprQuestion.dialog("open");
+	}
 });
 
