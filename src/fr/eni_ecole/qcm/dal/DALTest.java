@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,36 +33,42 @@ public class DALTest implements Serializable {
 	 */
 	private static final long serialVersionUID = 2050877754531413020L;
 	
-//	public static List<Test> selectAll(Theme theme){
-//		
-//		List<Test> listeTests = new ArrayList<Test>();		
-//		Connection cnx = null;
-//		PreparedStatement rqt = null;
-//		ResultSet rs = null;
-//		try{
-//			cnx = AccesBase.getConnection();
-//			rqt = cnx.prepareStatement("SELECT * FROM TEST t "
-//					+ "INNER JOIN TYPE_UTILISATEUR tu ON u.idType = tu.idType "
-//					+ "WHERE tu.libelleType = 'Candidat'");
-//			rs=rqt.executeQuery();
-//			
-//			while (rs.next()){
-//				Utilisateur candidat = new Utilisateur();
-//				candidat.setId(rs.getInt("id"));
-//				candidat.setLogin(rs.getString("login"));
-//				candidat.setMotdepasse(rs.getString("motdepasse"));
-//				candidat.setNom(rs.getString("nom"));
-//				candidat.setPrenom(rs.getString("prenom"));
-//				candidat.setMail(rs.getString("email"));
-//				
-//				listeTests.add(candidat);
-//			}			
-//		}finally{
-//			if (rs!=null) rs.close();
-//			if (rqt!=null) rqt.close();
-//			if (cnx!=null) cnx.close();
-//		}
-//		return listeTests;
-//	}
+	/**
+	 * Méthode en charge de récupérer la list des tests associé au theme
+	 * @param theme Theme associé aux tests
+	 * @return une liste des tests
+	 * @throws SQLException
+	 */
+	public static List<Test> getTestByTheme(Theme theme) throws SQLException{
+		
+		List<Test> listeTests = new ArrayList<Test>();		
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT * FROM TEST te "
+				+ "INNER JOIN SECTION s ON te.idTest = s.idTest "
+				+ "INNER JOIN THEME th ON th.idTheme = s.idTheme "
+				+ "WHERE th.idTheme = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, theme.getIdTheme());
+			ResultSet res = cmd.executeQuery();
+			
+			while (res.next()){
+				Test test = new Test();
+				test.setId(res.getInt("idTest"));
+				test.setLibelle(res.getString("libelle_test"));
+				test.setDuree(res.getInt("duree"));
+				test.setSeuil_minimum(res.getInt("seuil_minimum"));
+				test.setSeuil_maximum(res.getInt("seuil_maximum"));
+				
+				listeTests.add(test);
+			}			
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+		return listeTests;
+	}
 
 }
