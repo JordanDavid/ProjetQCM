@@ -16,6 +16,7 @@ import java.util.List;
 import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Reponse;
 import fr.eni_ecole.qcm.bean.Theme;
+import fr.eni_ecole.qcm.bean.Tirage;
 import fr.eni_ecole.qcm.util.AccesBase;
 
 /**
@@ -203,4 +204,5 @@ public class DALQuestion {
 		}
 	}
 
+	
 }

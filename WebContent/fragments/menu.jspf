@@ -4,10 +4,14 @@
     <div id="menu">
 	    <ul>
 	    	<li class="liMenu active" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Accueil</a></li>
+	   <%--  <% if("candidat".equals(typeUser)) { %> --%>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Passer un test</a></li>
+	    <%-- <% } else { %> --%>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Gestion des tests</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
-	    </ul>
+	   <%--  <% } %>
+	    	 --%>
+    	</ul>
     </div>

@@ -49,4 +49,14 @@
     <servlet-name>Inscription</servlet-name>
     <url-pattern>/formateur/inscription</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>PErmet au candidat de passer un test</description>
+    <display-name>Test</display-name>
+    <servlet-name>Test</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.Test</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Test</servlet-name>
+    <url-pattern>/candidat/test</url-pattern>
+  </servlet-mapping>
 </web-app>

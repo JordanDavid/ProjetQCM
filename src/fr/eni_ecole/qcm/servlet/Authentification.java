@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni_ecole.qcm.bean.Candidat;
 import fr.eni_ecole.qcm.bean.Utilisateur;
 import fr.eni_ecole.qcm.dal.DALUtilisateur;
 
@@ -86,6 +87,8 @@ public class Authentification extends HttpServlet {
 				} else {
 					dispatcher = request.getRequestDispatcher("/accueil.jsp");
 					request.getSession().setAttribute("user", utilisateur);
+					String typeUser = utilisateur instanceof Candidat ? "Candidat" : "Formateur";
+					request.getSession().setAttribute("typeUser", typeUser);
 					dispatcher.forward(request, response);					
 				}
 			}
