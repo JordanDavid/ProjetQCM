@@ -145,21 +145,14 @@ $(document).ready(function() {
     			"url" : "../Tools/French.json"
     		},
     		"columns" : [
-//        		 {
-//        			 "data" : "idTest",
-//        			 "bVisible" : false
-//        		 },
-//        		 {
-//        			 "data" : "libelle"
-//        		 },
-				{
-				'targets': 0,
-			    'searchable': false,
-			    'orderable': false,
-			    'className': 'dt-body-center',
-			    'render': function (data, type, full, meta){
-				        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-				        }
+    		    {
+					'targets': 0,
+				    'searchable': false,
+				    'orderable': false,
+				    'className': 'dt-body-center',
+				    'render': function (data, type, full, meta){
+			        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+			        }
 				},
 				{
 					"data" : "idPlageHoraire",
@@ -177,7 +170,11 @@ $(document).ready(function() {
 	}
 	
 	$(function() {
-		$("#date_picker").datepicker();
+		$("#date_picker_debut").datepicker();
+	  });
+	
+	$(function() {
+		$("#date_picker_fin").datepicker();
 	  });
 	
 	

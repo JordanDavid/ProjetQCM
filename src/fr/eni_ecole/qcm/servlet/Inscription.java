@@ -3,7 +3,10 @@ package fr.eni_ecole.qcm.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;
+import fr.eni_ecole.qcm.dal.DALPlageHoraire;
 import fr.eni_ecole.qcm.dal.DALTest;
 import fr.eni_ecole.qcm.dal.DALTheme;
 import fr.eni_ecole.qcm.dal.DALUtilisateur;
@@ -65,7 +69,12 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -73,7 +82,12 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -83,9 +97,10 @@ public class Inscription extends HttpServlet {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
 	private void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, ParseException {
 		RequestDispatcher dispatcher = null;
 		String action = request.getParameter("action");
 		List<Utilisateur> listeCandidats = new ArrayList<Utilisateur>();
@@ -113,6 +128,25 @@ public class Inscription extends HttpServlet {
 					out.println(gson.toJson(mapTest));
 					out.flush();
 					break;
+				case "ajoutCandidatToTheme":
+					//il faut récupérer les informations de la pop et faire la création
+					if (request.getParameter("ajoutPlageHoraire") != null) {
+						// alors on ajoute une plage horaire
+						SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+						
+						Date debutPlageHoraire = formatter.parse(request.getParameter("date_picker_debut"));
+						Date finPlageHoraire = formatter.parse(request.getParameter("date_picker_fin"));
+						
+						PlageHoraire plageHoraire = new PlageHoraire();
+						plageHoraire.setDateDebut(debutPlageHoraire);
+						plageHoraire.setDateFin(finPlageHoraire);
+						
+						DALPlageHoraire.ajouter(plageHoraire);												
+					} else {
+						// sinon on valide la pop up
+						
+					}
+					break;
 				case "getPlageHoraire":
 					HashMap<String, List<PlageHoraire>> mapPlageHoraire = new HashMap<String, List<PlageHoraire>>();
 					gson = new Gson();
@@ -131,9 +165,7 @@ public class Inscription extends HttpServlet {
 					out2.println(gson.toJson(mapPlageHoraire));
 					out2.flush();
 					break;
-				case "ajoutCandidatToTheme":
-					//il faut récupérer les informations de la pop et faire la création	
-					break;
+				
 				default:
 					break;		
 				}
