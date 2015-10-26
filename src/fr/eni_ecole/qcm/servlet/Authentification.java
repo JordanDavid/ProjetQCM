@@ -78,7 +78,10 @@ public class Authentification extends HttpServlet {
 			utilisateur.setLogin(login);
 			utilisateur.setMotdepasse(password);
 
-			if (request.getSession().getAttribute("user") == null) {
+			if (request.getSession().getAttribute("user") == null || 				
+				(request.getSession().getAttribute("user") != null && 
+				!utilisateur.getLogin().equals(((Utilisateur)request.getSession().getAttribute("user")).getLogin()))	) {
+				
 				utilisateur = DALUtilisateur.rechercher(utilisateur);
 				if (utilisateur == null) {
 					dispatcher = request.getRequestDispatcher("/index.jsp");
@@ -87,7 +90,7 @@ public class Authentification extends HttpServlet {
 				} else {
 					dispatcher = request.getRequestDispatcher("/accueil.jsp");
 					request.getSession().setAttribute("user", utilisateur);
-					String typeUser = utilisateur instanceof Candidat ? "Candidat" : "Formateur";
+					String typeUser = utilisateur instanceof Candidat ? "candidat" : "formateur";
 					request.getSession().setAttribute("typeUser", typeUser);
 					dispatcher.forward(request, response);					
 				}

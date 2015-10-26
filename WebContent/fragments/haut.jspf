@@ -30,9 +30,8 @@
 		<div id="entete">
 		<%
 			Utilisateur user = ((Utilisateur)request.getSession().getAttribute("user")); 
-			String typeUser = 	request.getSession().getAttribute("typeUser").toString(); 
 		%>
-			<div id="entete_user">Bonjour, <%-- <%=user.toString() %> --%></div>
+			<div id="entete_user">Bonjour, <%=user.toString() %></div>
 			<div id="entete_deconnexion"><a href="<%= request.getContextPath()%>/deconnexion" class="blueText">Déconnexion</a></div>
 		</div>
 		<div id="milieu">

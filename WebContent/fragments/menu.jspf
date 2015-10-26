@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
     <div id="menu">
 	    <ul>
 	    	<li class="liMenu active" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Accueil</a></li>
-	   <%--  <% if("candidat".equals(typeUser)) { %> --%>
+	   <% if("candidat".equals(request.getSession().getAttribute("typeUser"))) { %>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Passer un test</a></li>
-	    <%-- <% } else { %> --%>
+	   <% } else { %> 
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Gestion des tests</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
-	   <%--  <% } %>
-	    	 --%>
+	   <% } %>
     	</ul>
     </div>

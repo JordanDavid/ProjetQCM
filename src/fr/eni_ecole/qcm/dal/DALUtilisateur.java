@@ -69,8 +69,10 @@ public class DALUtilisateur implements Serializable{
 					break;
 				case "Candidat":
 					ret = new Candidat(id, login, motdepasse, nom, prenom, mail, statut);
+					break;
 				case "Responsable de formation":
 					ret = new ResponsableFormation(id, login, motdepasse, nom, prenom, mail, statut);
+					break;
 				default:
 					break;
 				}

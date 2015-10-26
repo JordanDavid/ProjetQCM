@@ -87,8 +87,7 @@ public class DALQuestion {
 		}
 		return question;
 	}
-	
-	
+		
 	/**
 	 * Méthode en charge d'ajouter une question à la BD et de la lié à un thème
 	 * 21 oct. 2015
@@ -204,5 +203,10 @@ public class DALQuestion {
 		}
 	}
 
-	
+	public static void changerTheme(Question question){
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "UPDATE QUESTION SET idTheme = ? WHERE idQuestion = ?";
+		
+	}
 }
