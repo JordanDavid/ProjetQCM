@@ -117,4 +117,20 @@ public class ManipDate {
 			return null;
 	}
 
+	/**
+	 * Méthode en charge de convertir une date util.Date au format voulu 
+	 * 26 oct. 2015
+	 * @param laDate La date à convertir
+	 * @param format Format choisi
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static java.util.Date dateWithFormat(java.sql.Date laDate, String format) throws ParseException{
+		Date date = null;
+		if (laDate != null){
+			DateFormat df = new SimpleDateFormat(format);
+			date = df.parse(laDate.toString());
+		}
+			return date;
+	}
 }

@@ -28,21 +28,15 @@
 		Détails du test
 	</div>
 	<div class="border_div">
-		<div id="titre_test">Titre</div>
+		<div id="titre_test"></div>
 		<hr/><br/>
 		Plages disponibles :
 		<div id="plages_horaires_test">
-			<div class="plage_horaire_test">
-				11/05/15:09h00 - 12/05/15:10h00			
-			</div>
-			<div class="plage_horaire_test">
-				11/05/15:09h00 - 12/05/15:10h00			
-			</div>
 		</div>
-		<div class="inline_details_test" id="duree_test">Durée : 30</div>
+		<div class="inline_details_test" id="duree_test"></div>
 		<div class="inline_details_test" id="nb_sections_test">Nombre de sections : 3</div>
-		<div class="inline_details_test" id="seuil1_test">Seuil n°1 : 8</div>
-		<div class="inline_details_test" id="seuil2_test">Seuil n°2 : 14</div>		
+		<div class="inline_details_test" id="seuil1_test"></div>
+		<div class="inline_details_test" id="seuil2_test"></div>		
 		<hr/>
 		<div id="sections">
 			<div class="section">

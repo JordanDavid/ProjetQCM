@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import fr.eni_ecole.qcm.bean.ResponsableFormation;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;
+import fr.eni_ecole.qcm.tool.ManipDate;
 import fr.eni_ecole.qcm.tool.ManipString;
 import fr.eni_ecole.qcm.util.AccesBase;
 
@@ -33,7 +36,7 @@ public class DALTest implements Serializable {
 	 * long serialVersionUID
 	 */
 	private static final long serialVersionUID = 2050877754531413020L;
-	
+		
 	/**
 	 * Méthode en charge de récupérer la liste des test 
 	 * 26 oct. 2015
@@ -169,8 +172,8 @@ public class DALTest implements Serializable {
 			while (res.next()){
 				PlageHoraire plageHoraire = new PlageHoraire();
 				plageHoraire.setIdPlageHoraire(res.getInt("idPlageHoraire"));
-				plageHoraire.setDateDebut(res.getDate("date_debut"));
-				plageHoraire.setDateFin(res.getDate("date_fin"));
+				plageHoraire.setDateDebut(ManipDate.dateSQLVersUtil(res.getDate("date_debut")));
+				plageHoraire.setDateFin(ManipDate.dateSQLVersUtil(res.getDate("date_fin")));
 				
 				plageHoraires.add(plageHoraire);
 			}			

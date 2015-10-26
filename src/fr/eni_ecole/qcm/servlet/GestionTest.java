@@ -94,6 +94,44 @@ public class GestionTest extends HttpServlet {
 				out.println(json.toString());
 				out.flush();
 				
+			} else if("getPlagesHoraires".equals(action)){
+				HashMap<String, List<PlageHoraire>> map = 
+						new HashMap<String, List<PlageHoraire>>();
+				
+				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
+				test.setId(Integer.parseInt(request.getParameter("idTest")));
+				
+				List<PlageHoraire> plages = DALTest.getPlageHoraireByTest(test);
+				
+				response.setContentType("application/json");        
+				response.setHeader("Cache-Control", "no-store");
+				
+				map.put("data", plages);
+				
+				json = new JSONObject(map);
+				
+				PrintWriter out = response.getWriter();		
+				out.println(json.toString());
+				out.flush();
+			} else if("getSections".equals(action)){
+				HashMap<String, List<Section>> map = 
+						new HashMap<String, List<Section>>();
+				
+				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
+				test.setId(Integer.parseInt(request.getParameter("idTest")));
+				
+				List<Section> sections = null;
+				
+				response.setContentType("application/json");        
+				response.setHeader("Cache-Control", "no-store");
+				
+				map.put("data", sections);
+				
+				json = new JSONObject(map);
+				
+				PrintWriter out = response.getWriter();		
+				out.println(json.toString());
+				out.flush();
 			} else{
 				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionTest.jsp");

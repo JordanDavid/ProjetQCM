@@ -8,6 +8,8 @@ package fr.eni_ecole.qcm.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import fr.eni_ecole.qcm.tool.ManipDate;
+
 /**
  * @author d1410gerardm
  * 20 oct. 2015

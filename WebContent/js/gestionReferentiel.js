@@ -46,6 +46,15 @@ $(document).ready(function() {
 		}
 	});	
 	
+	$('#lst_questions tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+        	oTableQuestions.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+	
 	/**
 	 * Gestion du changement du thème
 	 */
