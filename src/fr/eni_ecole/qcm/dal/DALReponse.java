@@ -104,7 +104,7 @@ public class DALReponse {
 		Connection cnx = null;
 		Statement st = null;
 		PreparedStatement cmd = null;
-		String sql = "INSERT INTO REPONSE(reponse,bonne_reponse) VALUES (?)";
+		String sql = "INSERT INTO REPONSE(idQuestion,reponse,bonne_reponse) VALUES (?,?,?)";
 		
 		try{
 			cnx = AccesBase.getConnection();
@@ -112,7 +112,9 @@ public class DALReponse {
 			cnx.setAutoCommit(false);
 			
 			cmd = cnx.prepareStatement(sql);
-			cmd.setString(1, reponse.getReponse());
+			cmd.setInt(1, reponse.getQuestion().getIdQuestion());
+			cmd.setString(2, reponse.getReponse());
+			cmd.setBoolean(3, reponse.getBonneReponse());
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
@@ -151,6 +153,7 @@ public class DALReponse {
 			cmd = cnx.prepareStatement(sql);
 			cmd.setString(1, reponse.getReponse());
 			cmd.setBoolean(2, reponse.getBonneReponse());
+			cmd.setInt(3, reponse.getIdReponse());
 			cmd.executeUpdate();			
 		}finally{
 			if(cnx!=null)cnx.close();

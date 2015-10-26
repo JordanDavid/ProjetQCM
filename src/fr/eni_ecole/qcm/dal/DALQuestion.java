@@ -203,10 +203,26 @@ public class DALQuestion {
 		}
 	}
 
-	public static void changerTheme(Question question){
+	/**
+	 * Méthode en charge de modifier le thème d'une question 
+	 * 26 oct. 2015
+	 * @param question Question concernée portant l'identifiant du nouveau thème
+	 * @throws SQLException
+	 */
+	public static void changerTheme(Question question) throws SQLException{
 		Connection cnx = null;
 		PreparedStatement cmd = null;
 		String sql = "UPDATE QUESTION SET idTheme = ? WHERE idQuestion = ?";
 		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, question.getTheme().getIdTheme());
+			cmd.setInt(2, question.getIdQuestion());
+			cmd.executeUpdate();
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
 	}
 }

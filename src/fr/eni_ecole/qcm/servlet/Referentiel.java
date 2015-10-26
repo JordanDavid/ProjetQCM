@@ -2,7 +2,6 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.json.*;
 
 import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Reponse;
@@ -83,14 +82,13 @@ public class Referentiel extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		String action = request.getParameter("action");
 		List<Theme> themes = null;
-		Gson gson = null;
+		JSONObject json = null;
 		
 		try {
 			if("getQuestions".equals(action)){
 
 				HashMap<String, List<Question>> map = new HashMap<String, List<Question>>();
-				gson = new Gson();
-				
+								
 				Theme theme = new Theme();
 				theme.setIdTheme(Integer.parseInt(request.getParameter("id"))); ;
 				
@@ -101,12 +99,13 @@ public class Referentiel extends HttpServlet {
 				
 				map.put("data", questions);
 				
+				json = new JSONObject(map);
+				
 				PrintWriter out = response.getWriter();		
-				out.println(gson.toJson(map));
+				out.println(json.toString());
 				out.flush();
 			}else if("getReponses".equals(action)){
 				HashMap<String, List<Reponse>> map = new HashMap<String, List<Reponse>>();
-				gson = new Gson();
 				
 				Theme theme = new Theme();
 				theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme"))); ;
@@ -119,51 +118,13 @@ public class Referentiel extends HttpServlet {
 				response.setHeader("Cache-Control", "no-store");
 				
 				map.put("data", reponses);
+
+				json = new JSONObject(map);
 				
 				PrintWriter out = response.getWriter();		
-				out.println(gson.toJson(map));
+				out.println(json.toString());
 				out.flush();				
-			}else if("enregistrerQuestion".equals(action)){
-				gson = new Gson();
-
-				//Récupère les paramètre de la requête
-				String enonce = request.getParameter("enonce");
-				String image = request.getParameter("image");					
-				Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
-				
-				PrintWriter out = response.getWriter();
-				
-				Enumeration<String> params = request.getParameterNames();
-				
-				while(params.hasMoreElements()){
-					out.println(params.nextElement());
-				}
-				
-				Type listType = new TypeToken<List<String>>() {}.getType();
-				List<String> reponses =  new Gson().fromJson(request.getParameter("lst_reponses"),listType);
-
-				out.println(reponses);
-				
-				out.flush();
-				out.close();
-				
-//				String enonce = "test";
-//				String image = null;
-//				Boolean typeQuestion = true;
-//				
-//				//Récupère le thème concerné
-//				int idTheme = Integer.parseInt(request.getParameter("idTheme"));
-//				Theme theme = new Theme();
-//				theme.setIdTheme(1);
-//				
-				//Création de la question
-//				Question question = new Question();
-//				question.setEnonce(enonce);
-//				question.setImage(image);
-//				question.setTypeReponse(typeQuestion);
-//				question = DALQuestion.ajouter(theme,question);
-				
-			} else {
+			}else {
 				
 				if("ajoutTheme".equals(action)){
 					String libelle = request.getParameter("libelle_theme");
@@ -171,11 +132,57 @@ public class Referentiel extends HttpServlet {
 					theme.setLibelle(libelle);
 					theme = DALTheme.ajouter(theme);
 				}else if("supprimerTheme".equals(action)){
-					int idTheme = Integer.parseInt(request.getParameter("idTheme"));
 					Theme theme = new Theme();
-					theme.setIdTheme(idTheme);
+					theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
 					DALTheme.supprimer(theme);
-				} 
+				}  else if("enregistrerQuestion".equals(action)){
+					//Récupère les paramètre de la requête
+					String enonce = request.getParameter("enonce");
+					String image = request.getParameter("image");					
+					Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
+													
+					//Récupère le thème concerné
+					Theme theme = new Theme();
+					theme.setIdTheme(Integer.parseInt(request.getParameter("theme")));
+					
+					//Création de la question
+					Question question = new Question();
+					question.setEnonce(enonce);
+					question.setImage(image);
+					question.setTypeReponse(typeQuestion);
+					question = DALQuestion.ajouter(theme,question);
+	
+					//récupère la liste des réponses
+					JSONArray reponses = new JSONArray(request.getParameter("lst_reponses"));				
+					for(int i=0; i < reponses.length();i++){
+						if(!reponses.isNull(i)){
+							JSONObject reponse = reponses.getJSONObject(i);
+							Reponse r = new Reponse();
+							r.setReponse(reponse.getString("reponse"));
+							r.setIdReponse(reponse.getInt("idReponse"));
+							r.setBonneReponse(reponse.getBoolean("bonneReponse"));
+							r.setQuestion(question);
+							
+							if(r.getIdReponse()<1){
+								DALReponse.ajouter(r);
+							}else{
+								DALReponse.modifier(r);
+							}
+						}
+					}	
+					
+				} else if("changerThemeQuestion".equals(action)){
+					Theme theme = new Theme();
+					theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
+					Question question = new Question();
+					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+					question.setTheme(theme);
+					DALQuestion.changerTheme(question);
+				} else if("supprimerQuestion".equals(action)){
+					Question question = new Question();
+					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+					DALQuestion.supprimer(question);
+				}
 				
 				themes = DALTheme.selectAll();				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionReferentiel.jsp");

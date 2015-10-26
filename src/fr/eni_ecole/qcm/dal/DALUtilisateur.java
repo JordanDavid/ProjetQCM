@@ -64,17 +64,17 @@ public class DALUtilisateur implements Serializable{
 				
 				// depending on the type of user, a new instance is created
 				switch (type) {
-				case "Formateur":
-					ret = new Formateur(id, login, motdepasse, nom, prenom, mail, statut);
-					break;
-				case "Candidat":
-					ret = new Candidat(id, login, motdepasse, nom, prenom, mail, statut);
-					break;
-				case "Responsable de formation":
-					ret = new ResponsableFormation(id, login, motdepasse, nom, prenom, mail, statut);
-					break;
-				default:
-					break;
+					case "Formateur":
+						ret = new Formateur(id, login, motdepasse, nom, prenom, mail, statut);
+						break;
+					case "Candidat":
+						ret = new Candidat(id, login, motdepasse, nom, prenom, mail, statut);
+						break;
+					case "Responsable de formation":
+						ret = new ResponsableFormation(id, login, motdepasse, nom, prenom, mail, statut);
+						break;
+					default:
+						break;
 				}
 			}
 		}finally{

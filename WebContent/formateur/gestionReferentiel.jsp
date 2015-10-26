@@ -93,7 +93,7 @@
 			</div>
 			<div class="inline_div_reponse" align="center">
 				<input type="button" name="enregisterQuestion" id="enregistrerQuestion" value="Enregistrer" onclick="EnregistrerQuestion();"/> 
-				<input type="button" name="annulerQuestion" id="annuler" value="Annuler" />
+				<input type="reset" name="annulerQuestion" id="annuler" value="Annuler" />
 			</div>
 		</fieldset>
 	</div>
@@ -122,7 +122,8 @@
 <div class="hide" id="changerThemeQuestion" title="Changer le thème">
 	<form id="formChangerTheme" action="<%=request.getContextPath()%>/formateur/referentiel?action=changerThemeQuestion" method="post">
 		<div id="div_select_change_theme">
-			<select id="select_change_theme" name="theme">
+			<p>Sélectionner le nouveau thème :</p>
+			<select id="select_change_theme" name="idTheme">
 				<%  int y =0;
 					for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
 						<% if(i==0){ %>

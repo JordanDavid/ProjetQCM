@@ -61,6 +61,7 @@ $(document).ready(function() {
 		//Alimentation des détails de la réponse
 		$("#idQuestion")[0].value = aadata.idQuestion;
 		$("#idQuestionToDelete")[0].value = aadata.idQuestion;
+		$("#idQuestionToChange")[0].value = aadata.idQuestion;
 		$("#enonce")[0].value = aadata.enonce;
 		$("#image")[0].value = aadata.image == null ? "" : aadata.image;
 		$("#typeQuestion option").eq(aadata.typeReponse).prop("selected","selected");
@@ -174,7 +175,7 @@ $(document).ready(function() {
     			}
     		},
     		"Non" : function(){
-    			dialogConfirmSupprTheme.Close();
+    			dialogConfirmSupprTheme.dialog("close");
     		}
         },
         open : function(){
@@ -224,41 +225,26 @@ $(document).ready(function() {
 			
 			$("#gestion_referentiel")[0].action = "./referentiel?action=enregistrerQuestion";
 			
-			var reponses = new Object();
+			var reponses = new Array();
 			
-//			$(".reponse").each(function(){
-//				reponses[$(this)[0].children[0].value] = {
-//					"idReponse":$(this)[0].children[0].value,
-//					"reponse":$(this)[0].children[1].value,
-//					"bonneReponse":$(this)[0].children[2].checked
-//				}
-//			});
-						
-			reponses[0] = {"1" : "test"};
-
+			var i=0;
+			$(".reponse").each(function(){
+				reponses[i] = {
+					"idReponse":$(this)[0].children[0].value,
+					"reponse":$(this)[0].children[1].value,
+					"bonneReponse":$(this)[0].children[2].checked
+				}
+				i++;
+			});
+			
 			$("#lst_reponses")[0].value = JSON.stringify(reponses);
 			
 			$("#gestion_referentiel").submit();
-			
-//			var formData = new FormData($("#gestion_referentiel")[0]);
-//			formData.append("idTheme",$("#themes option:selected")[0].value);
-//			
-//			
-////			formData.append("action","enregistrerQuestion");
-//			$.ajax({
-//				url : "./referentiel?action=enregistrerQuestion",
-//				method : "POST", 
-//				contentType : "application/x-www-form-urlencoded",
-//			    processData : false,
-//				data : formData,
-//				success : function(data){
-//					console.log(data);
-//				}					
-//			});
+
 		}else{
 			console.log("Erreur "+messageErreur);
 		}
-	}
+	};
 	
 	/**
 	 * Vérifie que la question saisi est valide
@@ -294,7 +280,7 @@ $(document).ready(function() {
 			return debutmessage+message;
 		else
 			return null;
-	}
+	};
 	
 	/**
 	 * Vérifie que le nombre de réponse est supérieur à 2
@@ -322,9 +308,30 @@ $(document).ready(function() {
 				nbBonnesReponses++;
 		});
 		return  nbBonnesReponses >= minBonnesReponses;
-	}
+	};
 	
-	dialogConfirmSupprQuestion = $( "#confirmSupprTheme" ).dialog({
+	
+	var numAddReponse = -2;
+	/**
+	 * Ajoute une possibilité de réponse à la question
+	 */
+	ajouterReponse = function(){
+		
+		var type = $("#typeQuestion option:selected")[0].value == 0 ? "radio" : "checkbox";		
+		var divreponse = "";
+		divreponse += "<div class=\"reponse\">";
+		divreponse += "<input type=\"hidden\" name=\"reponses\" value=\""+numAddReponse+"\"/>";
+		divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses\" id=\"reponse_n"+numAddReponse+"\" placeholder=\"Veuillez saisir la réponse\" />";
+		divreponse += "<input class=\"input_reponse\" type=\""+type+"\" name=\"reponses\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+		divreponse += "</div>";
+		numAddReponse--;
+		$("#div_reponses_question").append(divreponse);
+	};
+	
+	/**
+	 * Pop up de confirmation de suppression de question
+	 */
+	dialogConfirmSupprQuestion = $( "#confirmSupprQuestion" ).dialog({
         autoOpen: false,
         height: 200,
         resizable : false,
@@ -338,27 +345,34 @@ $(document).ready(function() {
     			}
     		},
     		"Non" : function(){
-    			dialogConfirmSupprQuestion.Close();
+    			dialogConfirmSupprQuestion.dialog("close");
     		}
         },
         open : function(){
-        	$("#messageConfirmSupprTheme").html("<p>Confirmez vous la suppression de cette question ?</p>" +
+        	$("#messageConfirmSupprQuestion").html("<p>Confirmez vous la suppression de cette question ?</p>" +
         			"<p>Toutes les réponses associées à cette question seront également supprimées.</p>");
         }
     });
 	
+	
+	/**
+	 * Affiche la pop up de confirmation de suppression de question
+	 */
 	AfficherConfirmSupprQuestion = function(){
 		if(dialogConfirmSupprQuestion.dialog("isOpen"))
 			dialogConfirmSupprQuestion.dialog("close");
 		else
 			dialogConfirmSupprQuestion.dialog("open");
-	}
+	};
 	
+	/**
+	 * Pop up pour changer le thème d'une question
+	 */
 	dialogChangerTheme = $( "#changerThemeQuestion" ).dialog({
         autoOpen: false,
-        height: 200,
+        height: 180,
         resizable : false,
-        width: 350,
+        width: 300,
         modal: true,
     	buttons : {
     		"Valider" : function(){
@@ -368,16 +382,20 @@ $(document).ready(function() {
     			}
     		},
     		"Annuler" : function(){
-    			dialogChangerTheme.Close();
+    			dialogChangerTheme.dialog("close");
     		}
         }
     });
 	
+	
+	/**
+	 * Affiche la pop up pour change le thème d'une question
+	 */
 	AfficherChangerTheme = function() {
 		if(dialogChangerTheme.dialog("isOpen"))
 			dialogChangerTheme.dialog("close");
 		else
 			dialogChangerTheme.dialog("open");
-	}
+	};
 });
 

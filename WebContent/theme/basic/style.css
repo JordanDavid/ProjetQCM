@@ -215,3 +215,7 @@ a.blueText:VISITED{
 	margin-right : 5%;
 	margin-left : 1%;
 }
+
+#select_change_theme{
+	width : 100%;
+}
