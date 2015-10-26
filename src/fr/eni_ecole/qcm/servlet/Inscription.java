@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;
@@ -92,44 +93,51 @@ public class Inscription extends HttpServlet {
 		Gson gson = null;
 		
 		try{
-			if("getTests".equals(action)){				
-				HashMap<String, List<Test>> map = new HashMap<String, List<Test>>();
-				gson = new Gson();
-				
-				Theme theme = new Theme();
-				theme.setIdTheme(Integer.parseInt(request.getParameter("id")));
-				
-				List<Test> tests = DALTest.getTestByTheme(theme);
-				
-				response.setContentType("application/json");        
-				response.setHeader("Cache-Control", "no-store");
-				
-				map.put("data", tests);
-				
-				PrintWriter out = response.getWriter();		
-				out.println(gson.toJson(map));
-				out.flush();
-			} else if("getTestsPlageHoraire".equals(action)){
-				// affichage des informations de la popup
-				HashMap<String, List<Test>> map = new HashMap<String, List<Test>>();
-				gson = new Gson();
-				
-				Theme theme = new Theme();
-				theme.setIdTheme(Integer.parseInt(request.getParameter("id")));
-				
-				List<Test> tests = DALTest.getTestByTheme(theme);
-				
-				response.setContentType("application/json");        
-				response.setHeader("Cache-Control", "no-store");
-				
-				map.put("data", tests);
-				
-				PrintWriter out = response.getWriter();		
-				out.println(gson.toJson(map));
-				out.flush();
-			} else if ("ajoutCandidatToTheme".equals(action)){
-				//il faut récupérer les informations de la pop et faire la création				
-			} else {
+			if (!"afficher".equals(action)) {
+					switch (action) {
+				case "getTests":
+					HashMap<String, List<Test>> mapTest = new HashMap<String, List<Test>>();
+					gson = new Gson();
+					
+					Theme theme = new Theme();
+					theme.setIdTheme(Integer.parseInt(request.getParameter("id")));
+					
+					List<Test> tests = DALTest.getTestByTheme(theme);
+					
+					response.setContentType("application/json");        
+					response.setHeader("Cache-Control", "no-store");
+					
+					mapTest.put("data", tests);
+					
+					PrintWriter out = response.getWriter();		
+					out.println(gson.toJson(mapTest));
+					out.flush();
+					break;
+				case "getPlageHoraire":
+					HashMap<String, List<PlageHoraire>> mapPlageHoraire = new HashMap<String, List<PlageHoraire>>();
+					gson = new Gson();
+					
+					Test test = new Test();
+					test.setId(Integer.parseInt(request.getParameter("id")));
+					
+					List<PlageHoraire> plageHoraires = DALTest.getPlageHoraireByTest(test);
+					
+					response.setContentType("application/json");        
+					response.setHeader("Cache-Control", "no-store");
+					
+					mapPlageHoraire.put("data", plageHoraires);
+					
+					PrintWriter out2 = response.getWriter();		
+					out2.println(gson.toJson(mapPlageHoraire));
+					out2.flush();
+					break;
+				case "ajoutCandidatToTheme":
+					//il faut récupérer les informations de la pop et faire la création	
+					break;
+				default:
+					break;		
+				}
+			}else {
 				dispatcher = request.getRequestDispatcher("/formateur/inscription.jsp");
 				listeCandidats = DALUtilisateur.selectAll();
 				request.setAttribute("candidats", listeCandidats);

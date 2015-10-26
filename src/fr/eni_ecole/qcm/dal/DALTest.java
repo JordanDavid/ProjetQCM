@@ -15,6 +15,7 @@ import java.util.List;
 
 import fr.eni_ecole.qcm.bean.Candidat;
 import fr.eni_ecole.qcm.bean.Formateur;
+import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.ResponsableFormation;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
@@ -107,6 +108,43 @@ public class DALTest implements Serializable {
 			if(cnx!=null)cnx.close();
 		}
 		return listeTests;
+	}
+	
+	/**
+	 * Méthode en charge de récupérer la liste des plage horaire d'un test
+	 * @param test Test sélectionné par l'utilisateur
+	 * @return une liste de plage horaire
+	 * @throws SQLException
+	 */
+	public static List<PlageHoraire> getPlageHoraireByTest(Test test) throws SQLException{
+		
+		List<PlageHoraire> plageHoraires = new ArrayList<PlageHoraire>();		
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT t.libelle_test, ph.* "
+				+ "FROM PLAGE_HORAIRE_TEST pht "
+				+ "INNER JOIN PLAGE_HORAIRE ph ON ph.idPlageHoraire = pht.idPlageHoraire "
+				+ "INNER JOIN TEST t ON pht.idTest = t.idTest "
+				+ "WHERE pht.idTest = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, test.getId());
+			ResultSet res = cmd.executeQuery();
+			
+			while (res.next()){
+				PlageHoraire plageHoraire = new PlageHoraire();
+				plageHoraire.setIdPlageHoraire(res.getInt("idPlageHoraire"));
+				plageHoraire.setDateDebut(res.getDate("date_debut"));
+				plageHoraire.setDateFin(res.getDate("date_fin"));
+				
+				plageHoraires.add(plageHoraire);
+			}			
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+		return plageHoraires;
 	}
 
 }

@@ -56,6 +56,8 @@ $(document).ready(function() {
 	      });
 	   });
 	
+	
+	
 	oTableTests = $("#list_tests").dataTable({
 		"bSort" : false,
 		"bFilter" : false,
@@ -74,106 +76,98 @@ $(document).ready(function() {
     			 "data" : "libelle"
     		 }
          ],
-		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
+		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
+		"fnCreatedRow" : function(nRow, aData,iDataIndex){
+			$(nRow).addClass("pointer")
+			$(nRow).attr("onclick","SelectionTest(this);");
+			$(nRow).attr("title","Cliquer pour sélectionner un test");
+		}
 	});
+	
 	SelectionThemeForTest = function(){
 		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
 	}
 	
-//	oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
-//		"bSort" : false,
-//		"bFilter" : false,
-//		"bInfo" : false,
-//		"bLengthChange" : false,
-//		"iDisplayLength": 5,
-//		"language" : {
-//			"url" : "../Tools/French.json"
-//		},
-//		"columns" : [
-//    		 {
-//    			 "data" : "idTest",
-//    			 "bVisible" : false
-//    		 },
-//    		 {
-//    			 "data" : "libelle"
-//    		 },
-//    		 {
-//    			 "data" : "idPlageHoraire"
-//    				 "bVisible" : false
-//    		 },
-//    		 {
-//    			 "data" : "dateDebut"
-//    		 },
-//    		 {
-//    			 "data" : "dateDebut"
-//    		 }
-//         ],
-//		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
-//	});
-//	
-	dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
-		autoOpen: false,
-        height: 230,
-        resizable : false,
-        width: 350,
-        modal: true,
-        position : {
-        	my: "left top",
-        	at: "left bottom",
-        	of: $("#ajouterThemeToCandidat") 
-    	},
-    	buttons : {
-    		"Valider" : function(){
-    			$("#formAjoutTheme").submit();
-    		},
-    		"Annuler" : function(){
-    			$("#formAjoutTheme")[0].reset();
-    		}
-        },
-        close: function() {
-          $("#formAjoutCandidatToTheme")[0].reset();
-        }
-    });
+	SelectionTest = function(element){
+		aadata = oTableTests.fnGetData($(element));
+		
+		//Ajout d'un attribut définissant le test sélectionné au bouton "Ajouter"
+		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire("+ aadata.idTest +")");
+	};
 	
-	AfficherAjoutCandidatToTheme = function(){
+	
+	afficherPlageHoraire = function(idTest){
+		
+		dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
+			autoOpen: false,
+	        height: 230,
+	        resizable : false,
+	        width: 350,
+	        modal: true,
+	        position : {
+	        	my: "right top",
+	        	at: "right bottom",
+	        	of: $("#ajoutCandidatToTheme") 
+	    	},
+	    	buttons : {
+	    		"Valider" : function(){
+	    			$("#formAjoutCandidatToTheme").submit();
+	    		},
+	    		"Annuler" : function(){
+	    			$("#formAjoutCandidatToTheme")[0].reset();
+	    		}
+	        },
+	        close: function() {
+	          $("#formAjoutCandidatToTheme")[0].reset();
+	        },
+	        open: function() {
+//	        	listTestsPlageHoraire();
+	        }
+	    });
 		
 		if(dialogAjoutCandidatToTheme.dialog( "isOpen" ))
 			dialogAjoutCandidatToTheme.dialog( "close" );
 		else
 			dialogAjoutCandidatToTheme.dialog( "open" );
+		
+		
 	};
+	
+	listTestsPlageHoraire = function(){
+		oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
+    		"bSort" : false,
+    		"bFilter" : false,
+    		"bInfo" : false,
+    		"bLengthChange" : false,
+    		"iDisplayLength": 5,
+    		"language" : {
+    			"url" : "../Tools/French.json"
+    		},
+    		"columns" : [
+        		 {
+        			 "data" : "idTest",
+        			 "bVisible" : false
+        		 },
+        		 {
+        			 "data" : "libelle"
+        		 },
+        		 {
+        			 "data" : "idPlageHoraire",
+        				 "bVisible" : false
+        		 },
+        		 {
+        			 "data" : "dateDebut"
+        		 },
+        		 {
+        			 "data" : "dateDebut"
+        		 }
+             ],
+    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest
+    	});	
+	}
 	
 });
 
 /**
  * 
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
