@@ -15,6 +15,10 @@ $(document).ready(function() {
 	}
 	
 	
+	/*****************************************************************/
+	/******************* GESTION REFERENTIEL *************************/
+	/*****************************************************************/
+	
 	//Création de la datatable contenant les questions du thème sélectionné
 	oTableQuestions = $("#lst_questions").dataTable({
 		"bSort" : false,
@@ -167,12 +171,8 @@ $(document).ready(function() {
     	},
     	buttons : {
     		"Oui" : function(){
-    			if($("#idThemeSupprime")[0].value != ""){
-        			$("#idThemeSupprime")[0].value = $("#themes option:selected")[0].value;
-        			$("#formConfirmSupprTheme").submit();
-    			}else{
-    				
-    			}
+    			$("#idThemeSupprime")[0].value = $("#themes option:selected")[0].value;
+    			$("#formConfirmSupprTheme").submit();
     		},
     		"Non" : function(){
     			dialogConfirmSupprTheme.dialog("close");
@@ -271,8 +271,8 @@ $(document).ready(function() {
 			}
 		}else{
 		//Si le type de question est égale à 1 (plusieurs bonne réponse), vérifier qu'il y ait au moins deux réponses de cochées
-			if(!VerifNbBonnesReponses(2)){
-				message += "<br/>Il doit y avoir au minimum deux bonnes réponses possibles pour ce type de question";
+			if(!VerifNbBonnesReponses(1)){
+				message += "<br/>Il doit y avoir une bonne réponse pour ce type de question";
 			}			
 		}
 
@@ -398,4 +398,3 @@ $(document).ready(function() {
 			dialogChangerTheme.dialog("open");
 	};
 });
-

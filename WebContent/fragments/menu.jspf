@@ -8,7 +8,7 @@
 	   <% } else { %> 
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Gestion des tests</a></li>
+	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/gestionTests">Gestion des tests</a></li>
 	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
 	   <% } %>
     	</ul>

@@ -4,6 +4,7 @@
 	String titre = "Gestion du référentiel";
 %>
 <%@include file="/fragments/haut.jspf"%>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/gestionReferentiel.js"></script>
 <form id="gestion_referentiel"
 	action="<%=request.getContextPath()%>/formateur/referentiel"
 	method="post"
@@ -73,8 +74,8 @@
 			</div>
 			<div class="inline_div_reponse" align="left">
 				<label>Ajouter les différentes réponses possibles :</label>
+				<input type="hidden" name="lst_reponses" id="lst_reponses"/>
 				<div id="div_reponses_question">
-					<input type="hidden" name="lst_reponses" id="lst_reponses"/>
 					<div class="reponse">
 						<input type="hidden" name="reponses" placeholder="Veuillez saisir la réponse" value="-1"/>
 						<input type="text" class="enonce_reponse" name="reponses" id="reponse_n-1" placeholder="Veuillez saisir la réponse"/>

@@ -219,3 +219,81 @@ a.blueText:VISITED{
 #select_change_theme{
 	width : 100%;
 }
+
+
+/************************/
+/**** GESTION TESTS *****/
+/************************/
+
+#div_lst_tests{
+	display: inline-block;
+	width : 48%;
+	float: left;
+	margin-right: 2%;
+	height : 100%;
+}
+
+#div_details_tests{
+	display: inline-block;
+	width : 48%;
+	height : 100%;
+}
+
+.titre_form{
+	text-align: center;
+	font-weight: bold;
+	height : 5%;
+}
+
+#table_lst_test{
+	margin-bottom : 3%;
+}
+
+#table_lst_test_wrapper{
+	margin-bottom: 10%;
+	height : 85%;
+}
+
+.border_div{
+	height : 90%;
+	border : 1px solid black;
+	padding : 1%;
+}
+
+#titre_test{
+	text-align: center;
+	font-weight: bold;
+	height : 5%;
+	padding-top : 4%;
+}
+
+#plages_horaires_test{
+	height : 15%;
+	overflow : auto;
+	border : 2px solid black;
+	margin-top : 1%;
+	margin-bottom : 5%;
+}
+
+.plage_horaire_test {
+	margin : 1%;
+}
+
+.inline_details_test{
+	height : 5%;
+	margin-top : 2%;
+	margin-bottom : 2%;
+}
+
+#sections{
+	height : 25%;
+}
+
+.section{
+	margin-top : 3%;
+	margin-bottom : 3%;	
+}
+
+.nb_questions_section{
+	margin-left : 5%;
+}

@@ -59,4 +59,14 @@
     <servlet-name>Test</servlet-name>
     <url-pattern>/candidat/test</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Permet au formateur de gérer les tests</description>
+    <display-name>GestionTest</display-name>
+    <servlet-name>GestionTest</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.GestionTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GestionTest</servlet-name>
+    <url-pattern>/formateur/gestionTests</url-pattern>
+  </servlet-mapping>
 </web-app>

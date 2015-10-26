@@ -2,7 +2,6 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -135,12 +134,23 @@ public class Referentiel extends HttpServlet {
 					Theme theme = new Theme();
 					theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
 					DALTheme.supprimer(theme);
-				}  else if("enregistrerQuestion".equals(action)){
+				} else if("changerThemeQuestion".equals(action)){
+					Theme theme = new Theme();
+					theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
+					Question question = new Question();
+					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+					question.setTheme(theme);
+					DALQuestion.changerTheme(question);
+				} else if("supprimerQuestion".equals(action)){
+					Question question = new Question();
+					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+					DALQuestion.supprimer(question);
+				} else if("enregistrerQuestion".equals(action)){
 					//Récupère les paramètre de la requête
 					String enonce = request.getParameter("enonce");
 					String image = request.getParameter("image");					
-					Boolean typeQuestion = Boolean.parseBoolean(request.getParameter("typeQuestion"));
-													
+					Boolean typeQuestion = Integer.parseInt(request.getParameter("typeQuestion")) == 1 ? true : false;
+
 					//Récupère le thème concerné
 					Theme theme = new Theme();
 					theme.setIdTheme(Integer.parseInt(request.getParameter("theme")));
@@ -150,8 +160,9 @@ public class Referentiel extends HttpServlet {
 					question.setEnonce(enonce);
 					question.setImage(image);
 					question.setTypeReponse(typeQuestion);
-					question = DALQuestion.ajouter(theme,question);
-	
+					question.setTheme(theme);
+					question = DALQuestion.ajouter(question);
+
 					//récupère la liste des réponses
 					JSONArray reponses = new JSONArray(request.getParameter("lst_reponses"));				
 					for(int i=0; i < reponses.length();i++){
@@ -170,18 +181,6 @@ public class Referentiel extends HttpServlet {
 							}
 						}
 					}	
-					
-				} else if("changerThemeQuestion".equals(action)){
-					Theme theme = new Theme();
-					theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
-					Question question = new Question();
-					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
-					question.setTheme(theme);
-					DALQuestion.changerTheme(question);
-				} else if("supprimerQuestion".equals(action)){
-					Question question = new Question();
-					question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
-					DALQuestion.supprimer(question);
 				}
 				
 				themes = DALTheme.selectAll();				
