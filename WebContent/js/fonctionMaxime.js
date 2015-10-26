@@ -100,9 +100,9 @@ $(document).ready(function() {
 		
 		dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
 			autoOpen: false,
-	        height: 230,
+	        height: 350,
 	        resizable : false,
-	        width: 350,
+	        width: 450,
 	        modal: true,
 	        position : {
 	        	my: "right top",
@@ -115,13 +115,14 @@ $(document).ready(function() {
 	    		},
 	    		"Annuler" : function(){
 	    			$("#formAjoutCandidatToTheme")[0].reset();
+	  	          dialogAjoutCandidatToTheme.dialog("close");
 	    		}
 	        },
 	        close: function() {
 	          $("#formAjoutCandidatToTheme")[0].reset();
 	        },
 	        open: function() {
-//	        	listTestsPlageHoraire();
+	        	listTestsPlageHoraire(idTest);
 	        }
 	    });
 		
@@ -133,8 +134,8 @@ $(document).ready(function() {
 		
 	};
 	
-	listTestsPlageHoraire = function(){
-		oTableTestsPlageHoraire = $("#list_tests_plage_horaire").datatable({
+	listTestsPlageHoraire = function(idTest){
+		oTableTestsPlageHoraire = $("#list_tests_plage_horaire").dataTable({
     		"bSort" : false,
     		"bFilter" : false,
     		"bInfo" : false,
@@ -144,17 +145,26 @@ $(document).ready(function() {
     			"url" : "../Tools/French.json"
     		},
     		"columns" : [
-        		 {
-        			 "data" : "idTest",
-        			 "bVisible" : false
-        		 },
-        		 {
-        			 "data" : "libelle"
-        		 },
-        		 {
-        			 "data" : "idPlageHoraire",
-        				 "bVisible" : false
-        		 },
+//        		 {
+//        			 "data" : "idTest",
+//        			 "bVisible" : false
+//        		 },
+//        		 {
+//        			 "data" : "libelle"
+//        		 },
+				{
+				'targets': 0,
+			    'searchable': false,
+			    'orderable': false,
+			    'className': 'dt-body-center',
+			    'render': function (data, type, full, meta){
+				        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+				        }
+				},
+				{
+					"data" : "idPlageHoraire",
+					"bVisible" : false
+				},
         		 {
         			 "data" : "dateDebut"
         		 },
@@ -165,6 +175,25 @@ $(document).ready(function() {
     		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest
     	});	
 	}
+	
+	$(function() {
+		$("#date_picker").datepicker();
+	  });
+	
+	
+	
+	
+	
+	
+	$('#list_tests tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+        	oTableTests.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        alert(oTableTests.cell('.selected', 0).data());
+	    });
 	
 });
 

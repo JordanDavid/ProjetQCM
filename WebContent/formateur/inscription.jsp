@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="fr.eni_ecole.qcm.bean.*,java.util.*"%>
 <%
-	String titre = "Inscription des candidats";;
+	String titre = "Inscription des candidats";
 %>
 <%@include file="/fragments/haut.jspf"%>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-1.8.5.custom.css" />
+<script src="/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui-1.8.5.custom.min.js" type="text/javascript"></script>
+<script src="/js/jquery-ui-timepicker-addon-0.6.2.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/styleMaxime.css">
 <fieldset>
 <legend>Recherche</legend>
-	<table id="tableauCandidat">
+	<table id="tableauCandidat" class="display">
 		<thead>
 			<tr>
 				<th><input type="checkbox" name="select_all" value="1" id="select-all"></th>
@@ -63,7 +69,7 @@
 			</select>
 		</div>
 		<div id="div_tests_theme">
-			<table id="list_tests" cellspacing="0">
+			<table id="list_tests" class="display">
 				<tbody>
 					<!-- Affichage en Ajax du tableau. Voir fonctionMaxime.js -->
 				</tbody>
@@ -72,7 +78,7 @@
 	</div>
 	<div id="ajout_candidat_theme">
 		<input type="button" name="ajouterCandidatToTheme" id="ajouterCandidatToTheme"
-				value="Ajouter" onclick="AfficherAjoutCandidatToTheme();">
+				value="Ajouter" >
 	</div>	
 	
 </fieldset>
@@ -81,13 +87,14 @@
 	<form id="formAjoutCandidatToTheme" action="<%=request.getContextPath()%>/formateur/inscription?action=ajoutCandidatToTheme" method="post">
 		<div class="inline_div_reponse" align="left">
 			<!-- contenu de la popup -->
-			<table id="list_tests_plage_horaire">
+			<table id="list_tests_plage_horaire" class="display">
 				<tbody>
 					<!-- contenu du tableau -->
-					
 				</tbody>
 			</table>
-			
+			<p>Nouvelle plage : </p>
+			<input type="text" name="date_picker_debut" id="date_picker" />
+			<input type="text" name="date_picker_fin" id="date_picker" />
 		</div>
 	</form>
 </div>
