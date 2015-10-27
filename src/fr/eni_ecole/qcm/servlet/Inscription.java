@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import org.json.JSONObject;
 
 import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.Test;
@@ -105,14 +105,13 @@ public class Inscription extends HttpServlet {
 		String action = request.getParameter("action");
 		List<Utilisateur> listeCandidats = new ArrayList<Utilisateur>();
 		List<Theme> themes = null;
-		Gson gson = null;
+		JSONObject json = null;
 		
 		try{
 			if (!"afficher".equals(action)) {
 					switch (action) {
 				case "getTests":
 					HashMap<String, List<Test>> mapTest = new HashMap<String, List<Test>>();
-					gson = new Gson();
 					
 					Theme theme = new Theme();
 					theme.setIdTheme(Integer.parseInt(request.getParameter("id")));
@@ -124,8 +123,10 @@ public class Inscription extends HttpServlet {
 					
 					mapTest.put("data", tests);
 					
+					json = new JSONObject(mapTest);
+					
 					PrintWriter out = response.getWriter();		
-					out.println(gson.toJson(mapTest));
+					out.println(json.toString());
 					out.flush();
 					break;
 				case "ajoutCandidatToTheme":
@@ -149,7 +150,6 @@ public class Inscription extends HttpServlet {
 					break;
 				case "getPlageHoraire":
 					HashMap<String, List<PlageHoraire>> mapPlageHoraire = new HashMap<String, List<PlageHoraire>>();
-					gson = new Gson();
 					
 					Test test = new Test();
 					test.setId(Integer.parseInt(request.getParameter("id")));
@@ -161,8 +161,10 @@ public class Inscription extends HttpServlet {
 					
 					mapPlageHoraire.put("data", plageHoraires);
 					
+					json = new JSONObject(mapPlageHoraire);
+					
 					PrintWriter out2 = response.getWriter();		
-					out2.println(gson.toJson(mapPlageHoraire));
+					out2.println(json.toString());
 					out2.flush();
 					break;
 				

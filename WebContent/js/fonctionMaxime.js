@@ -69,7 +69,7 @@ $(document).ready(function() {
 		},
 		"columns" : [
     		 {
-    			 "data" : "idTest",
+    			 "data" : "id",
     			 "bVisible" : false
     		 },
     		 {
@@ -79,22 +79,27 @@ $(document).ready(function() {
 		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
 		"fnCreatedRow" : function(nRow, aData,iDataIndex){
 			$(nRow).addClass("pointer")
-			$(nRow).attr("onclick","SelectionTest(this);");
+			//$(nRow).attr("onclick","SelectionTest(this);");
 			$(nRow).attr("title","Cliquer pour sélectionner un test");
+			$(nRow).on( "click", SelectionTest );
 		}
 	});
+	
+	SelectionTest = function( ){
+		
+		 var sData = oTableTests.fnGetData( this );
+		
+		//Ajout d'un attribut définissant le test sélectionné au bouton "Ajouter"
+		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire("+ sData.id +")");
+	};
 	
 	SelectionThemeForTest = function(){
 		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
 	}
-	
-	SelectionTest = function(element){
-		aadata = oTableTests.fnGetData($(element));
 		
-		//Ajout d'un attribut définissant le test sélectionné au bouton "Ajouter"
-		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire("+ aadata.idTest +")");
-	};
 	
+	
+	//$( "#list_tests" ).on( "click", "tr.pointer", SelectionTest );
 	
 	afficherPlageHoraire = function(idTest){
 		
@@ -111,7 +116,12 @@ $(document).ready(function() {
 	    	},
 	    	buttons : {
 	    		"Valider" : function(){
-	    			$("#formAjoutCandidatToTheme").submit();
+	    			
+//	    			var $idTest = document.getElementById("id").value;
+	    			var $idPlage = document.getElementById("idPlageHoraire").value;
+//	    			var $dateFin = document.getElementById("dateFin").value;
+	    			
+	    			oTableTestsSelectionnes.row.add( [$idPlage] ).draw(false);	    			
 	    		},
 	    		"Annuler" : function(){
 	    			$("#formAjoutCandidatToTheme")[0].reset();
@@ -134,39 +144,46 @@ $(document).ready(function() {
 		
 	};
 	
+	var oTableTestsPlageHoraire = null;
+	
 	listTestsPlageHoraire = function(idTest){
-		oTableTestsPlageHoraire = $("#list_tests_plage_horaire").dataTable({
-    		"bSort" : false,
-    		"bFilter" : false,
-    		"bInfo" : false,
-    		"bLengthChange" : false,
-    		"iDisplayLength": 5,
-    		"language" : {
-    			"url" : "../Tools/French.json"
-    		},
-    		"columns" : [
-    		    {
-					'targets': 0,
-				    'searchable': false,
-				    'orderable': false,
-				    'className': 'dt-body-center',
-				    'render': function (data, type, full, meta){
-			        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-			        }
-				},
-				{
-					"data" : "idPlageHoraire",
-					"bVisible" : false
-				},
-        		 {
-        			 "data" : "dateDebut"
-        		 },
-        		 {
-        			 "data" : "dateDebut"
-        		 }
-             ],
-    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest
-    	});	
+		if (oTableTestsPlageHoraire == null) {
+				oTableTestsPlageHoraire = $("#list_tests_plage_horaire").dataTable({
+	    		"bSort" : false,
+	    		"bFilter" : false,
+	    		"bInfo" : false,
+	    		"bLengthChange" : false,
+	    		"iDisplayLength": 5,
+	    		"language" : {
+	    			"url" : "../Tools/French.json"
+	    		},
+	    		"columns" : [
+	    		    {
+						'targets': 0,
+					    'searchable': false,
+					    'orderable': false,
+					    'className': 'dt-body-center',
+					    'render': function (data, type, full, meta){
+				        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
+				        }
+					},
+					{
+						"data" : "idPlageHoraire",
+						"bVisible" : false
+					},
+	        		 {
+	        			 "data" : "dateDebut"
+	        		 },
+	        		 {
+	        			 "data" : "dateFin"
+	        		 }
+	             ],
+	    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest
+	    	});
+		}
+		else{
+			oTableTestsPlageHoraire.fnReloadAjax("./inscription?action=getPlageHoraire&id="+idTest);
+		}
 	}
 	
 	$(function() {
@@ -175,11 +192,7 @@ $(document).ready(function() {
 	
 	$(function() {
 		$("#date_picker_fin").datepicker();
-	  });
-	
-	
-	
-	
+	  });	
 	
 	
 	$('#list_tests tbody').on( 'click', 'tr', function () {
@@ -189,8 +202,30 @@ $(document).ready(function() {
         	oTableTests.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-        alert(oTableTests.cell('.selected', 0).data());
 	    });
+	
+	
+	oTableTestsSelectionnes = $("#list_tests_selectionnes").dataTable({
+		"bSort" : false,
+		"bFilter" : false,
+		"bInfo" : false,
+		"bLengthChange" : false,
+		"iDisplayLength": 5,
+		"language" : {
+			"url" : "../Tools/French.json"
+		},
+		"columns" : [
+    		 {
+    			 "data" : "libelle"
+    		 },    		
+    		 {
+    			 "data" : "dateDebut"
+    		 },
+    		 {
+    			 "data" : "dateFin"
+    		 }
+         ]
+	});
 	
 });
 
