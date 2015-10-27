@@ -184,4 +184,37 @@ public class DALTest implements Serializable {
 		return plageHoraires;
 	}
 
+	/**
+	 * Méthode en charge de écupérer un test en fonction de son id 
+	 * 27 oct. 2015
+	 * @param test Test recherché
+	 * @return Le test sinon null
+	 * @throws SQLException
+	 */
+	public static Test getTest(Test test) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT * FROM TEST WHERE idTest = ?";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd= cnx.prepareStatement(sql);
+			cmd.setInt(1, test.getId()); 
+			ResultSet res = cmd.executeQuery();
+			
+			if(res.next()){
+				test.setLibelle(res.getString("libelle_test"));
+				test.setDuree(res.getInt("duree"));
+				test.setSeuil_minimum(res.getInt("seuil_minimum"));
+				test.setSeuil_maximum(res.getInt("seuil_maximum"));
+			}else{
+				test = null;
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+		return test;
+	}
 }

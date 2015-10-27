@@ -297,3 +297,103 @@ a.blueText:VISITED{
 .nb_questions_section{
 	margin-left : 5%;
 }
+
+/********************************************/
+/********** PAGE GERER LES TESTS ************/
+/********************************************/
+
+#formGererTest{
+	height : 80%;
+}
+
+#formGererTest fieldset {
+	width : 80%;
+	margin : auto;
+	height : 30%;
+	margin-top : 2%;
+}
+
+#div_buttons_gerer_test{
+	width : 80%;
+	margin : auto;
+	margin-top : 2%;
+	/* text-align: center; */
+}
+
+#div_buttons_gerer_test input {
+	margin-left : 25%;
+}
+
+.inline_infos{
+	margin-top : 1%;
+}
+
+#div_infos_test{
+	width : 70%;
+	margin : auto;
+	height : 96%;
+	padding : 1%;
+	margin-top : 2%;
+}
+
+#div_infos_test label {
+	display : inline-block;
+	margin-right : 2%;
+	min-width : 141px;
+}
+
+#label_nom {
+	min-width : 0px !important;
+}
+
+#nom{
+	width : 80%;
+}
+
+#div_infos_test input[type="number"]{
+	width : 50px;
+}
+
+.inline_block_infos_left{
+	display : inline-block;
+	width : 50%;
+}
+
+.inline_block_infos_right{
+	display : inline-block;
+	width : 50%;
+	float : right;
+}
+
+#sections_test{
+	width : 90%;
+	margin : auto;
+	margin-bottom : 2%;
+	height: 70%;
+	max-height: 70%;
+	overflow-y: auto;
+}
+
+.section_test{
+	width : 100%;
+	margin-top : 2%;
+}
+
+.div_select_theme_section {
+	display : inline-block;
+	width : 50%;	
+}
+
+.div_nb_questions_sections{
+	display : inline-block;
+	width : 50%;
+	float : right;
+}
+
+.div_select_theme_section select{
+	width : 80%;
+}
+
+.div_nb_questions_sections input[type="number"]{
+	width : 50px;
+}

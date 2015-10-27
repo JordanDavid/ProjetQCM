@@ -15,12 +15,17 @@
 		<!-- Script JavaScrip projet -->
 		<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script> --%>
 		<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script> --%>
+		<!-- Script pour dateTimePicker -->
+		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DateTimePicker/build/jquery.datetimepicker.full.min.js"></script>
+		
 		
 		<!-- Feuille CSS Jquery et Jquery UI -->
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Smoothness/jquery-ui.min.css"/>
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/JQuery-Smoothness/jquery-ui.theme.min.css"/>
         <!-- Feuille CSS Datatables -->        
         <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/Tools/DataTables-1.10.9/media/css/jquery.dataTables.min.css"/>
+		<!--  Feuille css pour datetimepicker -->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Tools/DateTimePicker/jquery.datetimepicker.css">
 		<!-- Feuille CSS projet -->
 		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/style.css">
 		<link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/structure.css">

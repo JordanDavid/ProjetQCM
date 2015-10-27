@@ -6,9 +6,9 @@
 package fr.eni_ecole.qcm.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import fr.eni_ecole.qcm.tool.ManipDate;
 
 /**
  * @author d1410gerardm
@@ -16,6 +16,8 @@ import fr.eni_ecole.qcm.tool.ManipDate;
  */
 public class PlageHoraire implements Serializable {
 
+	private static DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	
 	/**
 	 * long serialVersionUID
 	 */
@@ -94,4 +96,11 @@ public class PlageHoraire implements Serializable {
 		this.dateFin = dateFin;
 	}
 
+	@Override
+	public String toString() {
+		return df.format(this.dateDebut) + " - " + df.format(this.dateFin);
+	}
+
+	
+	
 }
