@@ -384,6 +384,7 @@ a.blueText:VISITED{
 	width : 50%;	
 }
 
+
 .div_nb_questions_sections{
 	display : inline-block;
 	width : 50%;
@@ -396,4 +397,28 @@ a.blueText:VISITED{
 
 .div_nb_questions_sections input[type="number"]{
 	width : 50px;
+}
+
+
+#gestion_plage_horaire {
+	width : 40%;
+	display : inline-block;
+	height : 100%;
+	padding-top : 3%;
+}
+
+#gestion_plage_horaire label {
+	min-width : 50px;
+	margin-right : 1%;
+	display : inline-block;
+}
+
+.inline_dtp{
+	height : 30%;
+}
+
+#div_lst_plages_horaires{
+	width : 55%;
+	display : inline-block;
+	float : right;
 }

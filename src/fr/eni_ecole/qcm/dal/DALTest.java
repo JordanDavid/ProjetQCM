@@ -5,6 +5,7 @@
  */
 package fr.eni_ecole.qcm.dal;
 
+import java.sql.Statement;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import fr.eni_ecole.qcm.bean.Candidat;
 import fr.eni_ecole.qcm.bean.Formateur;
 import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.ResponsableFormation;
+import fr.eni_ecole.qcm.bean.Section;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;
@@ -216,5 +218,136 @@ public class DALTest implements Serializable {
 			if(cnx != null) cnx.close();
 		}
 		return test;
+	}
+	
+	
+	/**
+	 * Méthode en charge d'ajouter un test à la BDD 
+	 * 27 oct. 2015
+	 * @param test Test à ajouter
+	 * @return Le test avec son identifiant
+	 * @throws SQLException 
+	 */
+
+
+	public static Test ajouter(Test test) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		Statement st = null;
+		String sql = "INSERT INTO TEST(libelle_test,duree,seuil_minimum,seuil_maximum) VALUES(?,?,?,?)";
+		try{
+			cnx = AccesBase.getConnection();
+			
+			cnx.setAutoCommit(false);			
+			
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1, test.getLibelle());
+			cmd.setInt(2, test.getDuree());
+			cmd.setInt(3, test.getSeuil_minimum());
+			cmd.setInt(4, test.getSeuil_maximum());
+			cmd.executeUpdate();
+			
+			st = cnx.createStatement();
+			ResultSet rs = st.executeQuery("SELECT MAX(idTest)as New_Id FROM TEST");
+			if(rs.next()){
+				test.setId(rs.getInt("New_Id"));
+			}
+						
+			cnx.commit();
+			
+		}catch(SQLException sqle){
+			if(cnx != null)
+				cnx.rollback();
+			throw sqle;
+		}finally{
+			if(st != null) st.close();
+			if(cmd != null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+		return test;
+	}
+
+	/**
+	 * Méthode en charge de modifier un test 
+	 * 27 oct. 2015
+	 * @param test Test à modifier
+	 * @throws SQLException 
+	 */
+	public static void modifier(Test test) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "UPDATE TEST set libelle_test=?,duree=?,seuil_minimum=?,seuil_maximum=? WHERE idTest = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1, test.getLibelle());
+			cmd.setInt(2, test.getDuree());
+			cmd.setInt(3, test.getSeuil_minimum());
+			cmd.setInt(4, test.getSeuil_maximum());
+			cmd.setInt(5, test.getId());
+			cmd.executeUpdate();
+			
+		} finally{
+			if(cmd != null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
+
+	/**
+	 * Méthode en charge de supprimer un test 
+	 * 27 oct. 2015
+	 * @param test test à supprimer
+	 * @throws SQLException
+	 */
+	public static void supprimer(Test test) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE FROM TEST WHERE idTest = ?";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, test.getId());
+			cmd.executeUpdate();
+			
+		} finally{
+			if(cmd != null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
+
+
+	public static void ajoutSection(Test test, Section s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void modifierSection(Test test, Section s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void supprimerSection(Test test, Section s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void ajoutPlage(Test test, PlageHoraire p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void modifierPlage(Test test, PlageHoraire p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public static void supprimerPlage(Test test, PlageHoraire p) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -10,7 +10,7 @@
 	List<PlageHoraire> plages = (ArrayList<PlageHoraire>)request.getAttribute("plages");
 	List<Theme> themes = (ArrayList<Theme>)request.getAttribute("themes");
 %>
-<form id="formGererTest" action="" method="post">
+<form id="formGererTest" action="<%=request.getContextPath()%>/formateur/gestionTests?action=enregistrer" method="post">
 	<input type="hidden" name="idTest" id="idTest" value="<%=t.getId()%>"/>
 	<fieldset>
 		<legend>Informations Générales</legend>
@@ -44,14 +44,29 @@
 	<fieldset>
 		<legend>Plage de validité</legend>
 		<div id="gestion_plage_horaire">
-			<input type="text" id="datetimepickerdebut" />
+			<div class="inline_dtp">
+				<label>Début</label>
+				<input type="text" id="datetimepickerdebut" />
+			</div>
+			<div class="inline_dtp">
+				<label>Fin</label>
+				<input type="text" id="datetimepickerfin" />
+			</div >
+			<div class="inline_dtp" align="center">
+				<input type="button" id="btn_AjoutPlage" onclick="ajouterPlage();" value="Nouvelle plage"/>
+				<input type="button" id="btn_SupprimePlage" onclick="supprimerPlage();" disabled="disabled" value="Supprimer plage"/>
+			</div>
 		</div>
 		<div id="div_lst_plages_horaires">
+		<input type="hidden" name="lst_plages" id="lst_plages"/>
 			<table class="display" id="lst_plages_horaires">
 				<tbody>
 					<% for(PlageHoraire plage : plages) { %>
 						<tr>
+							<td><%=plage.getIdPlageHoraire()%></td>
 							<td><%=plage%></td>
+							<td><%=plage.getDateDebut()%></td>
+							<td><%=plage.getDateFin()%></td>
 						</tr>
 					<% } %>
 				</tbody>
@@ -64,9 +79,9 @@
 				<% if(sections.size() > 0) { %>
 					<%for (Section section : sections) { 
 						String selected =""; %>
-						<div class="section_test">
+						<div class="section_test" data-id="<%=section.getNumSection()%>">
 							<div class="div_select_theme_section">
-								<select class="select_theme_section" id="select_theme_section_1" name="select_theme_section">
+								<select class="select_theme_section" id="select_theme_section_<%=section.getNumSection()%>" name="select_theme_section">
 									<% for (Theme theme : themes ) {
 										if(theme.getIdTheme() == section.getTheme().getIdTheme())
 											selected = "selected=\"selected\"";
@@ -79,13 +94,14 @@
 							</div>
 							<div class="div_nb_questions_sections">
 								Nombre de question : 
-								<input type="number" class="nb_questions_sections" name="nb_questions_section_1" id="nb_questions_section_1" value="<%=section.getNbQuestion()%>">
+								<input type="number" class="nb_questions_sections" name="nb_questions_section" id="nb_questions_section_<%=section.getNumSection()%>" value="<%=section.getNbQuestion()%>">
+								<input type="hidden" class="valide_nb_question_sections" value="true"/>
 								<div class="valide_nb_questions"></div>
 							</div>
 						</div>		
 					<% } %>		
 				<% } else { %>
-						<div class="section_test">
+						<div class="section_test" data-id="0">
 							<div>
 								<select class="select_theme_section" id="select_theme_section_0" name="select_theme_section">
 									<% for (Theme theme : themes ) { %>
@@ -100,13 +116,11 @@
 							</div>	
 						</div>
 				<% } %>
-		</div>		
-		<div align="right">
-			<a class="blueText underlineLink point" onclick="ajouterSection()">Ajouter une section</a>
-		</div>
+		</div>	
+		<input type="hidden" name="lst_sections" id="lst_sections" />	
 	</fieldset>
 	<div id="div_buttons_gerer_test">
-		<input type="button" name="enregistrerTest" id="enregistrerTest" onclick="enregistrerTest()" value="Enregistrer"/>
+		<input type="button" name="enregistrerTest" id="enregistrerTest" onclick="enregistrerModifTest();" value="Enregistrer"/>
 		<input type="reset" name="annulerTest" id="annulerTest" value="Annuler"/>
 	</div>
 </form>

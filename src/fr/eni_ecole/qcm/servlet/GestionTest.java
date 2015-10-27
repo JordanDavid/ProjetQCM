@@ -2,7 +2,9 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -165,7 +168,99 @@ public class GestionTest extends HttpServlet {
 				
 				dispatcher = request.getRequestDispatcher("/formateur/gererTest.jsp");
 				dispatcher.forward(request, response);
-			} else {				
+			} else if("enregistrer".equals(action)){
+				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
+										
+				//test 
+				test.setId(Integer.parseInt(request.getParameter("id")));
+				test.setLibelle(request.getParameter("nom"));
+				test.setDuree(Integer.parseInt(request.getParameter("duree")));
+				test.setSeuil_minimum(Integer.parseInt(request.getParameter("seuil1")));
+				test.setSeuil_minimum(Integer.parseInt(request.getParameter("seuil2")));
+					
+				//Si Id = 0 => Ajout Sinon => Modification
+				if(test.getId() == 0){
+					test = DALTest.ajouter(test);
+				}else{
+					DALTest.modifier(test);
+				}
+				
+				//Récupère dans la BDD l'ensemble des plages horaires du test 
+				//et l'ensemble des sections du test
+				test.setListeSections(DALSection.selectSectionsByTest(test));
+				test.setListePlageHoraire(DALTest.getPlageHoraireByTest(test));
+				
+				
+				//Récupère les sections du test après enregistrement du client
+				List<Section> lst_new_sections = new ArrayList<Section>();
+				JSONArray sections = new JSONArray(request.getParameter("lst_sections"));
+				for(int i=0;i<sections.length();i++){
+					if(!sections.isNull(i)){
+						JSONObject section = sections.getJSONObject(i);
+						Theme t = new Theme();
+						t.setIdTheme(section.getInt("idTheme"));
+						
+						Section s = new Section(section.getInt("idSection"),test,t,section.getInt("nbQuestion"));
+						lst_new_sections.add(s);
+					}
+				}
+				
+				//Récupère les plages horaires du test après enregistrement du client
+				List<PlageHoraire> lst_new_plages = new ArrayList<PlageHoraire>();
+				JSONArray plages = new JSONArray(request.getParameter("lst_plages"));
+				for(int i=0;i<plages.length();i++){
+					if(!plages.isNull(i)){
+						JSONObject plage = plages.getJSONObject(i);
+						
+						PlageHoraire p = new PlageHoraire(plage.getInt("idPlage"),
+								new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(plage.getString("debut")),
+								new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(plage.getString("fin")));
+						
+						lst_new_plages.add(p);
+					}
+				}
+				
+				//Pour chacunes des sections enregistrées : 
+				//Si ID == 0  => Ajout section au test => remove de la liste
+				//Si ID != 0 && existe dans BDD => Update BDD => remove de la liste
+				//Section inexistante => remove BDD => remove de la liste
+				for(Section s : lst_new_sections){
+					if(s.getNumSection() == 0){
+						DALTest.ajoutSection(test,s);
+					}else{
+						if(test.getListeSections().indexOf(s) != -1){
+							DALTest.modifierSection(test,s);
+						}
+					}
+					lst_new_sections.remove(s);
+				}
+				//Suprimme de la BDD
+				for(Section s : lst_new_sections){
+					DALTest.supprimerSection(test, s);
+				}
+				
+				//Pour chacunes des plages enregistrées : 
+				//Si ID == 0  => Ajout plages au test => remove de la liste
+				//Si ID != 0 && existe dans BDD => Update BDD => remove de la liste
+				//Plage inexistante => remove BDD => remove de la liste
+				for(PlageHoraire p : lst_new_plages){
+					if(p.getIdPlageHoraire() == 0){
+						DALTest.ajoutPlage(test,p);
+					}else{
+						if(test.getListePlageHoraire().indexOf(p) != -1){
+							DALTest.modifierPlage(test,p);
+						}
+					}
+					lst_new_plages.remove(p);
+				}
+				//Suprimme de la BDD
+				for(PlageHoraire p : lst_new_plages){
+					DALTest.supprimerPlage(test, p);
+				}
+				
+				
+			} else {		
+				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionTest.jsp");
 				dispatcher.forward(request, response);
 			}
