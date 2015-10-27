@@ -5,7 +5,6 @@
 %>
 <%@include file="/fragments/haut.jspf"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-1.8.5.custom.css" />
 <fieldset>
 <legend>Recherche</legend>
 	<table id="tableauCandidat" class="display">
@@ -66,6 +65,12 @@
 		</div>
 		<div id="div_tests_theme">
 			<table id="list_tests" class="display">
+				<thead>
+				<tr>
+					<th></th>
+					<th>Nom du test</th>
+				</tr>
+			</thead>
 				<tbody>
 					<!-- Affichage en Ajax du tableau. Voir fonctionMaxime.js -->
 				</tbody>
@@ -78,6 +83,24 @@
 	</div>	
 	
 </fieldset>
+<p></p>
+<fieldset>
+	<legend>Tests sélectionnés</legend>
+	<div id="div_tests_selectionnes">
+		<table id="list_tests_selectionnes" class="display">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Nom du test</th>
+					<th>Plage horaire</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Affichage du tableau des tests selectionnes -->
+			</tbody>
+		</table>	
+	</div>
+</fieldset>
 
 <div class="hide" id="ajoutCandidatToTheme" title="Sélectionner la date du test">
 	<form id="formAjoutCandidatToTheme" action="<%=request.getContextPath()%>/formateur/inscription?action=ajoutCandidatToTheme" method="post">
@@ -89,9 +112,12 @@
 				</tbody>
 			</table>			
 				<p>Nouvelle plage : </p>
-				<input type="text" name="date_picker_debut" id="date_picker_debut" />
-				<input type="text" name="date_picker_fin" id="date_picker_fin" />
-				<input type="submit" id="AjouterNouvellePlageHoraire" name="ajoutPlageHoraire" value="Ajouter">
+				<input type="text" name="date_picker_debut" id="date_picker_debut" tabindex="-1"/>
+				<input type="text" name="date_picker_fin" id="date_picker_fin" tabindex="-1"/>
+				
+				<input type="hidden" id="idTest" name="idTest" value="0"/>
+				<input type="hidden" id="idPlageHoraire" name="idPlage"/>
+				<p></p>
 		</div>
 	</form>
 </div>
