@@ -87,12 +87,14 @@
 <fieldset>
 	<legend>Tests sélectionnés</legend>
 	<div id="div_tests_selectionnes">
-		<table id="list_tests_selectionnes" class="display">
+		<table id="tabPlagesHoraires" class="display">
 			<thead>
 				<tr>
-					<th></th>
-					<th>Nom du test</th>
-					<th>Plage horaire</th>
+					<th>id Test</th>
+	                <th>Nom du test</th>
+	                <th>id Plage</th>
+	                <th>Date de début</th>
+	                <th>Date de fin</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -107,6 +109,13 @@
 		<div class="inline_div_reponse" align="left">
 			<!-- contenu de la popup -->
 			<table id="list_tests_plage_horaire" class="display">
+				<thead>
+		            <tr>
+		            	<th>id plage</th>
+		                <th>Date de début</th>
+		                <th>Date de fin</th>
+		            </tr>
+				</thead>
 				<tbody>
 					<!-- contenu du tableau -->
 				</tbody>
@@ -116,8 +125,12 @@
 				<input type="text" name="date_picker_fin" id="date_picker_fin" tabindex="-1"/>
 				
 				<input type="hidden" id="idTest" name="idTest" value="0"/>
-				<input type="hidden" id="idPlageHoraire" name="idPlage"/>
-				<p></p>
+				<input type="hidden" id="idPlageHoraire" name="idPlageHoraire" />
+				<input type="hidden" id="libelleTest" name="libelleTest"/>
+				<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
+				<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
+				
+				<br/>
 		</div>
 	</form>
 </div>

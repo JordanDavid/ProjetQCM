@@ -1,17 +1,6 @@
 
 $(document).ready(function() {
 	
-	afficherCandidats = function(){
-		$('#tableauCandidat').DataTable( {
-			"bInfo":  false,
-			"bLengthChange": false,
-			"oLanguage": {
-				"url": "../Tools/French.json"
-			},
-			 "searchable":false,
-		});		
-	};	
-	
 //	 Handle click on Select all control
 	$("#select-all").on("click", function(){
 //	       Get all rows with search applied
@@ -56,7 +45,7 @@ $(document).ready(function() {
 	      });
 	   });
 	
-	
+	///////// Tableau des TESTS /////////
 	
 	oTableTests = $("#list_tests").dataTable({
 		"bSort" : false,
@@ -79,28 +68,41 @@ $(document).ready(function() {
 		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
 		"fnCreatedRow" : function(nRow, aData,iDataIndex){
 			$(nRow).addClass("pointer")
-			//$(nRow).attr("onclick","SelectionTest(this);");
 			$(nRow).attr("title","Cliquer pour sélectionner un test");
 			$(nRow).on( "click", SelectionTest );
 		}
 	});
 	
-	SelectionTest = function( ){
-		
-		 var sData = oTableTests.fnGetData( this );
-		
+	// AJOUT de l'attribut au bouton "AJOUTER"
+	SelectionTest = function( ){		
+		 var sData = oTableTests.fnGetData( this );		
 		//Ajout d'un attribut définissant le test sélectionné au bouton "Ajouter"
 		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire("+ sData.id +")");
 	};
 	
+	// RAFRAICHISSEMENT du tableau des tests suivant la liste déroulante
 	SelectionThemeForTest = function(){
 		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
 	}
-		
 	
+	// suivant la ligne sélectionnée, on set les input caché suivant l'id et le libelle du test
+	var table = $('#list_tests').DataTable(); 
+    var idTest = document.getElementById("idTest");
+    var libelleTest = document.getElementById("libelleTest");
+
+    $('#list_tests tbody').on( 'click', 'tr', function () {
+    	if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            idTest.setAttribute("value", "0");
+        }else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            idTest.setAttribute("value", table.cell('.selected', 0).data());
+            libelleTest.setAttribute("value", table.cell('.selected', 1).data());
+        }
+    });
 	
-	//$( "#list_tests" ).on( "click", "tr.pointer", SelectionTest );
-	
+    // AFFICHE la pop-up des plage horaire
 	afficherPlageHoraire = function(idTest){
 		
 		dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
@@ -116,12 +118,13 @@ $(document).ready(function() {
 	    	},
 	    	buttons : {
 	    		"Valider" : function(){
+	    			var $idTest = document.getElementById("idTest").value;
+	    			console.log($idTest);
+	    			var $libelleTest = document.getElementById("libelleTest").value;
+	    			console.log($libelleTest);
 	    			
-//	    			var $idTest = document.getElementById("id").value;
-	    			var $idPlage = document.getElementById("idPlageHoraire").value;
-//	    			var $dateFin = document.getElementById("dateFin").value;
-	    			
-	    			oTableTestsSelectionnes.row.add( [$idPlage] ).draw(false);	    			
+//	    			var $dateFin = document.getElementById("dateFin").value;	    			
+	    			oTableTestsSelectionnes.row.add( [$idTest, $libelleTest] ).draw(false);
 	    		},
 	    		"Annuler" : function(){
 	    			$("#formAjoutCandidatToTheme")[0].reset();
@@ -144,8 +147,25 @@ $(document).ready(function() {
 		
 	};
 	
-	var oTableTestsPlageHoraire = null;
+	// A COMPLETER : Suivant la ligne sélectionnée, on set les attributs
+	var table = $('#list_tests_plage_horaire').DataTable(); 
+    $('#list_tests_plage_horaire tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        var plageSelect = document.getElementById("idPlage");
+        var dateDebutPlageSelect = document.getElementById("dateDebutPlage");
+        var dateFinPlageSelect = document.getElementById("dateFinPlage");
+        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
+        dateDebutPlageSelect.setAttribute("value", table.cell('.selected', 1).data());
+        dateFinPlageSelect.setAttribute("value", table.cell('.selected', 2).data());
+	    });
 	
+    // fonction qui affiche le contenu du tableau des plage d'horaire
+	var oTableTestsPlageHoraire = null;
 	listTestsPlageHoraire = function(idTest){
 		if (oTableTestsPlageHoraire == null) {
 				oTableTestsPlageHoraire = $("#list_tests_plage_horaire").dataTable({
@@ -157,28 +177,19 @@ $(document).ready(function() {
 	    		"language" : {
 	    			"url" : "../Tools/French.json"
 	    		},
+	    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest,
 	    		"columns" : [
-	    		    {
-						'targets': 0,
-					    'searchable': false,
-					    'orderable': false,
-					    'className': 'dt-body-center',
-					    'render': function (data, type, full, meta){
-				        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html() + '">';
-				        }
-					},
-					{
-						"data" : "idPlageHoraire",
-						"bVisible" : false
-					},
-	        		 {
-	        			 "data" : "dateDebut"
-	        		 },
-	        		 {
-	        			 "data" : "dateFin"
-	        		 }
-	             ],
-	    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest
+		    		{
+		   				"data" : "id",
+			   			visible : false
+		   		 	},
+	   				{
+			   			"data" : "dateDebut"
+			   		},
+			   		{
+			   			"data" : "dateFin"
+			   		}
+		         ]	    		
 	    	});
 		}
 		else{
@@ -186,6 +197,24 @@ $(document).ready(function() {
 		}
 	}
 	
+	// A SUPPRIMER SANS DOUTE
+    var table = $('#list_tests_plage_horaire').DataTable(); 
+    $('#list_tests_plage_horaire tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        var plageSelect = document.getElementById("idPlage");
+        var dateDebutPlageSelect = document.getElementById("dateDebutPlage");
+        var dateFinPlageSelect = document.getElementById("dateFinPlage");
+        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
+        dateDebutPlageSelect.setAttribute("value", table.cell('.selected', 1).data());
+        dateFinPlageSelect.setAttribute("value", table.cell('.selected', 2).data());
+	    });
+	
+    // Définit les date picker
 	$(function() {
 		$("#date_picker_debut").datepicker();
 	  });
@@ -194,17 +223,16 @@ $(document).ready(function() {
 		$("#date_picker_fin").datepicker();
 	  });	
 	
+//	$('#list_tests tbody').on( 'click', 'tr', function () {
+//        if ( $(this).hasClass('selected') ) {
+//            $(this).removeClass('selected');
+//        }else {
+//        	oTableTests.$('tr.selected').removeClass('selected');
+//            $(this).addClass('selected');
+//        }
+//	    });	
 	
-	$('#list_tests tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }else {
-        	oTableTests.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-	    });
-	
-	
+	// AFFICHAGE du dernier tableau de la page
 	oTableTestsSelectionnes = $("#list_tests_selectionnes").dataTable({
 		"bSort" : false,
 		"bFilter" : false,
@@ -214,18 +242,34 @@ $(document).ready(function() {
 		"language" : {
 			"url" : "../Tools/French.json"
 		},
-		"columns" : [
-    		 {
-    			 "data" : "libelle"
-    		 },    		
-    		 {
-    			 "data" : "dateDebut"
-    		 },
-    		 {
-    			 "data" : "dateFin"
-    		 }
-         ]
+		"columnDefs": [
+           {
+               "targets": [0],
+               "visible": false,
+               "searchable": false
+           },
+           {
+               "targets": [2],
+               "visible": false,
+               "searchable": false
+           }
+       ]
 	});
+	
+	// Rendre possible la sélection du tableau
+	var table = $('#list_tests_selectionnes').DataTable(); 
+    $('#list_tests_selectionnes tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+	    });
+    // A COMPRENDRE : Suppression d'une ligne
+    $('#deleteButton').click( function () {
+        table.row('.selected').remove().draw( false );
+    } );
 	
 });
 
