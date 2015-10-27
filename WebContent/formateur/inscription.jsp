@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" import="fr.eni_ecole.qcm.bean.*,java.util.*"%>
 <%
 	String titre = "Inscription des candidats";
+	String inscription = "gestionTest";
 %>
 <%@include file="/fragments/haut.jspf"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>

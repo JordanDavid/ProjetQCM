@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"
     import="java.util.*,fr.eni_ecole.qcm.bean.*"%>
 <%
-	String titre = "Choix du test";
+	String titre = "Choix du test";	
+	String menu = "passerTest";
 %>
 <%@include file="/fragments/haut.jspf"%>
 	<form action="./test?action=lancerTest" method="POST">

@@ -3,15 +3,6 @@
 /*****************************************************************/
 $(document).ready(function(){
 
-	/**
-	 * Gestion de l'affichage du menu
-	 */
-	SelectionMenu = function(li){
-		//On enleve l'ancien li active
-		$(".liMenu.active").removeClass("active");
-		//ON place le nouveau li active
-		$(li).addClass("active");	
-	}
 
 	/**
 	 * Création de la datatable contenant les tests
@@ -53,6 +44,7 @@ $(document).ready(function(){
 	 * @param row Ligne sélectionnée
 	 */
 	SelectionTest = function(row){
+		$("#details_test").toggleClass("hide show")
 		aaData = oTableTest.fnGetData($(row));
 
 		//Alimentation des données statiques du test sélectionné

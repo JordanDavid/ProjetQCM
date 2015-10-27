@@ -1,15 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <div id="menu">
+    	<input id="li_menu" type="hidden" value="<%=menu%>">
 	    <ul>
-	    	<li class="liMenu active" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Accueil</a></li>
+	    	<li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/authentification">Accueil</a></li>
 	   <% if("candidat".equals(request.getSession().getAttribute("typeUser"))) { %>
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Passer un test</a></li>
+	    	<li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/candidat/test">Passer un test</a></li>
 	   <% } else { %> 
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/gestionTests">Gestion des tests</a></li>
-	    	<li class="liMenu" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
+	    	<li class="liMenu" id="menu_resultats" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
+	    	<li class="liMenu" id="menu_inscription" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
+	    	<li class="liMenu" id="menu_gestionTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/gestionTests">Gestion des tests</a></li>
+	    	<li class="liMenu" id="menu_referentiel" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
 	   <% } %>
     	</ul>
     </div>
+    <script type="text/javascript">
+    	$("#menu_"+$("#li_menu")[0].value).addClass("active");
+    </script>

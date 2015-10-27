@@ -1,11 +1,36 @@
 @CHARSET "UTF-8";
 
-.formConnection{
-    border: 3px black solid;
+#formConnection{
+    border: 2px #4884a4 solid;
     border-radius: 10px;
     padding: 5px;
     text-align: center;
     margin: auto;
-    margin-top : 20%;
-    width: 450px;
+    margin-top : 15%;
+    width: 350px;
+    background-color: #F4FCFD;
+}
+
+#input_connexion {
+	margin-top:3%;
+	margin-bottom : 2%;
+}
+
+#titre_bonjour {
+	font-weight: bold;
+}
+
+#sous_titre_connexion{
+	font-size : 0.8em;
+	font-style : italic;
+}
+
+.inline_input_connexion{
+    display: block;
+    margin-top: 3%;
+}
+
+#formConnection input[type=text],
+#formConnection input[type=password]{
+	width : 70%;
 }

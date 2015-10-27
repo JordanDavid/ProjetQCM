@@ -13,7 +13,7 @@
         <script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/media/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DataTables-1.10.9/extensions/Plugins/fnReloadAjax.js"></script>
 		<!-- Script JavaScrip projet -->
-		<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script> --%>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/js/fonction.js"></script>
 		<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script> --%>
 		<!-- Script pour dateTimePicker -->
 		<script type="text/javascript" src="<%=request.getContextPath() %>/Tools/DateTimePicker/build/jquery.datetimepicker.full.min.js"></script>

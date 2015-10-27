@@ -4,6 +4,7 @@
 <%
 	/* Question q = (Question)request.getAttribute("question"); */
 	String titre = "Question n°1";
+	String menu = "passerTest";
 %>
 <%@include file="/fragments/haut.jspf"%>
 
