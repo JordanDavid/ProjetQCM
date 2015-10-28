@@ -5,7 +5,7 @@
 	    <ul>
 	    	<li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/authentification">Accueil</a></li>
 	   <% if("candidat".equals(request.getSession().getAttribute("typeUser"))) { %>
-	    	<li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/candidat/test">Passer un test</a></li>
+	    	<li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/candidat/test?action=selection">Passer un test</a></li>
 	   <% } else { %> 
 	    	<li class="liMenu" id="menu_resultats" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
 	    	<li class="liMenu" id="menu_inscription" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>

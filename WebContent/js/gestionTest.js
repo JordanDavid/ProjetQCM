@@ -1,8 +1,10 @@
-/*****************************************************************/
-/************************ GESTION TEST ***************************/
-/*****************************************************************/
+/**
+ * 
+ */
 $(document).ready(function(){
-
+	/*****************************************************************/
+	/************************ GESTION TEST ***************************/
+	/*****************************************************************/
 
 	/**
 	 * Création de la datatable contenant les tests
@@ -32,9 +34,13 @@ $(document).ready(function(){
 	$('#table_lst_test tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
+            $("#btn_modifierTest").attr("disabled","disabled");
+            $("#btn_supprimerTest").attr("disabled","disabled");
         }else {
         	oTableTest.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            $("#btn_modifierTest").removeAttr("disabled");
+            $("#btn_supprimerTest").removeAttr("disabled");
         }
     });
 	
@@ -44,11 +50,12 @@ $(document).ready(function(){
 	 * @param row Ligne sélectionnée
 	 */
 	SelectionTest = function(row){
-		$("#details_test").toggleClass("hide show")
+		$("#details_test").addClass("show")
 		aaData = oTableTest.fnGetData($(row));
 
 		//Alimentation des données statiques du test sélectionné
 		$("#idTest")[0].value = aaData.id;
+		$("#idTestToDelete")[0].value = aaData.id;
 		$("#titre_test").html(aaData.libelle);
 		$("#duree_test").html("Durée : " + aaData.duree);
 		$("#seuil1_test").html("Seuil n°1 : " + aaData.seuil_maximum);
@@ -95,6 +102,43 @@ $(document).ready(function(){
 				$("#sections").html(sections);
 			}
 		});
+	};
+	
+	/**
+	 * Dialog de confirmation de suppression de test
+	 */
+	dialogConfirmSupprimerTest = $( "#confirmSuppressionTest" ).dialog({
+        autoOpen: false,
+        height: 200,
+        resizable : false,
+        width: 350,
+        modal: true,
+    	buttons : {
+    		"Oui" : function(){
+    			console.log("yes");
+    			if($("#idTestToDelete")[0].value != ""){
+    				//Récupérer l'identifiant de la ligne selectionné
+        			$("#formConfirmSupprTest").submit();
+    			}
+    		},
+    		"Non" : function(){
+    			dialogConfirmSupprimerTest.dialog("close");
+    		}
+        },
+        open : function(){
+        	$("#messageConfirmSupprTest").html("<p>Confirmez vous la suppression de ce test ?</p>" +
+        			"<p>Toutes les élément en relations avec ce test seront également supprimés.</p>");
+        }
+    });
+	
+	/**
+	 * Affiche la boite de dialog pour confirmer la suppression d'un test
+	 */
+	afficherSupprimerTest = function(){
+		if(dialogConfirmSupprimerTest.dialog( "isOpen" ))
+			dialogConfirmSupprimerTest.dialog( "close" );
+		else
+			dialogConfirmSupprimerTest.dialog( "open" );
 	};
 	
 	/**
@@ -169,6 +213,7 @@ $(document).ready(function(){
 	 * Enregistre l'ajout ou la modification du test
 	 */
 	enregistrerModifTest = function(){
+
 		if(verifValideTest() == null){
 			//Construit le json pour les plages horaires
 			var plages = new Array();
@@ -229,7 +274,7 @@ $(document).ready(function(){
 		
 		var nbErreur = 0
 		$(".valide_nb_question_sections").each(function(){
-			if($(this)[0].value == false)
+			if($(this)[0].value == "false")
 				nbErreur++;
 		});
 		
@@ -280,17 +325,60 @@ $(document).ready(function(){
 	 */
 	changeNbSection = function(element){
 		var value = parseInt($(element)[0].value);
-
 		//on ajoute une section si la nouvelle valeur est plus grande que l'ancienne
 		//Sinon on en supprime une
 		if(value > valueBaseNbSection){
-			console.log("ok");
-			$( ".new_section_test" ).eq(0).clone().appendTo( "#sections_test");
+			var div = $( ".new_section_test" ).eq(0).clone();
+			div.removeClass("hide");
+			div.removeClass("new_section_test");
+			div.removeClass("section_test");
+			div.appendTo( "#sections_test");
 		}else{
-			
+			//problème
+			$( ".section_test" ).last().remove();
 		}
 		
 		valueBaseNbSection = value;
-	}
+	};
+	
+	/**
+	 * La changement du nombre de question entraine une vérification du nombre maxi de questions possibles
+	 */
+	changeNbQuestion = function(element){
+		var id = $(element)[0].id.split("_").pop();
+		if(id != 0){
+			
+			var idTheme = $("#select_theme_section_"+id+" option:selected")[0].value;
+
+			$.ajax({
+				url : "./gestionTests?action=valideQuestion",
+				method : "POST",
+				data : "idTheme="+idTheme+"&nbQuestion="+$(element)[0].value,
+				success : function(data){
+					console.log(data);
+					if(data == "true"){
+						$("#valide_section_"+id)[0].value = true;
+						$("#img_valide_section_"+id)[0].attr("src","/QCM/images/valide.png");
+					}else{
+						$("#valide_section_"+id)[0].value = false;
+						$("#img_valide_section_"+id).attr("src","/QCM/images/novalide.png");
+					}
+				}
+			});
+			
+		}else{
+			
+		}
+	};
+	
+	/**
+	 * Retour à la page de selection des tests
+	 */
+	retourGestionTest = function(){
+		window.location.href = "./gestionTests";
+	};
+	
+
+
 	
 });

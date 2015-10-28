@@ -195,7 +195,7 @@
 }
 
 #div_buttons_gerer_test input {
-	margin-left : 25%;
+	margin-left : 12%;
 }
 
 .inline_infos{
@@ -295,4 +295,36 @@
 	width : 55%;
 	display : inline-block;
 	float : right;
+}
+
+.valide_nb_questions{
+	display : inline-block;
+}
+
+
+/****************************************************************/
+/*********************** PASSER UN TEST *************************/
+/****************************************************************/
+
+#div_form_selection_test{
+	width : 30%;
+	margin : auto;
+	margin-top : 30%;
+}
+
+#div_select_test{
+	width : 100%;	
+}
+
+#div_lancer_test{
+	width : 100%;
+	margin-top : 10%;
+}
+
+#tests{
+	width : 100%;
+}
+
+#commencer {	
+	margin : auto;
 }

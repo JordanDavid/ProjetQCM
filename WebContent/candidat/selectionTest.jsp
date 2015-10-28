@@ -6,16 +6,18 @@
 	String menu = "passerTest";
 %>
 <%@include file="/fragments/haut.jspf"%>
-	<form action="./test?action=lancerTest" method="POST">
-		<div>
-			<select id="test">
-			<% for(Test test : (ArrayList<Test>)request.getAttribute("tests")) { %>
-				<option value="<%= test.getId() %>"><%=test.getLibelle() %></option>
-			<% } %>
-			</select>	
-		</div>			
-		<div>
-			<input type="submit" name="commencer" id="commencer" value="Lancer le test"/>
-		</div>
-	</form>
+	<div id="div_form_selection_test">
+		<form id="form_selection_test" action="./test?action=lancerTest" method="POST">
+			<div id="div_select_test">
+				<select id="tests">
+				<% for(Test test : (ArrayList<Test>)request.getAttribute("tests")) { %>
+					<option value="<%= test.getId() %>"><%=test.getLibelle() %></option>
+				<% } %>
+				</select>	
+			</div>			
+			<div id="div_lancer_test">
+				<input type="submit" name="commencer" id="commencer" value="Lancer le test"/>
+			</div>
+		</form>
+	</div>
 <%@include file="/fragments/bas.jspf"%>

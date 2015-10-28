@@ -165,6 +165,17 @@ public class GestionTest extends HttpServlet {
 				
 				dispatcher = request.getRequestDispatcher("/formateur/gererTest.jsp");
 				dispatcher.forward(request, response);
+			} else if("valideQuestion".equals(action)){
+				
+				Theme theme = new Theme();
+				theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme")));
+				
+				int nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
+				int nbQuestionByTheme = DALTheme.getMaxNbQuestionByTheme(theme);
+				
+				out.println(nbQuestion <= nbQuestionByTheme);
+				out.flush();
+				
 			} else if("enregistrer".equals(action)){
 				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
 										
@@ -268,7 +279,12 @@ public class GestionTest extends HttpServlet {
 				dispatcher = request.getRequestDispatcher("/formateur/gererTest.jsp");
 				dispatcher.forward(request, response);
 				
-			} else {		
+			}  else {
+				if("supprimerTest".equals(action)){
+					fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
+					test.setId(Integer.parseInt(request.getParameter("idTest")));
+					DALTest.supprimer(test);
+				}	
 				
 				dispatcher = request.getRequestDispatcher("/formateur/gestionTest.jsp");
 				dispatcher.forward(request, response);

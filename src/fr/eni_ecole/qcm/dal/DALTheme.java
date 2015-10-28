@@ -167,4 +167,33 @@ public class DALTheme {
 			if(cnx!=null)cnx.close();
 		}
 	}
+
+	/**
+	 * Méthode en charge de récupérer le nombre de question du thème 
+	 * 28 oct. 2015
+	 * @param theme Theme concerné
+	 * @return Le nombre de question
+	 * @throws SQLException 
+	 */
+	public static int getMaxNbQuestionByTheme(Theme theme) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT COUNT(*) as max FROM THEME t "
+				+ "INNER JOIN QUESTION q ON Q.idTheme = t.idTheme "
+				+ "WHERE t.idTheme=? ";
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, theme.getIdTheme());
+			ResultSet res = cmd.executeQuery();
+			
+			if(res.next()){
+				return res.getInt("max");
+			}
+			return 0;
+		}finally{
+			if(cmd!=null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+	}
 }

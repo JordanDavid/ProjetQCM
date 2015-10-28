@@ -106,7 +106,7 @@ public class Test extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}catch(Exception e){
-			dispatcher = request.getRequestDispatcher("/erreur");
+			dispatcher = request.getRequestDispatcher("/erreur.jsp");
 			request.setAttribute("erreur", e);
 			dispatcher.forward(request, response);
 		}

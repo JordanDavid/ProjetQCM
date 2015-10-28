@@ -16,8 +16,8 @@
 		</table>
 		<div align="center">
 			<button id="btn_ajoutTest" onclick="afficherAjoutTest();">Ajouter</button>
-			<button id="btn_modifierTest" onclick="afficherModificationTest();">Modifier</button>
-			<button id="btn_supprimerTest" onclick="supprimerTest();">Supprimer</button>
+			<button id="btn_modifierTest" onclick="afficherModificationTest();" disabled="disabled">Modifier</button>
+			<button id="btn_supprimerTest" onclick="afficherSupprimerTest();" disabled="disabled">Supprimer</button>
 		</div>
 	</div>
 </div>
@@ -41,5 +41,13 @@
 			<div id="sections"></div>
 		</div>
 	</div>
+</div>
+
+
+<div class="hide" id="confirmSuppressionTest">
+	<div id="messageConfirmSupprTest"></div>
+	<form id="formConfirmSupprTest" action="./gestionTests?action=supprimerTest" method="POST">
+		<input type="hidden" name="idTest" id="idTestToDelete"/>
+	</form>
 </div>
 <%@include file="/fragments/bas.jspf"%>

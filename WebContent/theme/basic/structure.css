@@ -3,6 +3,7 @@
 
 *{
 	font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size : 1em;
 }
 
 html {	
@@ -29,6 +30,12 @@ a.underlineLink {
 	text-decoration: underline;	
 }
 
+hr{
+	border: 1px solid black;
+	width: 80%;
+	margin-top: 5%;
+}
+
 .pointer {
 	cursor : pointer;
 }
@@ -53,6 +60,7 @@ input[type=button] {
  	box-shadow:1px 1px 1px #4884a4;
 	color : #FFFFFF;
 	height : 27px;
+	cursor : pointer;
 }
 
 select{
@@ -70,6 +78,14 @@ input[type=button]:active {
  	box-shadow:1px 1px 1px #4884a4;
 	color : #4884a4;
 	height : 27px;
+}
+
+button:disabled,
+input[type=submit]:disabled,
+input[type=reset]:disabled,
+input[type=button]:disabled{
+    background-color: #9e9e9e;
+    cursor: default;
 }
 
 input[type=text],input[type=password], textarea {
@@ -118,7 +134,7 @@ legend{
 /* milieu de page */
 #milieu {
 	margin-top : 3%;
-	min-height : 700px;
+	min-height : 750px;
 	width : 100%;
 }
 
@@ -144,6 +160,7 @@ legend{
 	margin: 0px;
 	padding-top : 4px;
 	padding-bottom : 4px;
+	padding-left : 2px;
 	width : 100%;
 }
 
@@ -169,17 +186,17 @@ legend{
 	border-right : 2px solid black;
 	border-left : 1px solid black;
 	width : 83%;
-	min-height : 700px;
-	height : 700px;
+	min-height : 750px;
+	height : 750px;
 }
 
 #titre{
 	text-align : center;
-	height : 10%;
+	height : 5%;
 }
 
 #titre h1 {
-	font-size : 1.5em;
+	font-size : 1.3em;
 }
 
 #contenu{
@@ -187,7 +204,7 @@ legend{
 	padding-bottom : 1%;
 	padding-left : 2%;
 	padding-right : 2%;
-	height : 85%;
+	height : 95%;
 	font-size : 0.8em;
 }
 

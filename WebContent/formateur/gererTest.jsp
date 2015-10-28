@@ -28,7 +28,7 @@
 				</div>
 				<div class="inline_block_infos_right">
 					<label for="nbSections">Nombre de sections :</label>
-					<input type="number" name="nbSections" id="nbSections" 
+					<input type="number" name="nbSections" id="nbSections" min="1"
 						value="<%= (sections.size() == 0 ? 1 : sections.size())%>"
 						onchange="changeNbSection(this);">
 				</div>
@@ -98,9 +98,14 @@
 							</div>
 							<div class="div_nb_questions_sections">
 								Nombre de question : 
-								<input type="number" class="nb_questions_sections" name="nb_questions_section" id="nb_questions_section_<%=section.getNumSection()%>" value="<%=section.getNbQuestion()%>">
-								<input type="hidden" class="valide_nb_question_sections" value="true"/>
-								<div class="valide_nb_questions"></div>
+								<input type="number" class="nb_questions_sections" name="nb_questions_section" 
+								id="nb_questions_section_<%=section.getNumSection()%>"  min="1"
+								value="<%=section.getNbQuestion()%>" 
+								onclick="changeNbQuestion(this);">
+								<input type="hidden" class="valide_nb_question_sections" id="valide_section_<%=section.getNumSection()%>" value="true"/>
+								<div class="valide_nb_questions">
+									<img id="img_valide_section_<%=section.getNumSection()%>" alt="valide" src="<%=request.getContextPath()%>/images/valide.png"/>
+								</div>
 							</div>
 						</div>		
 					<% } %>		
@@ -115,17 +120,42 @@
 							</div>
 							<div class="div_nb_questions_sections">
 								Nombre de question : 
-								<input type="number" class="nb_questions_sections" name="nb_questions_section" id="nb_questions_section_0">
-								<div class="valide_nb_questions"></div>
+								<input type="number" class="nb_questions_sections" 
+								name="nb_questions_section" id="nb_questions_section_0" min="1" value="1"
+								onclick="changeNbQuestion(this);">
+								<div class="valide_nb_questions">
+									<img alt="valide" src="<%=request.getContextPath()%>/images/valide.png"/>
+								</div>
 							</div>	
 						</div>
 				<% } %>
 		</div>	
+		
+		<div class="new_section_test hide" data-id="0">
+			<div class="div_select_theme_section">
+				<select class="select_theme_section" id="select_theme_section_0" name="select_theme_section">
+					<% for (Theme theme : themes ) { %>
+						 <option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle() %></option>
+					<% } %>
+				</select>
+			</div>
+			<div class="div_nb_questions_sections">
+				Nombre de question : 
+				<input type="number" class="nb_questions_sections" 
+				name="nb_questions_section" id="nb_questions_section_0" min="1" value="1"
+				onclick="changeNbQuestion(this);">
+				<div class="valide_nb_questions">
+					<img alt="valide" src="<%=request.getContextPath()%>/images/valide.png"/>
+				</div>
+			</div>	
+		</div>
+		
 		<input type="hidden" name="lst_sections" id="lst_sections" />	
 	</fieldset>
 	<div id="div_buttons_gerer_test">
 		<input type="button" name="enregistrerTest" id="enregistrerTest" onclick="enregistrerModifTest();" value="Enregistrer"/>
 		<input type="reset" name="annulerTest" id="annulerTest" value="Annuler"/>
+		<input type="button" id="retour" value="Retour à la sélection des tests" onclick="retourGestionTest();"/>
 	</div>
 </form>
 
