@@ -109,7 +109,7 @@ public class Inscription extends HttpServlet {
 		
 		try{
 			if (!"afficher".equals(action)) {
-					switch (action) {
+				switch (action) {
 				case "getTests":
 					HashMap<String, List<Test>> mapTest = new HashMap<String, List<Test>>();
 					

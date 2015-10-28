@@ -1,50 +1,6 @@
 
 $(document).ready(function() {
 	
-//	 Handle click on Select all control
-	$("#select-all").on("click", function(){
-//	       Get all rows with search applied
-	      var rows = table.rows({ "search": "applied" }).nodes();
-//	       Checkuncheck checkboxes for all rows in the table
-	      $("input[type=checkbox]", rows).prop("checked", this.checked);
-	   });
-	
-//	 Handle click on checkbox to set state of Select all control
-	$("#tableauCandidat tbody").on("change", "input[type=checkbox]", function(){
-//	       If checkbox is not checked
-	      if(!this.checked){
-	         var el = $("#select-all").get(0);
-//	          If Select all control is checked and has 'indeterminate' property
-	         if(el && el.checked && ("indeterminate" in el)){
-//	             Set visual state of Select all control 
-//	             as 'indeterminate'
-	            el.indeterminate = true;
-	         }
-	      }
-	   });
-	
-//	 Handle form submission event
-	$("#frm-tableauCandidat").on("submit", function(e){
-	      var form = this;
-
-//	       Iterate over all checkboxes in the table
-	      table.$("input[type=checkbox]").each(function(){
-//	          If checkbox doesn't exist in DOM
-	         if(!$.contains(document, this)){
-//	             If checkbox is checked
-	            if(this.checked){
-//	                Create a hidden element 
-	               $(form).append(
-	                  $("input")
-	                     .attr("type", "hidden")
-	                     .attr("name", this.name)
-	                     .val(this.value)
-	               );
-	            }
-	         } 
-	      });
-	   });
-	
 	
 	
 	
@@ -72,28 +28,20 @@ $(document).ready(function() {
 	});
 	
 	// suivant la LIGNE SELECTIONNEE, on SET les input caché suivant l'ID et le LIBELLE du TEST
-	var table = $('#list_tests').DataTable(); 
-    var idTest = document.getElementById("idTest");
-    var libelleTest = document.getElementById("libelleTest");
+    idTest = document.getElementById("idTest");
+    libelleTest = document.getElementById("libelleTest");
 
     $('#list_tests tbody').on( 'click', 'tr', function () {
     	if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
             idTest.setAttribute("value", "0");
         }else {
-            table.$('tr.selected').removeClass('selected');
+            oTableTests.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            idTest.setAttribute("value", table.cell('.selected', 0).data());
-            libelleTest.setAttribute("value", table.cell('.selected', 1).data());
+            idTest.setAttribute("value", oTableTests.fnGetData($(this)).id);
+            libelleTest.setAttribute("value", oTableTests.fnGetData($(this)).libelle);
         }
     });
-	
-    // SUIVANT
-	function RechargerPlages()
-	{	
-		var $id = document.getElementById("idTest").value;										
-		tablePlagesHoraires.fnReloadAjax("./inscription?action=getPlageHoraire&id="+id);
-	};
 	
 	// RAFRAICHISSEMENT du tableau des tests suivant la liste déroulante
 	SelectionThemeForTest = function(){
@@ -101,7 +49,7 @@ $(document).ready(function() {
 	}
 	
 	// AFFICHAGE du dernier tableau de la page
-	oTableTestsSelectionnes = $("#tabTestsSelect").dataTable({
+	oTableTestsSelectionnes = $("#tabTestsSelect").DataTable({
 		"bSort" : false,
 		"bFilter" : false,
 		"bInfo" : false,
@@ -124,7 +72,7 @@ $(document).ready(function() {
        ]
 	});
 	
-	// Rendre possible la sélection du tableau
+	// Rendre possible la SELECTION du tableau
 	var table = $('#tabTestsSelect').DataTable(); 
     $('#tabTestsSelect tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -134,13 +82,27 @@ $(document).ready(function() {
             $(this).addClass('selected');
         }
 	    });
-    // A COMPRENDRE : Suppression d'une ligne ?
+    // SUPPRESSION d'une ligne
     $('#deleteButton').click( function () {
         table.row('.selected').remove().draw( false );
     } );
 	
+    // FONCTION appelé lorsqu'on clique sur une LIGNE du tableau des TESTS
+    SelectionTest = function( ){		
+		// APPEL de la fonction afficherPlageHoraire (pop-up)
+		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire()");
+	};
+	
+	// FONCTION appelé lorsqu'on clique sur le bouton "Ajouter"
+	RechargerPlages = function()
+	{	
+		afficherPlageHoraire();
+		var $id = document.getElementById("idTest").value;										
+		oTableTestsPlageHoraire.fnReloadAjax("./inscription?action=getPlageHoraire&id="+$id);		
+	};
+    
     // AFFICHE la POP-UP (voir onClick du bouton "ajouterCandidatToTheme")
-    afficherPlageHoraire = function(idTest){		
+    afficherPlageHoraire = function(){		
 		dialogchoixPlage = $("#choixPlage").dialog({
 			autoOpen: false,
 	        height: 350,
@@ -152,41 +114,8 @@ $(document).ready(function() {
 	        	at: "right bottom",
 	        	of: $("#choixPlage") 
 	    	},
-//	    	buttons : {
-//	    		"Valider" : function(){
-//	    			tableTestsSelect = $("#tabTestsSelect").DataTable();
-//	    			
-//	    			var $idTest = document.getElementById("idTest").value;
-//			    	var $libelleTest = document.getElementById("libelleTest").value;
-//					var $idPlage = document.getElementById("idPlage").value;
-//					var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
-//					var $dateFinPlage = document.getElementById("dateFinPlage").value;
-//					
-//					// TODO : delete this, bitch !
-//					console.log($idTest);
-//					console.log($libelleTest);
-//					console.log($idPlage);
-//					console.log($dateDebutPlage);
-//					console.log($dateFinPlage);
-//					
-//					tableTestsSelect.row.add( [
-//						$idTest, 
-//						$libelleTest,
-//						$idPlage,
-//						$dateDebutPlage,
-//						$dateFinPlage
-//			        ] ).draw(false);
-//	    		},
-//	    		"Annuler" : function(){
-//	    			$("#choixPlage")[0].reset();
-//	    			dialogchoixPlage.dialog("close");
-//	    		}	    		
-//	        },
-//	        close: function() {
-//	          $("#choixPlage")[0].reset();
-//	        },
 	        open: function() {
-	        	listTestsPlageHoraire(idTest);
+	        	listTestsPlageHoraire();
 	        }
 	    });		
 		if(dialogchoixPlage.dialog( "isOpen" ))
@@ -195,13 +124,11 @@ $(document).ready(function() {
 			dialogchoixPlage.dialog( "open" );		
 	};
 	
-	
+	// FONCTION appelé lorsqu'on clique sur le bouton "Valider" de la POP UP
 	tableTestsSelect = $("#tabTestsSelect").DataTable();	 
     $('#validerAjoutTest').on( 'click', function () {
     	var $idTest = document.getElementById("idTest").value;
-    	console.log($idTest);
     	var $libelleTest = document.getElementById("libelleTest").value;
-    	console.log($libelleTest);
 		var $idPlage = document.getElementById("idPlage").value;
 		var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
 		var $dateFinPlage = document.getElementById("dateFinPlage").value;
@@ -220,67 +147,88 @@ $(document).ready(function() {
 			$dateDebutPlage,
 			$dateFinPlage
         ] ).draw(false);
+		dialogchoixPlage.dialog("close");
     } );
 	
-    // AFFICHE le contenu du tableau des PLAGE HORAIRE
-	var oTableTestsPlageHoraire = null;
-	console.log(idTest);
-	listTestsPlageHoraire = function(idTest){
+    // AFFICHE le contenu du tableau des PLAGE HORAIRE de la POP-UP
+    var oTableTestsPlageHoraire = null;
+    $idTest = document.getElementById("idTest").value;
+	listTestsPlageHoraire = function(){
 		if (oTableTestsPlageHoraire == null) {
-				oTableTestsPlageHoraire = $("#tabPlagesHoraires").dataTable({
-	    		"bSort" : false,
-	    		"bFilter" : false,
-	    		"bInfo" : false,
-	    		"bLengthChange" : false,
-	    		"iDisplayLength": 5,
-	    		"language" : {
-	    			"url" : "../Tools/French.json"
-	    		},
-	    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+idTest,
-	    		"columns" : [
-		    		{
-		   				"data" : "id",
-			   			visible : false
-		   		 	},
-	   				{
-			   			"data" : "dateDebut"
-			   		},
-			   		{
-			   			"data" : "dateFin"
-			   		}
-		         ]	    		
-	    	});
+			oTableTestsPlageHoraire = $("#tabPlagesHoraires").dataTable({
+    		"bSort" : false,
+    		"bFilter" : false,
+    		"bInfo" : false,
+    		"bLengthChange" : false,
+			"paging" : false,
+    		"language" : {
+    			"url" : "../Tools/French.json"
+    		},
+    		"sAjaxSource" : "./inscription?action=getPlageHoraire&id="+$idTest,
+    		"columns" : [
+	    		{
+	   				"data" : "idPlageHoraire",
+		   			visible : false
+	   		 	},
+   				{
+		   			"data" : "dateDebut"
+		   		},
+		   		{
+		   			"data" : "dateFin"
+		   		}
+	         ]
+			});
 		}
-		else{
-			oTableTestsPlageHoraire.fnReloadAjax("./inscription?action=getPlageHoraire&id="+idTest);
+		else {
+			oTableTestsPlageHoraire.fnReloadAjax("./inscription?action=getPlageHoraire&id="+$idTest);
 		}
 	}
 	
-	// SET les attributs du tableau à l'input correspondant
-    var table = $('#tabPlagesHoraires').DataTable(); 
+	// SET les attributs du tableau (tableau des plages horaire de la POP UP) à l'input correspondant
     $('#tabPlagesHoraires tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
         }else {
-            table.$('tr.selected').removeClass('selected');
+        	oTableTestsPlageHoraire.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
         var plageSelect = document.getElementById("idPlage");
         var dateDebutPlageSelect = document.getElementById("dateDebutPlage");
         var dateFinPlageSelect = document.getElementById("dateFinPlage");
-        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
-        dateDebutPlageSelect.setAttribute("value", table.cell('.selected', 1).data());
-        dateFinPlageSelect.setAttribute("value", table.cell('.selected', 2).data());
+        plageSelect.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).idPlageHoraire);
+        dateDebutPlageSelect.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).dateDebut);
+        dateFinPlageSelect.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).dateFin);
 	    });
 	
-    // Définit les date picker
-	$(function() {
-		$("#date_picker_debut").datepicker();
-	  });
+    // DATETIMEPICKER
+    dtp_Debut = $("#InscriptionDatetimepickerdebut").datetimepicker({
+		lang:'fr',
+		format:'d/m/Y H:i'
+	});
+	dtp_Fin = $("#InscriptionDatetimepickerfin").datetimepicker({
+		lang:'fr',
+		format:'d/m/Y H:i'
+	});
 	
-	$(function() {
-		$("#date_picker_fin").datepicker();
-	  });		
+	/**
+	 * Ajoute une plage dans la datatable
+	 */
+	ajouterPlage = function(){
+		if(validePlage()){
+			var add = {"idPlageHoraire" : 0,"dateDebut":dtp_Debut.val(),"dateFin":dtp_Fin.val()};
+			oTableTestsPlageHoraire.fnAddData(add);
+		} else{
+			alert("Saisie invalide");
+		}
+	};
+	
+	/**
+	 * Vérifie que la plage horaire est valide
+	 */
+	validePlage = function(){
+		return dtp_Debut.val() < dtp_Fin.val();
+	}
+	
 });
 
 /**
