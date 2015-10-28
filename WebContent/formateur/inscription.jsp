@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8" import="fr.eni_ecole.qcm.bean.*,java.util.*"%>
 <%
 	String titre = "Inscription des candidats";
-	String inscription = "gestionTest";
+	String menu = "inscription";
 %>
 <%@include file="/fragments/haut.jspf"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
@@ -80,7 +80,7 @@
 	</div>
 	<div id="ajout_candidat_theme">
 		<input type="button" name="ajouterCandidatToTheme" id="ajouterCandidatToTheme"
-				value="Ajouter" >
+				value="Ajouter" onclick="RechargerPlages()">
 	</div>	
 	
 </fieldset>
@@ -88,7 +88,7 @@
 <fieldset>
 	<legend>Tests sélectionnés</legend>
 	<div id="div_tests_selectionnes">
-		<table id="tabPlagesHoraires" class="display">
+		<table id="tabTestsSelect" class="display">
 			<thead>
 				<tr>
 					<th>id Test</th>
@@ -101,39 +101,45 @@
 			<tbody>
 				<!-- Affichage du tableau des tests selectionnes -->
 			</tbody>
-		</table>	
+		</table>
+		<p><input type="button" id="deleteButton" value="Retirer"></p>
 	</div>
 </fieldset>
-
-<div class="hide" id="ajoutCandidatToTheme" title="Sélectionner la date du test">
-	<form id="formAjoutCandidatToTheme" action="<%=request.getContextPath()%>/formateur/inscription?action=ajoutCandidatToTheme" method="post">
-		<div class="inline_div_reponse" align="left">
-			<!-- contenu de la popup -->
-			<table id="list_tests_plage_horaire" class="display">
-				<thead>
-		            <tr>
-		            	<th>id plage</th>
-		                <th>Date de début</th>
-		                <th>Date de fin</th>
-		            </tr>
-				</thead>
-				<tbody>
-					<!-- contenu du tableau -->
-				</tbody>
-			</table>			
-				<p>Nouvelle plage : </p>
-				<input type="text" name="date_picker_debut" id="date_picker_debut" tabindex="-1"/>
-				<input type="text" name="date_picker_fin" id="date_picker_fin" tabindex="-1"/>
-				
-				<input type="hidden" id="idTest" name="idTest" value="0"/>
-				<input type="hidden" id="idPlageHoraire" name="idPlageHoraire" />
-				<input type="hidden" id="libelleTest" name="libelleTest"/>
-				<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
-				<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
-				
-				<br/>
-		</div>
-	</form>
+<p>
+	<input type="submit" value="Enregistrer l'Inscription">
+	<a href="../accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>
+</p>
+<div class="hide" id="choixPlage" title="Sélectionner la date du test">
+	<div class="inline_div_reponse" align="left">
+		<!-- contenu de la popup -->
+		<table id="tabPlagesHoraires" class="display">
+			<thead>
+	            <tr>
+	            	<th>id plage</th>
+	                <th>Date de début</th>
+	                <th>Date de fin</th>
+	            </tr>
+			</thead>
+			<tbody>
+				<!-- contenu du tableau -->
+			</tbody>
+		</table>			
+			<p>Nouvelle plage : </p>
+			<input type="text" name="date_picker_debut" id="date_picker_debut" tabindex="-1"/>
+			<input type="text" name="date_picker_fin" id="date_picker_fin" tabindex="-1"/>
+			<a href="#"><input type="button" id="ajoutNewPlageHoraire" value="Ajouter"></a>
+			
+			<a href="#"><input type="button" id="validerAjoutTest" value="Valider" style="width:400px;"></a>
+			
+			<!-- INPUT caché -->
+			<input type="hidden" id="idTest" name="idTest" value="0"/>
+			<input type="hidden" id="idPlageHoraire" name="idPlageHoraire" />
+			<input type="hidden" id="libelleTest" name="libelleTest"/>
+			<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
+			<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
+			
+			<br/>
+	</div>
 </div>
 
 <%@include file="/fragments/bas.jspf"%>

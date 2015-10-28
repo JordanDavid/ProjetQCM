@@ -45,7 +45,10 @@ $(document).ready(function() {
 	      });
 	   });
 	
-	///////// Tableau des TESTS /////////
+	
+	
+	
+	///////// Tableau des TESTS /////////	
 	
 	oTableTests = $("#list_tests").dataTable({
 		"bSort" : false,
@@ -65,27 +68,10 @@ $(document).ready(function() {
     			 "data" : "libelle"
     		 }
          ],
-		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value,
-		"fnCreatedRow" : function(nRow, aData,iDataIndex){
-			$(nRow).addClass("pointer")
-			$(nRow).attr("title","Cliquer pour sélectionner un test");
-			$(nRow).on( "click", SelectionTest );
-		}
+		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
 	});
 	
-	// AJOUT de l'attribut au bouton "AJOUTER"
-	SelectionTest = function( ){		
-		 var sData = oTableTests.fnGetData( this );		
-		//Ajout d'un attribut définissant le test sélectionné au bouton "Ajouter"
-		$("#ajouterCandidatToTheme").attr("onclick", "afficherPlageHoraire("+ sData.id +")");
-	};
-	
-	// RAFRAICHISSEMENT du tableau des tests suivant la liste déroulante
-	SelectionThemeForTest = function(){
-		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
-	}
-	
-	// suivant la ligne sélectionnée, on set les input caché suivant l'id et le libelle du test
+	// suivant la LIGNE SELECTIONNEE, on SET les input caché suivant l'ID et le LIBELLE du TEST
 	var table = $('#list_tests').DataTable(); 
     var idTest = document.getElementById("idTest");
     var libelleTest = document.getElementById("libelleTest");
@@ -102,10 +88,60 @@ $(document).ready(function() {
         }
     });
 	
-    // AFFICHE la pop-up des plage horaire
-	afficherPlageHoraire = function(idTest){
-		
-		dialogAjoutCandidatToTheme = $("#ajoutCandidatToTheme").dialog({
+    // SUIVANT
+	function RechargerPlages()
+	{	
+		var $id = document.getElementById("idTest").value;										
+		tablePlagesHoraires.fnReloadAjax("./inscription?action=getPlageHoraire&id="+id);
+	};
+	
+	// RAFRAICHISSEMENT du tableau des tests suivant la liste déroulante
+	SelectionThemeForTest = function(){
+		oTableTests.fnReloadAjax("./inscription?action=getTests&id="+$("#themes option:selected")[0].value);
+	}
+	
+	// AFFICHAGE du dernier tableau de la page
+	oTableTestsSelectionnes = $("#tabTestsSelect").dataTable({
+		"bSort" : false,
+		"bFilter" : false,
+		"bInfo" : false,
+		"bLengthChange" : false,
+		"iDisplayLength": 5,
+		"language" : {
+			"url" : "../Tools/French.json"
+		},
+		"columnDefs": [
+           {
+               "targets": [0],
+               "visible": false,
+               "searchable": false
+           },
+           {
+               "targets": [2],
+               "visible": false,
+               "searchable": false
+           }
+       ]
+	});
+	
+	// Rendre possible la sélection du tableau
+	var table = $('#tabTestsSelect').DataTable(); 
+    $('#tabTestsSelect tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+	    });
+    // A COMPRENDRE : Suppression d'une ligne ?
+    $('#deleteButton').click( function () {
+        table.row('.selected').remove().draw( false );
+    } );
+	
+    // AFFICHE la POP-UP (voir onClick du bouton "ajouterCandidatToTheme")
+    afficherPlageHoraire = function(idTest){		
+		dialogchoixPlage = $("#choixPlage").dialog({
 			autoOpen: false,
 	        height: 350,
 	        resizable : false,
@@ -114,61 +150,84 @@ $(document).ready(function() {
 	        position : {
 	        	my: "right top",
 	        	at: "right bottom",
-	        	of: $("#ajoutCandidatToTheme") 
+	        	of: $("#choixPlage") 
 	    	},
-	    	buttons : {
-	    		"Valider" : function(){
-	    			var $idTest = document.getElementById("idTest").value;
-	    			console.log($idTest);
-	    			var $libelleTest = document.getElementById("libelleTest").value;
-	    			console.log($libelleTest);
-	    			
-//	    			var $dateFin = document.getElementById("dateFin").value;	    			
-	    			oTableTestsSelectionnes.row.add( [$idTest, $libelleTest] ).draw(false);
-	    		},
-	    		"Annuler" : function(){
-	    			$("#formAjoutCandidatToTheme")[0].reset();
-	  	          dialogAjoutCandidatToTheme.dialog("close");
-	    		}
-	        },
-	        close: function() {
-	          $("#formAjoutCandidatToTheme")[0].reset();
-	        },
+//	    	buttons : {
+//	    		"Valider" : function(){
+//	    			tableTestsSelect = $("#tabTestsSelect").DataTable();
+//	    			
+//	    			var $idTest = document.getElementById("idTest").value;
+//			    	var $libelleTest = document.getElementById("libelleTest").value;
+//					var $idPlage = document.getElementById("idPlage").value;
+//					var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
+//					var $dateFinPlage = document.getElementById("dateFinPlage").value;
+//					
+//					// TODO : delete this, bitch !
+//					console.log($idTest);
+//					console.log($libelleTest);
+//					console.log($idPlage);
+//					console.log($dateDebutPlage);
+//					console.log($dateFinPlage);
+//					
+//					tableTestsSelect.row.add( [
+//						$idTest, 
+//						$libelleTest,
+//						$idPlage,
+//						$dateDebutPlage,
+//						$dateFinPlage
+//			        ] ).draw(false);
+//	    		},
+//	    		"Annuler" : function(){
+//	    			$("#choixPlage")[0].reset();
+//	    			dialogchoixPlage.dialog("close");
+//	    		}	    		
+//	        },
+//	        close: function() {
+//	          $("#choixPlage")[0].reset();
+//	        },
 	        open: function() {
 	        	listTestsPlageHoraire(idTest);
 	        }
-	    });
-		
-		if(dialogAjoutCandidatToTheme.dialog( "isOpen" ))
-			dialogAjoutCandidatToTheme.dialog( "close" );
+	    });		
+		if(dialogchoixPlage.dialog( "isOpen" ))
+			dialogchoixPlage.dialog( "close" );
 		else
-			dialogAjoutCandidatToTheme.dialog( "open" );
-		
-		
+			dialogchoixPlage.dialog( "open" );		
 	};
 	
-	// A COMPLETER : Suivant la ligne sélectionnée, on set les attributs
-	var table = $('#list_tests_plage_horaire').DataTable(); 
-    $('#list_tests_plage_horaire tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        var plageSelect = document.getElementById("idPlage");
-        var dateDebutPlageSelect = document.getElementById("dateDebutPlage");
-        var dateFinPlageSelect = document.getElementById("dateFinPlage");
-        plageSelect.setAttribute("value", table.cell('.selected', 0).data());
-        dateDebutPlageSelect.setAttribute("value", table.cell('.selected', 1).data());
-        dateFinPlageSelect.setAttribute("value", table.cell('.selected', 2).data());
-	    });
 	
-    // fonction qui affiche le contenu du tableau des plage d'horaire
+	tableTestsSelect = $("#tabTestsSelect").DataTable();	 
+    $('#validerAjoutTest').on( 'click', function () {
+    	var $idTest = document.getElementById("idTest").value;
+    	console.log($idTest);
+    	var $libelleTest = document.getElementById("libelleTest").value;
+    	console.log($libelleTest);
+		var $idPlage = document.getElementById("idPlage").value;
+		var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
+		var $dateFinPlage = document.getElementById("dateFinPlage").value;
+
+		// TODO : delete this, bitch !
+		console.log($idTest);
+		console.log($libelleTest);
+		console.log($idPlage);
+		console.log($dateDebutPlage);
+		console.log($dateFinPlage);
+		
+		tableTestsSelect.row.add( [
+			$idTest, 
+			$libelleTest,
+			$idPlage,
+			$dateDebutPlage,
+			$dateFinPlage
+        ] ).draw(false);
+    } );
+	
+    // AFFICHE le contenu du tableau des PLAGE HORAIRE
 	var oTableTestsPlageHoraire = null;
+	console.log(idTest);
 	listTestsPlageHoraire = function(idTest){
 		if (oTableTestsPlageHoraire == null) {
-				oTableTestsPlageHoraire = $("#list_tests_plage_horaire").dataTable({
+				oTableTestsPlageHoraire = $("#tabPlagesHoraires").dataTable({
 	    		"bSort" : false,
 	    		"bFilter" : false,
 	    		"bInfo" : false,
@@ -197,9 +256,9 @@ $(document).ready(function() {
 		}
 	}
 	
-	// A SUPPRIMER SANS DOUTE
-    var table = $('#list_tests_plage_horaire').DataTable(); 
-    $('#list_tests_plage_horaire tbody').on( 'click', 'tr', function () {
+	// SET les attributs du tableau à l'input correspondant
+    var table = $('#tabPlagesHoraires').DataTable(); 
+    $('#tabPlagesHoraires tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
         }else {
@@ -221,56 +280,7 @@ $(document).ready(function() {
 	
 	$(function() {
 		$("#date_picker_fin").datepicker();
-	  });	
-	
-//	$('#list_tests tbody').on( 'click', 'tr', function () {
-//        if ( $(this).hasClass('selected') ) {
-//            $(this).removeClass('selected');
-//        }else {
-//        	oTableTests.$('tr.selected').removeClass('selected');
-//            $(this).addClass('selected');
-//        }
-//	    });	
-	
-	// AFFICHAGE du dernier tableau de la page
-	oTableTestsSelectionnes = $("#list_tests_selectionnes").dataTable({
-		"bSort" : false,
-		"bFilter" : false,
-		"bInfo" : false,
-		"bLengthChange" : false,
-		"iDisplayLength": 5,
-		"language" : {
-			"url" : "../Tools/French.json"
-		},
-		"columnDefs": [
-           {
-               "targets": [0],
-               "visible": false,
-               "searchable": false
-           },
-           {
-               "targets": [2],
-               "visible": false,
-               "searchable": false
-           }
-       ]
-	});
-	
-	// Rendre possible la sélection du tableau
-	var table = $('#list_tests_selectionnes').DataTable(); 
-    $('#list_tests_selectionnes tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-	    });
-    // A COMPRENDRE : Suppression d'une ligne
-    $('#deleteButton').click( function () {
-        table.row('.selected').remove().draw( false );
-    } );
-	
+	  });		
 });
 
 /**

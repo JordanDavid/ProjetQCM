@@ -130,23 +130,23 @@ public class Inscription extends HttpServlet {
 					out.flush();
 					break;
 				case "ajoutCandidatToTheme":
-					//il faut récupérer les informations de la pop et faire la création
-					if (request.getParameter("ajoutPlageHoraire") != null) {
-						// alors on ajoute une plage horaire
-						SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-						
-						Date debutPlageHoraire = formatter.parse(request.getParameter("date_picker_debut"));
-						Date finPlageHoraire = formatter.parse(request.getParameter("date_picker_fin"));
-						
-						PlageHoraire plageHoraire = new PlageHoraire();
-						plageHoraire.setDateDebut(debutPlageHoraire);
-						plageHoraire.setDateFin(finPlageHoraire);
-						
-						DALPlageHoraire.ajouter(plageHoraire);												
-					} else {
-						// sinon on valide la pop up
-						
-					}
+//					//il faut récupérer les informations de la pop et faire la création
+//					if (request.getParameter("ajoutPlageHoraire") != null) {
+//						// alors on ajoute une plage horaire
+//						SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+//						
+//						Date debutPlageHoraire = formatter.parse(request.getParameter("date_picker_debut"));
+//						Date finPlageHoraire = formatter.parse(request.getParameter("date_picker_fin"));
+//						
+//						PlageHoraire plageHoraire = new PlageHoraire();
+//						plageHoraire.setDateDebut(debutPlageHoraire);
+//						plageHoraire.setDateFin(finPlageHoraire);
+//						
+//						DALPlageHoraire.ajouter(plageHoraire);												
+//					} else {
+//						// sinon on valide la pop up
+//						
+//					}
 					break;
 				case "getPlageHoraire":
 					HashMap<String, List<PlageHoraire>> mapPlageHoraire = new HashMap<String, List<PlageHoraire>>();
