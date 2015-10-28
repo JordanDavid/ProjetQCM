@@ -309,7 +309,7 @@
 #div_form_selection_test{
 	width : 30%;
 	margin : auto;
-	margin-top : 30%;
+	margin-top : 20%;
 }
 
 #div_select_test{
@@ -317,14 +317,11 @@
 }
 
 #div_lancer_test{
-	width : 100%;
+	width : 50%;
+	margin : auto;
 	margin-top : 10%;
 }
 
 #tests{
 	width : 100%;
-}
-
-#commencer {	
-	margin : auto;
 }

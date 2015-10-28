@@ -2,9 +2,7 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -173,7 +171,10 @@ public class GestionTest extends HttpServlet {
 				int nbQuestion = Integer.parseInt(request.getParameter("nbQuestion"));
 				int nbQuestionByTheme = DALTheme.getMaxNbQuestionByTheme(theme);
 				
-				out.println(nbQuestion <= nbQuestionByTheme);
+				if(nbQuestion <= nbQuestionByTheme)
+					out.println(1);
+				else
+					out.println(0);
 				out.flush();
 				
 			} else if("enregistrer".equals(action)){

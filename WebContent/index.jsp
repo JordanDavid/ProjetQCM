@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,13 +11,13 @@
 <body>
 <div id="formConnection">
 	<p class="blueText" id="titre_bonjour">Bonjour</p>
-	<p id="sous_titre_connexion">Merci de vous connecter à l'aide de vos identifiants</p>
+	<p id="sous_titre_connexion">Merci de vous connecter Ã  l'aide de vos identifiants</p>
 	<form action="<%= request.getContextPath()%>/authentification" method="POST">
 		<div class="inline_input_connexion">
-			<input type="text" name="login" id="login" value="jDupont"></input>
+			<input type="text" name="login" id="login" value="mDurand"></input>
 		</div>
 		<div class="inline_input_connexion">
-			<input type="password" name="password" id="password" value="jdupont"></input>
+			<input type="password" name="password" id="password" value="mdurand"></input>
 		</div>
 		<div class="inline_input_connexion" id="input_connexion">
 			<input type="submit" name="valider" id="valider" value="Se connnecter">

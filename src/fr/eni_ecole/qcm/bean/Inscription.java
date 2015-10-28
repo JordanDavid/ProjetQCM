@@ -22,9 +22,9 @@ public class Inscription implements Serializable {
 	private int idInscription;
 	private Test test;
 	private Utilisateur utilisateur;
-	private Date dateDebut;
-	private Date DateFin;
-	private Date tempsRestant;
+	private String dateDebut;
+	private String DateFin;
+	private int tempsRestant;
 	
 	/**
 	 * d1410gerardm
@@ -36,8 +36,8 @@ public class Inscription implements Serializable {
 	 * @param dateFin Date fin de l'inscription
 	 * @param tempsRestant Temps restant de l'inscription
 	 */
-	public Inscription(int idInscription, Test test, Utilisateur utilisateur, Date dateDebut,
-			Date dateFin, Date tempsRestant){
+	public Inscription(int idInscription, Test test, Utilisateur utilisateur, String dateDebut,
+			String dateFin, int tempsRestant){
 		setIdInscription(idInscription);
 		setTest(test);
 		setUtilisateur(utilisateur);
@@ -106,7 +106,7 @@ public class Inscription implements Serializable {
 	 * Getter for dateDebut
 	 * @return the dateDebut
 	 */
-	public Date getDateDebut() {
+	public String getDateDebut() {
 		return dateDebut;
 	}
 
@@ -114,7 +114,7 @@ public class Inscription implements Serializable {
 	 * Setter for dateDebut
 	 * @param dateDebut the dateDebut to set
 	 */
-	public void setDateDebut(Date dateDebut) {
+	public void setDateDebut(String dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
@@ -122,7 +122,7 @@ public class Inscription implements Serializable {
 	 * Getter for DateFin
 	 * @return the dateFin
 	 */
-	public Date getDateFin() {
+	public String getDateFin() {
 		return DateFin;
 	}
 
@@ -130,7 +130,7 @@ public class Inscription implements Serializable {
 	 * Setter for DateFin
 	 * @param dateFin the dateFin to set
 	 */
-	public void setDateFin(Date dateFin) {
+	public void setDateFin(String dateFin) {
 		DateFin = dateFin;
 	}
 
@@ -138,7 +138,7 @@ public class Inscription implements Serializable {
 	 * Getter for tempsRestant
 	 * @return the tempsRestant
 	 */
-	public Date getTempsRestant() {
+	public int getTempsRestant() {
 		return tempsRestant;
 	}
 
@@ -146,7 +146,7 @@ public class Inscription implements Serializable {
 	 * Setter for tempsRestant
 	 * @param tempsRestant the tempsRestant to set
 	 */
-	public void setTempsRestant(Date tempsRestant) {
+	public void setTempsRestant(int tempsRestant) {
 		this.tempsRestant = tempsRestant;
 	}
 	

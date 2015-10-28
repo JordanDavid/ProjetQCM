@@ -144,5 +144,10 @@ public class Question implements Serializable {
 	public void setListeReponses(List<Reponse> listeReponses) {
 		this.listeReponses = listeReponses;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.idQuestion == ((Question)obj).getIdQuestion();
+	}
 	
 }

@@ -9,7 +9,7 @@
 	<div id="div_form_selection_test">
 		<form id="form_selection_test" action="./test?action=lancerTest" method="POST">
 			<div id="div_select_test">
-				<select id="tests">
+				<select id="tests" name="idTest">
 				<% for(Test test : (ArrayList<Test>)request.getAttribute("tests")) { %>
 					<option value="<%= test.getId() %>"><%=test.getLibelle() %></option>
 				<% } %>

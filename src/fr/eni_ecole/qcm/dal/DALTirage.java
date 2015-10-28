@@ -90,8 +90,8 @@ public class DALTirage {
 		PreparedStatement cmd = null;
 		PreparedStatement cmd1 = null;
 		
-		String sql= "UPDATE TIRAGE SET encours = 0 WHERE idUtilisateur = ? AND idQuestion = ? "
-				+ "AND idTest = ? and idInscription = ? AND encours = 1";
+		String sql= "UPDATE TIRAGE SET en_cours = 0 WHERE idUtilisateur = ? AND idQuestion = ? "
+				+ "AND idTest = ? and idInscription = ? AND en_cours = 1";
 		
 		try{
 			cnx = AccesBase.getConnection();
@@ -104,7 +104,7 @@ public class DALTirage {
 			cmd.setInt(4, tirage.getInscription().getIdInscription());
 			cmd.executeUpdate();
 			
-			sql= "UPDATE TIRAGE SET encours = 1 WHERE idUtilisateur = ? AND idQuestion = ? "
+			sql= "UPDATE TIRAGE SET en_cours = 1 WHERE idUtilisateur = ? AND idQuestion = ? "
 					+ "AND idTest = ? and idInscription = ?";
 			cmd1 = cnx.prepareStatement(sql);
 			cmd1.setInt(1, tirage.getUtilisateur().getId());
@@ -121,6 +121,31 @@ public class DALTirage {
 		}finally{
 			if(cmd!=null)cmd.close();
 			if(cmd1!=null)cmd1.close();
+			if(cnx != null)cnx.close();
+		}
+	}
+
+	/**
+	 * Méthode en charge d'ajouter un tirage à la BD 
+	 * 28 oct. 2015
+	 * @param tirage Tirage à ajouter
+	 * @throws SQLException 
+	 */
+	public static void ajouter(Tirage tirage) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "INSERT INTO TIRAGE(idQuestion,idInscription,idUtilisateur,idTest,en_cours,marquee) VALUES (?,?,?,?,0,0)";
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, tirage.getQuestion().getIdQuestion());
+			cmd.setInt(2, tirage.getInscription().getIdInscription());
+			cmd.setInt(3, tirage.getUtilisateur().getId());
+			cmd.setInt(4, tirage.getTest().getId());
+			cmd.executeUpdate();			
+		}finally{
+			if(cmd!=null)cmd.close();
 			if(cnx != null)cnx.close();
 		}
 	}
