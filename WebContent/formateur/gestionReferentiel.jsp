@@ -13,7 +13,7 @@
 	<div id="div_theme">
 		<div id="div_select_theme">
 			<select id="themes" name="theme" onchange="SelectionTheme()">
-				<%-- <%  int i =0;
+				<%  int i =0;
 					for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
 						<% if(i==0){ %>
 							<option selected="selected" value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
@@ -21,7 +21,7 @@
 							<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
 						<%} %>
 				<% 	i++;
-					} %> --%>
+					} %>
 			</select>
 		</div>
 		<div id="div_gestion_theme">
@@ -126,7 +126,7 @@
 		<div id="div_select_change_theme">
 			<p>Sélectionner le nouveau thème :</p>
 			<select id="select_change_theme" name="idTheme">
-				<%-- <%  int y =0;
+				<%  int y =0;
 					for(Theme theme : (List<Theme>)request.getAttribute("themes") ) { %>
 						<% if(i==0){ %>
 							<option selected="selected" value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
@@ -134,7 +134,7 @@
 							<option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle()%></option>
 						<%} %>
 				<% 	y++;
-					} %> --%>
+					} %>
 			</select>
 		</div>
 		<input type="hidden" name="idQuestion" id="idQuestionToChange" />
