@@ -197,7 +197,7 @@ public class GestionTest extends HttpServlet {
 						Theme t = new Theme();
 						t.setIdTheme(section.getInt("idTheme"));
 						
-						Section s = new Section(section.getInt("idSection"),test,t,section.getInt("nbQuestion"));
+						Section s = new Section(section.getInt("idSection"),test,t,Integer.parseInt(section.getString("nbQuestion")));
 						lst_new_sections.add(s);
 					}
 				}
@@ -274,10 +274,10 @@ public class GestionTest extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}catch(Exception e){
-			out.println(e.getMessage());
-//			dispatcher = request.getRequestDispatcher("/erreur");
-//			request.setAttribute("erreur", e);
-//			dispatcher.forward(request, response);
+//			out.println(e.getMessage());
+			dispatcher = request.getRequestDispatcher("/erreur.jsp");
+			request.setAttribute("erreur", e);
+			dispatcher.forward(request, response);
 		}
 		out.flush();
 	}

@@ -28,7 +28,9 @@
 				</div>
 				<div class="inline_block_infos_right">
 					<label for="nbSections">Nombre de sections :</label>
-					<input type="number" name="nbSections" id="nbSections" value="<%= (sections.size() == 0 ? 1 : sections.size())%>">
+					<input type="number" name="nbSections" id="nbSections" 
+						value="<%= (sections.size() == 0 ? 1 : sections.size())%>"
+						onchange="changeNbSection(this);">
 				</div>
 			</div>
 			<div class="inline_infos">
@@ -66,7 +68,7 @@
 					<% for(PlageHoraire plage : plages) { %>
 						<tr>
 							<td><%=plage.getIdPlageHoraire()%></td>
-							<td><%=plage%></td>
+							<td><%=plage%></td>							
 							<td><%=plage.getDateDebut()%></td>
 							<td><%=plage.getDateFin()%></td>
 						</tr>
@@ -103,7 +105,7 @@
 						</div>		
 					<% } %>		
 				<% } else { %>
-						<div class="section_test" data-id="0">
+						<div class="section_test new_section_test" data-id="0">
 							<div class="div_select_theme_section">
 								<select class="select_theme_section" id="select_theme_section_0" name="select_theme_section">
 									<% for (Theme theme : themes ) { %>

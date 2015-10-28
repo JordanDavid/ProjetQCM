@@ -114,7 +114,7 @@ public class DALSection {
 	public static void modifierSection(Section section) throws SQLException {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
-		String sql = "UPDATE SET idTheme=?,idTest=?,nombre_question=? WHERE numero_section=?";
+		String sql = "UPDATE SECTION SET idTheme=?,idTest=?,nombre_question=? WHERE numero_section=?";
 		
 		try{
 			cnx = AccesBase.getConnection();

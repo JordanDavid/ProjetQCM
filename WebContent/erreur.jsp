@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String titre = "Erreur !";
+	String menu = "accueil";
 %>
 <%@include file="/fragments/haut.jspf" %>
 	<%= ((Exception)request.getAttribute("erreur")).getMessage() %>

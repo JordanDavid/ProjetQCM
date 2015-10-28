@@ -101,6 +101,11 @@ public class PlageHoraire implements Serializable {
 		return this.dateDebut + " - " + this.dateFin;
 	}
 
+	@Override
+	public boolean equals(Object arg0) {
+		return this.idPlageHoraire == ((PlageHoraire)arg0).getIdPlageHoraire();
+	}
+
 	
 	
 }

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,7 +157,7 @@ public class DALTest implements Serializable {
 	 * @throws SQLException
 	 */
 	public static List<PlageHoraire> getPlageHoraireByTest(Test test) throws SQLException{
-		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		List<PlageHoraire> plageHoraires = new ArrayList<PlageHoraire>();		
 		Connection cnx = null;
 		PreparedStatement cmd = null;
@@ -174,8 +175,8 @@ public class DALTest implements Serializable {
 			while (res.next()){
 				PlageHoraire plageHoraire = new PlageHoraire();
 				plageHoraire.setIdPlageHoraire(res.getInt("idPlageHoraire"));
-				plageHoraire.setDateDebut(res.getString("date_debut"));
-				plageHoraire.setDateFin(res.getString("date_fin"));
+				plageHoraire.setDateDebut(df.format(res.getTimestamp("date_debut")));
+				plageHoraire.setDateFin(df.format(res.getTimestamp("date_fin")));
 				
 				plageHoraires.add(plageHoraire);
 			}			
@@ -351,9 +352,9 @@ public class DALTest implements Serializable {
 	public static void modifierPlage(Test test,PlageHoraire plage) throws SQLException {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
-		String sql = "UPDATE PLAGE_HORAIRE p "
+		String sql =  "UPDATE p SET p.date_debut=?,p.date_fin=? "
+					+ "FROM PLAGE_HORAIRE p "
 					+ "INNER JOIN PLAGE_HORAIRE_TEST pt ON pt.idPlageHoraire = p.idPlageHoraire "
-					+ "SET debut=?,fin=? "
 					+ "WHERE pt.idPlageHoraire = ? AND pt.idTest = ?";
 		
 		try{
@@ -383,7 +384,7 @@ public class DALTest implements Serializable {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
 		Statement st = null;
-		String sql = "DELETE FROM PLAGE_HORAIRE_TEST WHERRE idPlageHoraire = ? AND idTest = ?";
+		String sql = "DELETE FROM PLAGE_HORAIRE_TEST WHERE idPlageHoraire = ? AND idTest = ?";
 		
 		try{
 			cnx = AccesBase.getConnection();

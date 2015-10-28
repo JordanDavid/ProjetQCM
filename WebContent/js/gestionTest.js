@@ -245,7 +245,7 @@ $(document).ready(function(){
 
 	
 	/**
-	 * Ajoute une plage dans la datagridview
+	 * Ajoute une plage dans la datatable
 	 */
 	ajouterPlage = function(){
 		$("#btn_SupprimePlage").attr("disabled","disabled");
@@ -253,15 +253,44 @@ $(document).ready(function(){
 			var add = {"idPlage" : 0,"libelle":dtp_Debut.val() + " - " + 
 					dtp_Fin.val(),"debut":dtp_Debut.val(),"fin":dtp_Fin.val()};
 			oTablePlageHorairesTest.fnAddData(add);
+		} else{
+			alert("Saisie invalide");
 		}
 	};
 
+	/**
+	 * Supprime une plage dans la datatable
+	 */
+	supprimerPlage = function(){
+		var row = $("#lst_plages_horaires tbody tr.selected");
+		oTablePlageHorairesTest.fnDeleteRow(row);
+	}
+	
 	
 	/**
 	 * Vérifie que la plage horaire est valide
 	 */
 	validePlage = function(){
 		return dtp_Debut.val() < dtp_Fin.val();
+	}
+	
+	var valueBaseNbSection = $("#nbSections")[0].defaultValue;
+	/**
+	 * Le changement du nombre de section impacte sur le nombre de section a saisir
+	 */
+	changeNbSection = function(element){
+		var value = parseInt($(element)[0].value);
+
+		//on ajoute une section si la nouvelle valeur est plus grande que l'ancienne
+		//Sinon on en supprime une
+		if(value > valueBaseNbSection){
+			console.log("ok");
+			$( ".new_section_test" ).eq(0).clone().appendTo( "#sections_test");
+		}else{
+			
+		}
+		
+		valueBaseNbSection = value;
 	}
 	
 });
