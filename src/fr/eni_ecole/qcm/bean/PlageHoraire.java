@@ -24,8 +24,8 @@ public class PlageHoraire implements Serializable {
 	private static final long serialVersionUID = 4360946030275702597L;
 	
 	private int idPlageHoraire;
-	private Date dateDebut;
-	private Date dateFin;
+	private String dateDebut;
+	private String dateFin;
 	
 	/**
 	 * d1410gerardm
@@ -34,7 +34,7 @@ public class PlageHoraire implements Serializable {
 	 * @param dateDebut Date début de la plage horaire
 	 * @param dateFin Date fin de la plage horaire
 	 */
-	public PlageHoraire(int idPlageHoraire, Date dateDebut, Date dateFin){
+	public PlageHoraire(int idPlageHoraire, String dateDebut, String dateFin){
 		setIdPlageHoraire(idPlageHoraire);
 		setDateDebut(dateDebut);
 		setDateFin(dateFin);
@@ -68,7 +68,7 @@ public class PlageHoraire implements Serializable {
 	 * Getter for dateDebut
 	 * @return the dateDebut
 	 */
-	public Date getDateDebut() {
+	public String getDateDebut() {
 		return dateDebut;
 	}
 
@@ -76,7 +76,7 @@ public class PlageHoraire implements Serializable {
 	 * Setter for dateDebut
 	 * @param dateDebut the dateDebut to set
 	 */
-	public void setDateDebut(Date dateDebut) {
+	public void setDateDebut(String dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
@@ -84,7 +84,7 @@ public class PlageHoraire implements Serializable {
 	 * Getter for dateFin
 	 * @return the dateFin
 	 */
-	public Date getDateFin() {
+	public String getDateFin() {
 		return dateFin;
 	}
 
@@ -92,13 +92,13 @@ public class PlageHoraire implements Serializable {
 	 * Setter for dateFin
 	 * @param dateFin the dateFin to set
 	 */
-	public void setDateFin(Date dateFin) {
+	public void setDateFin(String dateFin) {
 		this.dateFin = dateFin;
 	}
 
 	@Override
 	public String toString() {
-		return df.format(this.dateDebut) + " - " + df.format(this.dateFin);
+		return this.dateDebut + " - " + this.dateFin;
 	}
 
 	

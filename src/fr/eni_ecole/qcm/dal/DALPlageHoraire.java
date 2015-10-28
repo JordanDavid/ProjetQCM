@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import fr.eni_ecole.qcm.bean.PlageHoraire;
+import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.util.AccesBase;
 
 /**
@@ -25,7 +26,14 @@ public class DALPlageHoraire implements Serializable{
 	 */
 	private static final long serialVersionUID = 5241936122250168629L;
 	
-	public static Boolean ajouter(PlageHoraire plageHoraire) throws SQLException{
+	/**
+	 * Méthode en charge d'ajouter une plage horaire 
+	 * 28 oct. 2015
+	 * @param plageHoraire Plage horaire à ajouter
+	 * @return La plage horaire avec son identifiant
+	 * @throws SQLException
+	 */
+	public static PlageHoraire ajouter(PlageHoraire plageHoraire) throws SQLException{
 		Connection cnx = null;
 		Statement st = null;
 		PreparedStatement cmd = null;
@@ -37,8 +45,8 @@ public class DALPlageHoraire implements Serializable{
 			cnx.setAutoCommit(false);
 			
 			cmd = cnx.prepareStatement(sql);
-			cmd.setDate(1, (Date) plageHoraire.getDateDebut());
-			cmd.setDate(2, (Date)plageHoraire.getDateFin());
+			cmd.setString(1,plageHoraire.getDateDebut());
+			cmd.setString(2, plageHoraire.getDateFin());
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();
@@ -58,7 +66,9 @@ public class DALPlageHoraire implements Serializable{
 			if(cmd != null)cmd.close();
 			if(cnx!=null)cnx.close();
 		}
-		return true;
+		return plageHoraire;
 	}
 
+	
+	
 }

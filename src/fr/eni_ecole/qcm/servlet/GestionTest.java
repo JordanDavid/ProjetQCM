@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.eni_ecole.qcm.bean.*;
+import fr.eni_ecole.qcm.dal.DALPlageHoraire;
 import fr.eni_ecole.qcm.dal.DALSection;
 import fr.eni_ecole.qcm.dal.DALTest;
 import fr.eni_ecole.qcm.dal.DALTheme;
@@ -79,11 +80,10 @@ public class GestionTest extends HttpServlet {
 		String action = request.getParameter("action");
 		JSONObject json = null;
 		RequestDispatcher dispatcher = null;
-		
+
+		PrintWriter out = response.getWriter();
 		try{
-			if("ajouterTest".equals(action)){
-				
-			}else if("getTests".equals(action)){
+			if("getTests".equals(action)){
 				HashMap<String, List<fr.eni_ecole.qcm.bean.Test>> map = 
 						new HashMap<String, List<fr.eni_ecole.qcm.bean.Test>>();
 				
@@ -96,7 +96,6 @@ public class GestionTest extends HttpServlet {
 				
 				json = new JSONObject(map);
 				
-				PrintWriter out = response.getWriter();		
 				out.println(json.toString());
 				out.flush();
 				
@@ -115,8 +114,7 @@ public class GestionTest extends HttpServlet {
 				map.put("data", plages);
 				
 				json = new JSONObject(map);
-				
-				PrintWriter out = response.getWriter();		
+					
 				out.println(json.toString());
 				out.flush();
 			} else if("getSections".equals(action)){
@@ -135,7 +133,6 @@ public class GestionTest extends HttpServlet {
 				
 				json = new JSONObject(map);
 				
-				PrintWriter out = response.getWriter();		
 				out.println(json.toString());
 				out.flush();
 			} else if("afficherGererTest".equals(action)){
@@ -172,11 +169,11 @@ public class GestionTest extends HttpServlet {
 				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
 										
 				//test 
-				test.setId(Integer.parseInt(request.getParameter("id")));
+				test.setId(Integer.parseInt(request.getParameter("idTest")));
 				test.setLibelle(request.getParameter("nom"));
 				test.setDuree(Integer.parseInt(request.getParameter("duree")));
 				test.setSeuil_minimum(Integer.parseInt(request.getParameter("seuil1")));
-				test.setSeuil_minimum(Integer.parseInt(request.getParameter("seuil2")));
+				test.setSeuil_maximum(Integer.parseInt(request.getParameter("seuil2")));
 					
 				//Si Id = 0 => Ajout Sinon => Modification
 				if(test.getId() == 0){
@@ -185,13 +182,13 @@ public class GestionTest extends HttpServlet {
 					DALTest.modifier(test);
 				}
 				
-				//Récupère dans la BDD l'ensemble des plages horaires du test 
-				//et l'ensemble des sections du test
+//				Récupère dans la BDD l'ensemble des plages horaires du test 
+//				et l'ensemble des sections du test
 				test.setListeSections(DALSection.selectSectionsByTest(test));
 				test.setListePlageHoraire(DALTest.getPlageHoraireByTest(test));
 				
 				
-				//Récupère les sections du test après enregistrement du client
+//				//Récupère les sections du test après enregistrement du client
 				List<Section> lst_new_sections = new ArrayList<Section>();
 				JSONArray sections = new JSONArray(request.getParameter("lst_sections"));
 				for(int i=0;i<sections.length();i++){
@@ -213,51 +210,63 @@ public class GestionTest extends HttpServlet {
 						JSONObject plage = plages.getJSONObject(i);
 						
 						PlageHoraire p = new PlageHoraire(plage.getInt("idPlage"),
-								new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(plage.getString("debut")),
-								new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(plage.getString("fin")));
+								plage.getString("debut"),
+								plage.getString("fin"));
 						
 						lst_new_plages.add(p);
 					}
 				}
 				
-				//Pour chacunes des sections enregistrées : 
+//				//Pour chacunes des sections enregistrées : 
 				//Si ID == 0  => Ajout section au test => remove de la liste
 				//Si ID != 0 && existe dans BDD => Update BDD => remove de la liste
 				//Section inexistante => remove BDD => remove de la liste
 				for(Section s : lst_new_sections){
+//					out.println(s.getNumSection());
 					if(s.getNumSection() == 0){
-						DALTest.ajoutSection(test,s);
+						s = DALSection.ajoutSection(s);
+						test.getListeSections().remove(s);
 					}else{
 						if(test.getListeSections().indexOf(s) != -1){
-							DALTest.modifierSection(test,s);
+							DALSection.modifierSection(s);
+							test.getListeSections().remove(s);
 						}
 					}
-					lst_new_sections.remove(s);
 				}
 				//Suprimme de la BDD
-				for(Section s : lst_new_sections){
-					DALTest.supprimerSection(test, s);
+				for(Section s : test.getListeSections()){
+					DALSection.supprimerSection(s);
 				}
 				
 				//Pour chacunes des plages enregistrées : 
-				//Si ID == 0  => Ajout plages au test => remove de la liste
-				//Si ID != 0 && existe dans BDD => Update BDD => remove de la liste
-				//Plage inexistante => remove BDD => remove de la liste
+				//Si ID == 0  => Ajout plages , liaison au test => remove de la liste
+				//Si ID != 0 && existe dans BDD => Update plage BDD => remove de la liste
+				//Plage inexistante => remove plage et liaison BDD => remove de la liste
 				for(PlageHoraire p : lst_new_plages){
 					if(p.getIdPlageHoraire() == 0){
+						p = DALPlageHoraire.ajouter(p);
 						DALTest.ajoutPlage(test,p);
+						test.getListePlageHoraire().remove(p);
 					}else{
 						if(test.getListePlageHoraire().indexOf(p) != -1){
 							DALTest.modifierPlage(test,p);
+							test.getListePlageHoraire().remove(p);
 						}
 					}
-					lst_new_plages.remove(p);
 				}
 				//Suprimme de la BDD
-				for(PlageHoraire p : lst_new_plages){
+				for(PlageHoraire p : test.getListePlageHoraire()){
 					DALTest.supprimerPlage(test, p);
 				}
 				
+				//redirige vers la page avec l'ajout en affichage
+				request.setAttribute("test",test);
+				request.setAttribute("sections", DALSection.selectSectionsByTest(test));
+				request.setAttribute("plages", DALTest.getPlageHoraireByTest(test));
+				request.setAttribute("themes", DALTheme.selectAll());				
+				
+				dispatcher = request.getRequestDispatcher("/formateur/gererTest.jsp");
+				dispatcher.forward(request, response);
 				
 			} else {		
 				
@@ -265,10 +274,12 @@ public class GestionTest extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		}catch(Exception e){
-			dispatcher = request.getRequestDispatcher("/erreur");
-			request.setAttribute("erreur", e);
-			dispatcher.forward(request, response);
+			out.println(e.getMessage());
+//			dispatcher = request.getRequestDispatcher("/erreur");
+//			request.setAttribute("erreur", e);
+//			dispatcher.forward(request, response);
 		}
+		out.flush();
 	}
 	
 	

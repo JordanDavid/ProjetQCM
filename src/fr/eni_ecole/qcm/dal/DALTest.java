@@ -174,8 +174,8 @@ public class DALTest implements Serializable {
 			while (res.next()){
 				PlageHoraire plageHoraire = new PlageHoraire();
 				plageHoraire.setIdPlageHoraire(res.getInt("idPlageHoraire"));
-				plageHoraire.setDateDebut(ManipDate.dateSQLVersUtil(res.getDate("date_debut")));
-				plageHoraire.setDateFin(ManipDate.dateSQLVersUtil(res.getDate("date_fin")));
+				plageHoraire.setDateDebut(res.getString("date_debut"));
+				plageHoraire.setDateFin(res.getString("date_fin"));
 				
 				plageHoraires.add(plageHoraire);
 			}			
@@ -315,39 +315,87 @@ public class DALTest implements Serializable {
 		}
 	}
 
-
-	public static void ajoutSection(Test test, Section s) {
-		// TODO Auto-generated method stub
+	/**
+	 * Méthode en charge de lier un test à un e plage horaire 
+	 * 28 oct. 2015
+	 * @param test Test concerné
+	 * @param plage Plage horaire souhaitée
+	 * @throws SQLException
+	 */
+	public static void ajoutPlage(Test test, PlageHoraire plage) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "INSERT INTO PLAGE_HORAIRE_TEST VALUES(?,?)";
 		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, test.getId());
+			cmd.setInt(2, plage.getIdPlageHoraire());
+			cmd.executeUpdate();
+					
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
 	}
 
 
-	public static void modifierSection(Test test, Section s) {
-		// TODO Auto-generated method stub
+	/**
+	 * Méthode en charge de modifier une plage horaire d'un test
+	 * 28 oct. 2015
+	 * @param test Test concerné
+	 * @param plage Plage à modifier
+	 * @throws SQLException
+	 */
+	public static void modifierPlage(Test test,PlageHoraire plage) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "UPDATE PLAGE_HORAIRE p "
+					+ "INNER JOIN PLAGE_HORAIRE_TEST pt ON pt.idPlageHoraire = p.idPlageHoraire "
+					+ "SET debut=?,fin=? "
+					+ "WHERE pt.idPlageHoraire = ? AND pt.idTest = ?";
 		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setString(1,plage.getDateDebut());
+			cmd.setString(2,plage.getDateFin());
+			cmd.setInt(3,plage.getIdPlageHoraire());
+			cmd.setInt(4,test.getId());
+			cmd.executeUpdate();
+					
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
 	}
 
 
-	public static void supprimerSection(Test test, Section s) {
-		// TODO Auto-generated method stub
+	/**
+	 * Méthode en charge de supprimer la liaison entre une plage horaire et un test 
+	 * 28 oct. 2015
+	 * @param test Test concerné
+	 * @param plage Plage horaire à supprimer
+	 * @throws SQLException
+	 */
+	public static void supprimerPlage(Test test, PlageHoraire plage) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		Statement st = null;
+		String sql = "DELETE FROM PLAGE_HORAIRE_TEST WHERRE idPlageHoraire = ? AND idTest = ?";
 		
-	}
-
-
-	public static void ajoutPlage(Test test, PlageHoraire p) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public static void modifierPlage(Test test, PlageHoraire p) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public static void supprimerPlage(Test test, PlageHoraire p) {
-		// TODO Auto-generated method stub
-		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, plage.getIdPlageHoraire());
+			cmd.setInt(2, test.getId());
+			cmd.executeUpdate();
+					
+		}finally{
+			if(cmd != null) cmd.close();
+			if(st != null) st.close();
+			if(cnx != null) cnx.close();
+		}
 	}
 }

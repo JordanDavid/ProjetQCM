@@ -28,7 +28,7 @@
 				</div>
 				<div class="inline_block_infos_right">
 					<label for="nbSections">Nombre de sections :</label>
-					<input type="number" name="nbSections" id="nbSections" value="<%= sections.size()%>">
+					<input type="number" name="nbSections" id="nbSections" value="<%= (sections.size() == 0 ? 1 : sections.size())%>">
 				</div>
 			</div>
 			<div class="inline_infos">
@@ -104,14 +104,14 @@
 					<% } %>		
 				<% } else { %>
 						<div class="section_test" data-id="0">
-							<div>
+							<div class="div_select_theme_section">
 								<select class="select_theme_section" id="select_theme_section_0" name="select_theme_section">
 									<% for (Theme theme : themes ) { %>
 										 <option value="<%=theme.getIdTheme()%>"><%=theme.getLibelle() %></option>
 									<% } %>
 								</select>
 							</div>
-							<div>
+							<div class="div_nb_questions_sections">
 								Nombre de question : 
 								<input type="number" class="nb_questions_sections" name="nb_questions_section" id="nb_questions_section_0">
 								<div class="valide_nb_questions"></div>
