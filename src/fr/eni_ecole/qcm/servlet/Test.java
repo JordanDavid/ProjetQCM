@@ -101,9 +101,6 @@ public class Test extends HttpServlet {
 					//récupère la liste des sections du test
 					List<Section> sections = DALSection.selectSectionsByTest(test);
 					
-					//Va contenir pour chacune des sections la liste des question
-//					HashMap<Section, List<Tirage>> mapTirage = new HashMap<Section, List<Tirage>>();
-					
 					//Va contenir le tirage
 					List<Tirage> tirages = new ArrayList<Tirage>();
 					
@@ -115,8 +112,6 @@ public class Test extends HttpServlet {
 						List<Question> questionsTotales =  DALQuestion.getQuestionByTheme(s.getTheme());
 						//Va contenir les questions tirées
 						List<Question> questionsTirage = new ArrayList<Question>();
-//						//Va contenir le tirage
-//						List<Tirage> tirages = new ArrayList<Tirage>();
 						//Variable pour le tirage aléatoire
 						Random rdm = new Random();
 						//numéro du tirage en cours
@@ -149,7 +144,6 @@ public class Test extends HttpServlet {
 								}
 							}
 						}						
-//						mapTirage.put(s, tirages);
 					}
 						
 					//Stock dans la variable de session le tirage complet et le debut du test
@@ -161,18 +155,22 @@ public class Test extends HttpServlet {
 					dispatcher= request.getRequestDispatcher("/candidat/test?action=afficher&q=1");
 					dispatcher.forward(request, response);
 					
-			} else {
-				if("enregisterReponse".equals(action)){
-				//Récupérer les id des questions cochés
+			} else if("terminer".equals(action)){
+				//traitement lorsque le test est terminé => redirection vers la page des résultats
 				
-				}else if("marquerQuestion".equals("action")){
-					//Récupérerles id pour question à marquer
-					
-//					DALTirage.marquerQuestion(tirage);
-				}
-						
+				
+			} else {				
 				//Récupère le tirage de l'utilisateur
 				List<Tirage> tirages = (List<Tirage>)request.getSession().getAttribute("tirage");
+				
+				if("enregisterReponse".equals(action)){
+				//Récupérer les id des questions cochés dans l'attribut reponses
+				
+					//Si la question est marqué on l'a note en tant que question marqué
+//					if()
+//						DALTirage.marquerQuestion(tirage);
+					
+				}
 				
 				//Numéro de la question en cours
 				int numQuestion = Integer.parseInt(request.getParameter("q"));
@@ -184,12 +182,17 @@ public class Test extends HttpServlet {
 				DALTirage.questionEnCours(tirages.get(numQuestion-1));
 				
 				//Récupère la liste des réponses pour cette question
-				//PROBLEME ICI
-				List<Reponse>reponses = DALReponse.selectByThemeQuestion(question.getTheme(), question);
+				List<Reponse>reponses = DALReponse.selectByThemeQuestion(question);
 				
 				dispatcher= request.getRequestDispatcher("/candidat/test.jsp");
 				request.setAttribute("question", question);
 				request.setAttribute("reponses", reponses);
+				if(numQuestion == tirages.size())
+					request.setAttribute("terminer", true);
+				else
+					request.setAttribute("terminer",false);
+				
+
 				request.setAttribute("q",numQuestion);
 				dispatcher.forward(request, response);
 			}

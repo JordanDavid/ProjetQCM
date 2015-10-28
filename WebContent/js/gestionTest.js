@@ -115,7 +115,6 @@ $(document).ready(function(){
         modal: true,
     	buttons : {
     		"Oui" : function(){
-    			console.log("yes");
     			if($("#idTestToDelete")[0].value != ""){
     				//Récupérer l'identifiant de la ligne selectionné
         			$("#formConfirmSupprTest").submit();

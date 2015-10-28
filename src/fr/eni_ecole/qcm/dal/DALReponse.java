@@ -27,12 +27,11 @@ public class DALReponse {
 	/**
 	 * Méthode en charge de lister les réponse en fonction deu thème et de la question
 	 * 22 oct. 2015
-	 * @param theme Theme de la question
 	 * @param question Question concernée
 	 * @return La liste des réponses
 	 * @throws SQLException
 	 */
-	public static List<Reponse> selectByThemeQuestion(Theme theme,Question question) throws SQLException{
+	public static List<Reponse> selectByThemeQuestion(Question question) throws SQLException{
 		Connection cnx = null;
 		PreparedStatement cmd = null;
 		List<Reponse> ret = new ArrayList<Reponse>();
@@ -43,7 +42,7 @@ public class DALReponse {
 		try{
 			cnx = AccesBase.getConnection();
 			cmd = cnx.prepareStatement(sql);
-			cmd.setInt(1, theme.getIdTheme());
+			cmd.setInt(1, question.getTheme().getIdTheme());
 			cmd.setInt(2, question.getIdQuestion());
 			ResultSet rs = cmd.executeQuery();
 			

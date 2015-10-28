@@ -46,6 +46,7 @@ public class DALQuestion {
 			while(res.next()){
 				Question question = new Question(res.getInt("idQuestion"),res.getString("enonce"),
 						res.getBoolean("type_reponse"), res.getString("image"));
+				question.setTheme(theme);
 				ret.add(question);
 			}
 			
@@ -78,6 +79,10 @@ public class DALQuestion {
 			if(res.next()){
 				question = new Question(res.getInt("idQuestion"),res.getString("enonce"),
 						res.getBoolean("type_reponse"), res.getString("image"));
+				Theme t = new Theme();
+				t.setIdTheme(res.getInt("idTheme"));
+				question.setTheme(t);
+				
 			}else{
 				question = null;
 			}			

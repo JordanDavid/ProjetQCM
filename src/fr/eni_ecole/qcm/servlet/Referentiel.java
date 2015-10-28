@@ -110,8 +110,9 @@ public class Referentiel extends HttpServlet {
 				theme.setIdTheme(Integer.parseInt(request.getParameter("idTheme"))); ;
 				Question question = new Question();
 				question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+				question.setTheme(theme);
 				
-				List<Reponse>reponses = DALReponse.selectByThemeQuestion(theme, question);
+				List<Reponse>reponses = DALReponse.selectByThemeQuestion(question);
 				
 				response.setContentType("application/json");        
 				response.setHeader("Cache-Control", "no-store");
