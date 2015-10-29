@@ -114,7 +114,11 @@
 					<!-- Affichage du tableau des tests selectionnes -->
 				</tbody>
 			</table>
-			<p><input type="button" id="deleteButton" value="Retirer"></p>
+		</div>
+		<div>
+			<div id="btn_supprimer_plage_horaire" >
+				<p><input type="button" id="deleteButton" value="Retirer"></p>			
+			</div>
 		</div>
 	</fieldset>
 			<!-- INPUT caché -->

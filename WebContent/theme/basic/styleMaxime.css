@@ -6,14 +6,34 @@
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 
 #div_choix_test {
-    width: 65%;
+    width: 80%;
     display: inline-block;
     height: 100%;
     padding-top: 3%;
 }
 
-#btn_ajout_plage_horaire{
-	width : 30%;
-	display : inline-block;
-	float : right;
+#btn_ajout_plage_horaire {
+    width: 15%;
+    float: right;
+    margin-top: 85px;
+}
+
+#div_tests_selectionnes{
+    width: 80%;
+    display: inline-block;
+    height: 100%;
+    padding-top: 3%;	
+}
+
+#btn_supprimer_plage_horaire{
+    width: 15%;
+    float: right;
+    margin-top: -75px;	
+}
+
+#div_tests_selectionnes {
+    width: 80%;
+    display: inline-block;
+    height: 100%;
+    padding-top: 0;
 }
