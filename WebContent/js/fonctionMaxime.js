@@ -1,9 +1,6 @@
 
 $(document).ready(function() {
 	
-	
-	
-	
 	///////// Tableau des TESTS /////////	
 	
 	oTableTests = $("#list_tests").dataTable({
@@ -26,6 +23,18 @@ $(document).ready(function() {
          ],
 		"sAjaxSource" : "./inscription?action=getTests&id="+$("#themes option:selected")[0].value
 	});
+	
+	// FONCTION appelée losqu'on coche une checkbox du tableau CANDIDAT
+	idCandidats = document.getElementById("idCandidats");
+	selectCandidat = function(){
+		var selected = new Array();
+		$("input:checkbox[name=select_candidats]:checked").each(function() {
+		       selected.push($(this)[0].value);
+		  });			
+		console.log(selected);
+		
+		idCandidats.setAttribute("value", JSON.stringify(selected));
+	}
 	
 	// suivant la LIGNE SELECTIONNEE, on SET les input caché suivant l'ID et le LIBELLE du TEST
     idTest = document.getElementById("idTest");
@@ -81,11 +90,12 @@ $(document).ready(function() {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-	    });
+	});
+    
     // SUPPRESSION d'une ligne
     $('#deleteButton').click( function () {
         table.row('.selected').remove().draw( false );
-    } );
+    });
 	
     // FONCTION appelé lorsqu'on clique sur une LIGNE du tableau des TESTS
     SelectionTest = function( ){		

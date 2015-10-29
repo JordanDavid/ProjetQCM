@@ -17,12 +17,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.eni_ecole.qcm.bean.Inscription;
 import fr.eni_ecole.qcm.bean.PlageHoraire;
 import fr.eni_ecole.qcm.bean.Test;
 import fr.eni_ecole.qcm.bean.Theme;
 import fr.eni_ecole.qcm.bean.Utilisateur;
+import fr.eni_ecole.qcm.dal.DALInscription;
 import fr.eni_ecole.qcm.dal.DALPlageHoraire;
 import fr.eni_ecole.qcm.dal.DALTest;
 import fr.eni_ecole.qcm.dal.DALTheme;
@@ -31,13 +35,13 @@ import fr.eni_ecole.qcm.dal.DALUtilisateur;
 /**
  * Servlet implementation class Inscription
  */
-public class Inscription extends HttpServlet {
+public class GestionInscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Inscription() {
+    public GestionInscription() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -74,6 +78,9 @@ public class Inscription extends HttpServlet {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -87,6 +94,9 @@ public class Inscription extends HttpServlet {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -98,9 +108,10 @@ public class Inscription extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 * @throws ParseException 
+	 * @throws JSONException 
 	 */
 	private void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException, ParseException {
+			HttpServletResponse response) throws ServletException, IOException, ParseException, JSONException {
 		RequestDispatcher dispatcher = null;
 		String action = request.getParameter("action");
 		List<Utilisateur> listeCandidats = new ArrayList<Utilisateur>();
@@ -129,24 +140,36 @@ public class Inscription extends HttpServlet {
 					out.println(json.toString());
 					out.flush();
 					break;
-				case "ajoutCandidatToTheme":
-//					//il faut récupérer les informations de la pop et faire la création
-//					if (request.getParameter("ajoutPlageHoraire") != null) {
-//						// alors on ajoute une plage horaire
-//						SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-//						
-//						Date debutPlageHoraire = formatter.parse(request.getParameter("date_picker_debut"));
-//						Date finPlageHoraire = formatter.parse(request.getParameter("date_picker_fin"));
-//						
-//						PlageHoraire plageHoraire = new PlageHoraire();
-//						plageHoraire.setDateDebut(debutPlageHoraire);
-//						plageHoraire.setDateFin(finPlageHoraire);
-//						
-//						DALPlageHoraire.ajouter(plageHoraire);												
-//					} else {
-//						// sinon on valide la pop up
-//						
-//					}
+				case "enregistrer":
+					// ENREGISTREMENT de l'inscription
+					Test testIncription = new Test();
+					testIncription.setId(Integer.parseInt(request.getParameter("idTest")));
+					Test newTest = DALTest.getTest(testIncription);
+					
+					int duree = newTest.getDuree();
+					int idTest = newTest.getId();					
+					String date_debut = request.getParameter("dateDebutPlage");
+					String date_fin = request.getParameter("dateFinPlage");
+					
+					JSONArray jsonArray = new JSONArray(request.getParameter("idCandidats"));
+					for (int i = 0; i < jsonArray.length(); i++){						
+						int idUtilisateur = jsonArray.getInt(i);
+						// INSERT INTO pour chaque candidat
+						boolean res = DALInscription.ajouter(idTest, null, null, idUtilisateur, duree);
+					}
+					
+					// Gestion PLAGE HORAIRE
+					int idPlage = Integer.parseInt(request.getParameter("idPlage"));
+					if (idPlage == 0) {
+						PlageHoraire p = new PlageHoraire(idPlage, date_debut, date_fin);
+						// Alors CREATION d'une nouvelle PLAGE HORAIRE
+						p = DALPlageHoraire.ajouter(p);
+						// et CREATION d'une ligne sur l'entité PLAGE_HORAIRE_TEST
+						DALTest.ajoutPlage(testIncription, p);
+					}
+					dispatcher = request.getRequestDispatcher("/formateur/inscription.jsp");
+					dispatcher.forward(request, response);
+					
 					break;
 				case "getPlageHoraire":
 					HashMap<String, List<PlageHoraire>> mapPlageHoraire = new HashMap<String, List<PlageHoraire>>();

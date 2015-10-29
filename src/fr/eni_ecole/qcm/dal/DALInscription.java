@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -57,6 +58,42 @@ public class DALInscription {
 		}
 		
 		return inscription;
+	}
+	
+	public static boolean ajouter(int idTest, String dateDebut, String dateFin, int idUtilisateur, int duree) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		Statement st = null;
+		String sql = "INSERT INTO INSCRIPTION VALUES(?,?,?,?,?)";
+		try{
+			cnx = AccesBase.getConnection();
+			
+			cnx.setAutoCommit(false);			
+			
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, idTest);
+			cmd.setString(2, dateDebut);
+			cmd.setString(3, dateFin);
+			cmd.setInt(4, idUtilisateur);
+			cmd.setInt(5, duree);
+			cmd.executeUpdate();
+						
+			cnx.commit();
+			
+		}catch(SQLException sqle){
+			if(cnx != null)
+				cnx.rollback();
+			throw sqle;
+		}finally{
+			if(st != null) st.close();
+			if(cmd != null)cmd.close();
+			if(cnx!=null)cnx.close();
+		}
+		return true;
+		
+		
+		
+		
 	}
 	
 }

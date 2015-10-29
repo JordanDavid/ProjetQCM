@@ -41,12 +41,12 @@
   </servlet-mapping>
   <servlet>
     <description>Inscripion des candidats</description>
-    <display-name>Inscription</display-name>
-    <servlet-name>Inscription</servlet-name>
-    <servlet-class>fr.eni_ecole.qcm.servlet.Inscription</servlet-class>
+    <display-name>GestionInscription</display-name>
+    <servlet-name>GestionInscription</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.GestionInscription</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Inscription</servlet-name>
+    <servlet-name>GestionInscription</servlet-name>
     <url-pattern>/formateur/inscription</url-pattern>
   </servlet-mapping>
   <servlet>
