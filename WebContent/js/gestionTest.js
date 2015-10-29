@@ -212,8 +212,8 @@ $(document).ready(function(){
 	 * Enregistre l'ajout ou la modification du test
 	 */
 	enregistrerModifTest = function(){
-
-		if(verifValideTest() == null){
+		var messageErreur = verifValideTest();
+		if(messageErreur == null){
 			//Construit le json pour les plages horaires
 			var plages = new Array();
 			var dataPlages = oTablePlageHorairesTest.fnGetData();
@@ -240,7 +240,7 @@ $(document).ready(function(){
 			
 			$("#formGererTest").submit();
 		}else{
-			alert("Saisie invalide");
+			afficherErreur("Enregistrer test", messageErreur);
 		}
 	};
 	

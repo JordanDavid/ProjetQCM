@@ -4,6 +4,7 @@
 <%
 	Question question = (Question)request.getAttribute("question");
 	List<Reponse> reponses = (List<Reponse>)request.getAttribute("reponses");
+	List<Reponse> responsesTirageBD = (List<Reponse>)request.getAttribute("reponsesTirage");
 	int numQuestion = Integer.parseInt(request.getAttribute("q").toString());
 	String titre = "Question n°"+numQuestion;
 	String menu = "passerTest";
@@ -20,11 +21,15 @@
 				<%= question.getEnonce() %>
 			</div>
 			<div id="reponses">
-				<% for(Reponse reponse : reponses) { %>
+				<% for(Reponse reponse : reponses) { 
+					String checked="";
+					if(responsesTirageBD.contains(reponse))
+						checked="checked=\"checked\"";				
+				%>
 					<div class="reponse">
 						<input class="input_reponse" id="input_reponse_<%=reponse.getIdReponse() %>" 
 							type="<%=type%>" name="reponses" title="Cocher pour indiquer la bonne réponse"
-							value="<%=reponse.getIdReponse()%>"/>
+							value="<%=reponse.getIdReponse()%>" <%=checked%>/>
 						<label class="enonce_reponse" for="input_reponse_<%=reponse.getIdReponse() %>" ><%=reponse.getReponse()%></label>			
 					</div>
 				<% } %>
@@ -34,7 +39,7 @@
 				<% if(!(Boolean)request.getAttribute("terminer")) { %>
 						<input type="button" name="repondre" id="repondre"  data-q="<%=numQuestion%>" value="Suivant >>" onclick="Suivant(this)"/>
 				<% }else{ %>
-						<input type="button" name="terminer" id="terminer" value="Terminer >>" onclick="Terminer()"/>
+						<input type="button" name="terminer" id="terminer" data-q="<%=numQuestion%>" value="Terminer >>" onclick="Terminer(this)"/>
 				<% } %>
 			</div>
 		</form>
@@ -61,8 +66,5 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="hide" id="dialogConfirmTerminerTest">
-		<div id="messageConfirmTerminerTest"></div>
-	</div>
+
 <%@include file="/fragments/bas.jspf"%>

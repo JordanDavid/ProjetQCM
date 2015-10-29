@@ -69,4 +69,14 @@
     <servlet-name>GestionTest</servlet-name>
     <url-pattern>/formateur/gestionTests</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ResultatsCandidat</display-name>
+    <servlet-name>ResultatsCandidat</servlet-name>
+    <servlet-class>fr.eni_ecole.qcm.servlet.ResultatsCandidat</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResultatsCandidat</servlet-name>
+    <url-pattern>/candidat/resultats</url-pattern>
+  </servlet-mapping>
 </web-app>

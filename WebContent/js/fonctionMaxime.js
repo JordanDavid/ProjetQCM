@@ -240,40 +240,6 @@ $(document).ready(function() {
 	}
 	
 	
-	// FONCTION qui ouvre une POP-UP en affichant l'erreur
-	afficherErreur = function(titre, message){
-		dialogchoixPlage = $("#erreur_dialog").dialog({
-			autoOpen: false,
-	        height: 200,
-	        resizable : false,
-	        width: 400,
-	        title : titre,
-	        modal: true,
-	        position : { my: "center", at: "top", of: window },
-	        buttons: [
-	                  {
-	                    text: "Ok",
-	                    click: function() {
-	                      $( this ).dialog( "close" );
-	                    }
-	                  }
-	                ],
-	       open : function(){
-	    	   $("#message_erreur").html("<p>"+message+"</p>");
-	       }
-		});
-		
-		if(dialogchoixPlage.dialog( "isOpen" ))
-			dialogchoixPlage.dialog( "close" );
-		else
-			dialogchoixPlage.dialog( "open" );
-	}
-	
-	
-	
-	
-	
-	
 	
 });
 

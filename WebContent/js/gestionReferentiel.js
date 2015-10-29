@@ -236,7 +236,7 @@ $(document).ready(function() {
 			$("#gestion_referentiel").submit();
 
 		}else{
-			console.log("Erreur "+messageErreur);
+			afficherErreur("Enregistrer question", messageErreur);
 		}
 	};
 	
@@ -250,23 +250,23 @@ $(document).ready(function() {
 		
 		//L'énoncé doit obligatoirement etre saisi
 		if($("#enonce")[0].value == null || $("#enonce")[0].value == ""){
-			message += "<br/>L'énoncé doit obligatoirement être saisi"
+			message += "<br/>  - L'énoncé doit obligatoirement être saisi"
 		}
 		
 		//vérifier qu'il y ait au moins deux réponse de saisie
 		if(!VerifNbReponse()){
-			message += "<br/>Vous devez saisir au moins deux réponses"
+			message += "<br/>  - Vous devez saisir au moins deux réponses"
 		}
 		
 		if($("#typeQuestion option:selected")[0].value == 0){
 		//Si le type de question est égale à 0 (une seule bonne réponse), vérifier qu'il y ait une réponse de cochée
 			if(!VerifNbBonnesReponses(1)){
-				message += "<br/>Il doit y avoir une bonne réponse pour ce type de question";				
+				message += "<br/>  - Il doit y avoir une bonne réponse pour ce type de question";				
 			}
 		}else{
 		//Si le type de question est égale à 1 (plusieurs bonne réponse), vérifier qu'il y ait au moins deux réponses de cochées
 			if(!VerifNbBonnesReponses(1)){
-				message += "<br/>Il doit y avoir une bonne réponse pour ce type de question";
+				message += "<br/>  - Il doit y avoir une bonne réponse pour ce type de question";
 			}			
 		}
 

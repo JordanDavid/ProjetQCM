@@ -2,7 +2,9 @@ package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +99,7 @@ public class Test extends HttpServlet {
 					//Récupère l'inscription
 					fr.eni_ecole.qcm.bean.Inscription inscription = 
 							DALInscription.getInscriptionByUserTest(test, user);
-					out.println(inscription.getIdInscription());
+
 					//récupère la liste des sections du test
 					List<Section> sections = DALSection.selectSectionsByTest(test);
 					
@@ -148,18 +150,51 @@ public class Test extends HttpServlet {
 						}						
 					}
 						
+					//Démarre le test
+					DALInscription.demarrerTest(inscription);
+					
 					//Stock dans la variable de session le tirage complet et le debut du test
 					HttpSession session = request.getSession();
 					session.setAttribute("tirage", tirages);
+					session.setAttribute("test", test);
 					session.setAttribute("debut", new Date());
 					
 
 					dispatcher= request.getRequestDispatcher("/candidat/test?action=afficher&q=1");
 					dispatcher.forward(request, response);
 					
-			} else if("terminer".equals(action)){
-				//traitement lorsque le test est terminé => redirection vers la page des résultats
+			} else if("recapitulatif".equals(action)){
+				//indique que l'on veut afficher la page récapitulative
+				request.setAttribute("recapitulatif", true);
 				
+				//Si on a un paramètre q c'est que l'on souhaite enregistrer la page (Bouton terminer)
+				//Sinon on redirigie vers la page (Lien récapitulatif)
+				if(request.getParameter("q") != null){
+					int q = Integer.parseInt(request.getParameter("q"));				
+					dispatcher= request.getRequestDispatcher("/candidat/test?action=enregistrer&q="+(q+1));			
+				} else{
+					dispatcher= request.getRequestDispatcher("/candidat/recapitulatif.jsp");
+				}
+				
+				//redirige selon le dispatcher
+				dispatcher.forward(request, response);		
+				
+			} else if("terminer".equals(action)){
+				//Récupère le test concerné
+				fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
+				test.setId(Integer.parseInt(request.getParameter("idTest")));
+				test = DALTest.getTest(test);
+				
+				//Récupère l'inscription
+				fr.eni_ecole.qcm.bean.Inscription inscription = 
+						DALInscription.getInscriptionByUserTest(test, user);
+				
+				//traitement lorsque le test est terminé => redirection vers la page des résultats
+				DALInscription.finirTest(inscription);
+				
+				//Redirige vers la page des résultats
+				dispatcher = request.getRequestDispatcher("/candidat/resultats?idTest="+test.getId());
+				dispatcher.forward(request, response);
 				
 			} else {				
 				//Récupère le tirage de l'utilisateur
@@ -168,29 +203,43 @@ public class Test extends HttpServlet {
 				//Numéro de la question en cours
 				int numQuestion = Integer.parseInt(request.getParameter("q"));
 				
-				//Récupère le tirage
-				Tirage tirage = tirages.get(numQuestion-1);
-				
-				//récupère la liste des réponses existante pour ce tirage sinon null
-				List<Reponse>reponsesTirage = DALReponse.getReponseAuTirage(tirage);
-				
 				if("enregistrer".equals(action)){
-					//Récupérer les id des questions cochés dans l'attribut reponses
-					Tirage tirageAEnregister = tirages.get(numQuestion-2);
-					//Récupère les réponses de l'utilisateur
-					String[] lstReponses = request.getParameterValues("reponses");
-
-					//Récupère les réponses existantes pour ce tirage en base de données
-//					List<Reponse>lstReponseirageAEnregistrer = DALTirage.getQuestionByTirage(tirageAEnregister);
+					Tirage tirageAEnregister = null;
 					
-					if(lstReponses != null){
-						for(int i=0; i<lstReponses.length;i++){
+					//Récupérer les id des questions cochés dans l'attribut reponses
+					tirageAEnregister = tirages.get(numQuestion-2);
+
+					if(request.getParameterValues("reponses") != null){
+					
+						//Récupère les réponses de l'utilisateur
+						List<String> lstReponsesUser = Arrays.asList(request.getParameterValues("reponses"));
+	
+						//Récupère les réponses existantes pour ce tirage en base de données
+						List<Reponse>lstReponseTirageAEnregistrer = DALReponse.getReponseAuTirage(tirageAEnregister);
+					
+						for(String r : lstReponsesUser){
 							//Construit une réponse en fonction de son identifiant
 							Reponse reponse = new Reponse();
-							reponse.setIdReponse(Integer.parseInt(lstReponses[i]));
-							//Lie une réponse au tirage
-							DALReponse.ajouterReponseAuTirage(tirageAEnregister,reponse);
+							reponse.setIdReponse(Integer.parseInt(r));
+							
+							//Si l'identifiant passé n'existe pas dans la liste des réponses existant dans
+							//la base de donnée pour ce tirage. On ajoute à la BD
+							if(lstReponseTirageAEnregistrer==null 
+									||(lstReponseTirageAEnregistrer != null 
+										&& !lstReponseTirageAEnregistrer.contains(reponse))){
+								//Lie une réponse au tirage
+								DALReponse.ajouterReponseAuTirage(tirageAEnregister,reponse);
+							}
+							
+							//Chaque élément enregistrer n'est pas à supprimer de la BD
+							lstReponseTirageAEnregistrer.remove(reponse);
 						}
+						
+						//pour chaque réponse restantes on les supprimes
+						for(Reponse r : lstReponseTirageAEnregistrer){
+							DALReponse.supprimerReponseAuTirage(tirageAEnregister, r);
+						}
+						
 					}
 					
 					//Si la question est marqué on le note en tant que tirage marqué
@@ -199,29 +248,46 @@ public class Test extends HttpServlet {
 						DALTirage.marquerQuestion(tirageAEnregister);	
 					}
 				}
+					
+				if(numQuestion <= tirages.size()){
+					//Récupère le tirage en cours
+					Tirage tirage = tirages.get(numQuestion-1);				
+					
+					//récupère la liste des réponses existante pour ce tirage sinon null
+					List<Reponse>reponsesTirage = DALReponse.getReponseAuTirage(tirage);
+					
+					//Récupère la question en cours
+					Question question = tirage.getQuestion();
+	
+					//Enregistre la question en tantque question tirage en cours 
+					DALTirage.questionEnCours(tirage);
+					
+					//Récupère la liste des réponses pour cette question
+					List<Reponse>reponses = DALReponse.selectByThemeQuestion(question);
+					
+					request.setAttribute("question", question);
+					request.setAttribute("reponses", reponses);
+					request.setAttribute("reponsesTirage", reponsesTirage);
+				}
 				
-				//Récupère la question en cours
-				Question question = tirage.getQuestion();
-
-				//Enregistre la question en tantque question tirage en cours 
-				DALTirage.questionEnCours(tirage);
 				
-				//Récupère la liste des réponses pour cette question
-				List<Reponse>reponses = DALReponse.selectByThemeQuestion(question);
-				
-				dispatcher= request.getRequestDispatcher("/candidat/test.jsp");
-				request.setAttribute("question", question);
-				request.setAttribute("reponses", reponses);
-				request.setAttribute("reponsesTirage", reponsesTirage);
-				
-				if(numQuestion == tirages.size())
+				//Si on est rendu à la dernière question on affiche le bouton terminer
+				//Sinon c'est le bouton suivant
+				if(numQuestion == tirages.size() )
 					request.setAttribute("terminer", true);
 				else
 					request.setAttribute("terminer",false);
 				
-
-				request.setAttribute("q",numQuestion);
-				dispatcher.forward(request, response);
+				//Si on a l'attribut "recapitulatif on redirige vers cette page
+				//Sinnon on affiche la question
+				if(request.getAttribute("recapitulatif") == null){
+					dispatcher= request.getRequestDispatcher("/candidat/test.jsp");
+					request.setAttribute("q",numQuestion);
+					dispatcher.forward(request, response);
+				}else {
+					dispatcher= request.getRequestDispatcher("/candidat/recapitulatif.jsp");
+					dispatcher.forward(request, response);
+				}
 			}
 		}catch(Exception e){
 			dispatcher = request.getRequestDispatcher("/erreur.jsp");

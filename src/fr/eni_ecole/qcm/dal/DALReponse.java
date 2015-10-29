@@ -245,7 +245,7 @@ public class DALReponse {
 		PreparedStatement cmd = null;
 		List<Reponse>ret = new ArrayList<Reponse>();
 		String sql = "SELECT idReponse FROM REPOND_A "
-					+ "WHERE idQuestion=? AND idInscription=?,idUtilisateur=?";
+					+ "WHERE idQuestion=? AND idInscription=? AND idUtilisateur=?";
 		try{
 			
 			cnx = AccesBase.getConnection();
@@ -279,7 +279,7 @@ public class DALReponse {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
 		String sql = "DELETE FROM REPOND_A "
-					+ "WHERE idReponse = ? AND idQuestion=? AND idInscription=?,idUtilisateur=?";
+					+ "WHERE idReponse = ? AND idQuestion=? AND idInscription=? AND idUtilisateur=?";
 		try{
 			
 			cnx = AccesBase.getConnection();

@@ -16,8 +16,8 @@
 		</table>
 		<div align="center">
 			<button id="btn_ajoutTest" onclick="afficherAjoutTest();">Ajouter</button>
-			<button id="btn_modifierTest" onclick="afficherModificationTest();" disabled="disabled">Modifier</button>
-			<button id="btn_supprimerTest" onclick="afficherSupprimerTest();" disabled="disabled">Supprimer</button>
+			<input type="button" id="btn_modifierTest" onclick="afficherModificationTest();" disabled="disabled" value="Modifier">
+			<input type="button" id="btn_supprimerTest" onclick="afficherSupprimerTest();" disabled="disabled" value="Supprimer">
 		</div>
 	</div>
 </div>

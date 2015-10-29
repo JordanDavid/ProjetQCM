@@ -16,11 +16,10 @@ $(document).ready(function(){
 	/**
 	 * Termine le test en cours et redirige vers la page des résultats s'il confirme la fin du test
 	 */
-	Terminer = function(){
-		if(dialogConfirmTerminerTest.dialog( "isOpen" ))
-			dialogConfirmTerminerTest.dialog( "close" );
-		else
-			dialogConfirmTerminerTest.dialog( "open" );
+	Terminer = function(element){
+		var q = $(element)[0].dataset.q;
+		$("#formQuestionTest").attr("action","./test?action=recapitulatif&q="+parseInt(q));
+		$("#formQuestionTest").submit();
 	};
 	
 

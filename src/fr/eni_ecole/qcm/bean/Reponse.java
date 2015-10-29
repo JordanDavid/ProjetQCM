@@ -108,4 +108,9 @@ public class Reponse implements Serializable {
 		this.question = question;
 	}
 
+	@Override
+	public boolean equals(Object arg0) {
+		return this.idReponse == ((Reponse)arg0).getIdReponse();
+	}
+
 }

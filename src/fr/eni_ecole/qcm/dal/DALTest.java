@@ -127,14 +127,11 @@ public class DALTest implements Serializable {
 				+ "INNER JOIN INSCRIPTION i ON i.idTest = te.idTest "
 				+ "INNER JOIN UTILISATEUR u ON u.idUtilisateur = i.idUtilisateur "
 				+ "WHERE i.idUtilisateur = ? "
-				+ "AND i.idTest NOT IN "
-				+ "	( SELECT t.idTest FROM TIRAGE t WHERE t.idInscription = i.idInscription "
-				+ "		AND t.idUtilisateur = ?)";
+				+ "AND i.date_debut IS NULL";
 		try{
 			cnx = AccesBase.getConnection();
 			cmd = cnx.prepareStatement(sql);
 			cmd.setInt(1, user.getId());
-			cmd.setInt(2, user.getId());
 			ResultSet res = cmd.executeQuery();
 			
 			while (res.next()){
@@ -387,7 +384,6 @@ public class DALTest implements Serializable {
 	public static void supprimerPlage(Test test, PlageHoraire plage) throws SQLException {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
-		Statement st = null;
 		String sql = "DELETE FROM PLAGE_HORAIRE_TEST WHERE idPlageHoraire = ? AND idTest = ?";
 		
 		try{
@@ -399,8 +395,10 @@ public class DALTest implements Serializable {
 					
 		}finally{
 			if(cmd != null) cmd.close();
-			if(st != null) st.close();
 			if(cnx != null) cnx.close();
 		}
 	}
+
+
+
 }

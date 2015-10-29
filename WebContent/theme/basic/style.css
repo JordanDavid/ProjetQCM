@@ -373,3 +373,15 @@
 .question_marquee{
 	color : red !important;
 }
+
+#recap_questions {
+    min-height: 60%;
+    overflow: auto;
+    margin-left: 10%;
+}
+
+#recap_questions a {
+	display: inline-block;
+	width: 100%;
+	margin-top: 2%;
+}
