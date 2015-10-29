@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni_ecole.qcm.bean.Resultat;
+import fr.eni_ecole.qcm.bean.Utilisateur;
+import fr.eni_ecole.qcm.dal.DALInscription;
+import fr.eni_ecole.qcm.dal.DALResultat;
 import fr.eni_ecole.qcm.dal.DALTest;
 
 /**
@@ -64,15 +68,56 @@ public class ResultatsCandidat extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher = null;
+		Utilisateur user = (Utilisateur)request.getSession().getAttribute("user");
 		
-		try{			
+		try{		
+			
 			//Récupère le test concerné
 			fr.eni_ecole.qcm.bean.Test test = new fr.eni_ecole.qcm.bean.Test();
 			test.setId(Integer.parseInt(request.getParameter("idTest")));
 			test = DALTest.getTest(test);
 			
+			//Récupère l'inscription
+			fr.eni_ecole.qcm.bean.Inscription inscription = 
+					DALInscription.getInscriptionByUserTest(test, user);
+			
+			//Nombre total de question
+			int totalQuestion = DALInscription.getNbTotalQuestion(inscription);
+			
+			//On va créer le résultat
+			Resultat resultat = new Resultat();
+			
+			//récupère le nombre total de bonne réponse pour ce test
+			int totalBonneReponse = DALInscription.getNbTotalBonneReponse(inscription);
+			
+			//note sur 20 (Seuil atteint)
+			int noteSurVingt = (totalBonneReponse*20)/totalQuestion;
+			if(noteSurVingt >0 && noteSurVingt < test.getSeuil_minimum() ){
+				resultat.setSeuilAtteint("Non acquis");
+			}else if(noteSurVingt > test.getSeuil_minimum() && noteSurVingt < test.getSeuil_maximum()){
+				resultat.setSeuilAtteint("En cours d'acquisition");
+			} else{
+				resultat.setSeuilAtteint("Acquis");
+			}
+			
+			//Pourcentage bonne réponse
+			resultat.setPourcentagebonneReponse((100*totalBonneReponse)/totalQuestion);
+			
+
+			//Calcul du nombre de bonne réponse question pour le test
+			resultat.setNbBonnesReponses(DALInscription.getNbBonnesReponse(inscription));
+			
+			//Nombre d'incidents
+			resultat.setNbIncidents(0);
+			
+			//Ajout du résultat en base de données
+			resultat = DALResultat.ajouter(resultat);
+			
 			dispatcher = request.getRequestDispatcher("/candidat/resultats.jsp");
 			request.setAttribute("test", test);
+			request.setAttribute("resultat", resultat);
+			request.setAttribute("totalQuestion", totalQuestion);
+			request.setAttribute("totalBonneReponse", totalBonneReponse);
 			dispatcher.forward(request, response);		
 			
 		}catch(Exception e){

@@ -170,5 +170,116 @@ public class DALInscription {
 			if(cnx != null) cnx.close();
 		}
 	}
+
+	/**
+	 * Méthode en charge de récupérer le nombre de bonne réponse pour ce test à la date d'inscription 
+	 * 29 oct. 2015
+	 * @param inscription Inscription concerné
+	 * @return Le nombre de bonne réponse
+	 * @throws SQLException 
+	 */
+	public static int getNbBonnesReponse(Inscription inscription) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT COUNT(*) as BONNE_REPONSE FROM REPOND_A ra "
+						+"INNER JOIN INSCRIPTION i ON i.idInscription = ra.idInscription "
+						+"INNER JOIN REPONSE r ON r.idReponse = ra.idReponse "
+						+"WHERE ra.idInscription = ? AND i.idTest = ? AND ra.idUtilisateur=? "
+						+ "AND bonne_reponse=1";		
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, inscription.getIdInscription());
+			cmd.setInt(2, inscription.getTest().getId());
+			cmd.setInt(3, inscription.getUtilisateur().getId());
+			ResultSet rs =  cmd.executeQuery();
+
+			if(rs.next()){
+				return rs.getInt("BONNE_REPONSE");
+			}
+			else{
+				return 0;
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+
+
+	/**
+	 * Méthode en charge de récupérer le nombre total de bonne réponse pour le test 
+	 * 29 oct. 2015
+	 * @param inscription Inscription concerné
+	 * @return Le nombre  total de bonnes réponses
+	 * @throws SQLException 
+	 */
+	public static int getNbTotalBonneReponse(Inscription inscription) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT COUNT(*) as TOTAL FROM REPONSE r "
+					+"INNER JOIN TIRAGE t ON t.idQuestion = r.idQuestion "
+					+"INNER JOIN INSCRIPTION i ON i.idInscription = t.idInscription "
+					+"WHERE i.idInscription = ? AND i.idTest = ? AND i.idUtilisateur=? AND bonne_reponse=1";		
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, inscription.getIdInscription());
+			cmd.setInt(2, inscription.getTest().getId());
+			cmd.setInt(3, inscription.getUtilisateur().getId());
+			ResultSet rs =  cmd.executeQuery();
+
+			if(rs.next()){
+				return rs.getInt("TOTAL");
+			}
+			else{
+				return 0;
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+	
+	/**
+	 * Méthode en charge de récupérer le nombre total de question par test 
+	 * 29 oct. 2015
+	 * @param inscription Inscription concerné
+	 * @return Le nombre total de question
+	 * @throws SQLException 
+	 */
+	public static int getNbTotalQuestion(Inscription inscription) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT COUNT(*) as TOTAL FROM TIRAGE t "
+					+"INNER JOIN INSCRIPTION i ON i.idInscription = t.idInscription AND i.idTest = t.idTest "
+					+"AND i.idUtilisateur = t.idUtilisateur "
+					+"WHERE i.idInscription = ? AND i.idTest = ? AND i.idUtilisateur=? ";		
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, inscription.getIdInscription());
+			cmd.setInt(2, inscription.getTest().getId());
+			cmd.setInt(3, inscription.getUtilisateur().getId());
+			ResultSet rs =  cmd.executeQuery();
+
+			if(rs.next()){
+				return rs.getInt("TOTAL");
+			}
+			else{
+				return 0;
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+	
 	
 }

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Script pour passer un test
  */
 $(document).ready(function(){

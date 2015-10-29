@@ -21,6 +21,7 @@ public class Resultat implements Serializable {
 	
 	private int idResultat;
 	private int nbBonnesReponses;
+	private int pourcentagebonneReponse;
 	private String seuilAtteint;
 	private Date tempsPasse;
 	private int nbIncidents;
@@ -37,12 +38,13 @@ public class Resultat implements Serializable {
 	 * @param tempsPasse Temps passe du resultat
 	 * @param nbIncidents Nombre d'incidents du resultat
 	 */
-	public Resultat(int idResultat, int nbBonnesReponses, String seuilAtteint, Date tempsPasse, int nbIncidents){
+	public Resultat(int idResultat, int nbBonnesReponses,int pourcentagebonneReponse, String seuilAtteint, Date tempsPasse, int nbIncidents){
 		setIdResultat(idResultat);
 		setNbBonnesReponses(nbBonnesReponses);
 		setSeuilAtteint(seuilAtteint);
 		setTempsPasse(tempsPasse);
 		setNbIncidents(nbIncidents);
+		setPourcentagebonneReponse(pourcentagebonneReponse);
 	}
 	
 	/**
@@ -179,6 +181,14 @@ public class Resultat implements Serializable {
 	 */
 	public void setTest(Test test) {
 		this.test = test;
+	}
+
+	public int getPourcentagebonneReponse() {
+		return pourcentagebonneReponse;
+	}
+
+	public void setPourcentagebonneReponse(int pourcentagebonneReponse) {
+		this.pourcentagebonneReponse = pourcentagebonneReponse;
 	}
 
 }

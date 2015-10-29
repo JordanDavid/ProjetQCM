@@ -1,0 +1,9 @@
+diff a/WebContent/js/fonction.js b/WebContent/js/fonction.js	(rejected hunks)
+@@ -23,7 +23,6 @@
+ 	        width: 400,
+ 	        title : titre,
+ 	        modal: true,
+-	        position : { my: "center", at: "top", of: window },
+ 		       open : function(){
+ 		    	   $("#message_erreur").html("<p>"+message+"</p>");
+ 		       }

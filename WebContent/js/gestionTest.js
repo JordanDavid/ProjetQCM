@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 
  */
 $(document).ready(function(){
@@ -357,11 +357,9 @@ $(document).ready(function(){
 				data : "idTheme="+idTheme+"&nbQuestion="+$(element)[0].value,
 				success : function(data){
 					if(parseInt(data) === 1){
-						console.log("ok");
 						$("#valide_section_"+id)[0].value = true;
 						$("#img_valide_section_"+id).attr("src","/QCM/images/valide.png");
 					}else{
-						console.log("ko");
 						$("#valide_section_"+id)[0].value = false;
 						$("#img_valide_section_"+id).attr("src","/QCM/images/novalide.png");
 					}

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Fonctions générales
  */
 $(document).ready(function(){
