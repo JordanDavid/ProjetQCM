@@ -1,14 +1,13 @@
 
-$(document).ready(function() {
-	
+$(document).ready(function() {	
 	///////// Tableau des TESTS /////////	
 	
 	oTableTests = $("#list_tests").dataTable({
 		"bSort" : false,
+		"iDisplayLength": 5,
 		"bFilter" : false,
 		"bInfo" : false,
 		"bLengthChange" : false,
-		"iDisplayLength": 5,
 		"language" : {
 			"url" : "../Tools/French.json"
 		},
@@ -30,8 +29,7 @@ $(document).ready(function() {
 		var selected = new Array();
 		$("input:checkbox[name=select_candidats]:checked").each(function() {
 		       selected.push($(this)[0].value);
-		  });			
-		console.log(selected);
+		  });
 		
 		idCandidats.setAttribute("value", JSON.stringify(selected));
 	}
@@ -81,7 +79,7 @@ $(document).ready(function() {
        ]
 	});
 	
-	// Rendre possible la SELECTION du tableau
+	// suivant la LIGNE SELECTIONNEE, on SET les input caché avec l'ID et les PLAGES HORAIRE    
 	var table = $('#tabTestsSelect').DataTable(); 
     $('#tabTestsSelect tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -90,6 +88,12 @@ $(document).ready(function() {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
+        var plageSelect1 = document.getElementById("idPlage");
+        var dateDebutPlageSelect1 = document.getElementById("dateDebutPlage");
+        var dateFinPlageSelect1 = document.getElementById("dateFinPlage");
+        plageSelect1.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).idPlageHoraire);
+        dateDebutPlageSelect1.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).dateDebut);
+        dateFinPlageSelect1.setAttribute("value", oTableTestsPlageHoraire.fnGetData($(this)).dateFin);
 	});
     
     // SUPPRESSION d'une ligne
@@ -105,25 +109,20 @@ $(document).ready(function() {
 	
 	// FONCTION appelé lorsqu'on clique sur le bouton "Ajouter"
 	RechargerPlages = function()
-	{	
+	{		
 		afficherPlageHoraire();
 		var $id = document.getElementById("idTest").value;										
 		oTableTestsPlageHoraire.fnReloadAjax("./inscription?action=getPlageHoraire&id="+$id);		
 	};
     
     // AFFICHE la POP-UP (voir onClick du bouton "ajouterCandidatToTheme")
-    afficherPlageHoraire = function(){		
+    afficherPlageHoraire = function(){
 		dialogchoixPlage = $("#choixPlage").dialog({
 			autoOpen: false,
-	        height: 350,
+	        height: 370,
 	        resizable : false,
 	        width: 450,
 	        modal: true,
-	        position : {
-	        	my: "right top",
-	        	at: "right bottom",
-	        	of: $("#choixPlage") 
-	    	},
 	        open: function() {
 	        	listTestsPlageHoraire();
 	        }
@@ -142,13 +141,6 @@ $(document).ready(function() {
 		var $idPlage = document.getElementById("idPlage").value;
 		var $dateDebutPlage = document.getElementById("dateDebutPlage").value;
 		var $dateFinPlage = document.getElementById("dateFinPlage").value;
-
-		// TODO : delete this, bitch !
-		console.log($idTest);
-		console.log($libelleTest);
-		console.log($idPlage);
-		console.log($dateDebutPlage);
-		console.log($dateFinPlage);
 		
 		tableTestsSelect.row.add( [
 			$idTest, 
@@ -228,7 +220,7 @@ $(document).ready(function() {
 			var add = {"idPlageHoraire" : 0,"dateDebut":dtp_Debut.val(),"dateFin":dtp_Fin.val()};
 			oTableTestsPlageHoraire.fnAddData(add);
 		} else{
-			alert("Saisie invalide");
+			afficherErreur("Erreur saisi","Merci de renseigner une plage horaire valide");
 		}
 	};
 	
@@ -238,6 +230,39 @@ $(document).ready(function() {
 	validePlage = function(){
 		return dtp_Debut.val() < dtp_Fin.val();
 	}
+	
+	verifFormulaire = function(){
+		var messageErreur= VerifChamps();
+		if (messageErreur == null)
+			$("#insciptionCandidat").submit();
+		else
+			afficherErreur("Inscription d'un candiat", messageErreur);
+	}
+	
+	VerifChamps = function(){
+		var message = "";
+		var debutmessage = "Erreur lors de l'inscription d'un candidat :";
+		
+		//Le test doit etre sélectionné
+		if($("#idTest")[0].value == null || $("#idTest")[0].value == ""){
+			message += "<br/>  - Aucun test sélectionné"
+		}
+		
+		//La plage horaire doit etre sélectionnée
+		if($("#idPlage")[0].value == null || $("#idPlage")[0].value == ""){
+			message += "<br/>  - Aucune plage horaire sélectionnée"
+		}
+		
+		//Un candidat doit au minimum etre sélectionné
+		if($("#idCandidats")[0].value == null || $("#idCandidats")[0].value == ""){
+			message += "<br/>  - Aucun candidat sélectionné"
+		}
+
+		if(message != "")
+			return debutmessage+message;
+		else
+			return null;
+	};
 	
 	
 	
