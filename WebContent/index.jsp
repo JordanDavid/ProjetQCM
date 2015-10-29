@@ -14,10 +14,10 @@
 	<p id="sous_titre_connexion">Merci de vous connecter à l'aide de vos identifiants</p>
 	<form action="<%= request.getContextPath()%>/authentification" method="POST">
 		<div class="inline_input_connexion">
-			<input type="text" name="login" id="login" value="mDurand"></input>
+			<input type="text" name="login" id="login" value="" placeholder="Veuillez saisir votre login"></input>
 		</div>
 		<div class="inline_input_connexion">
-			<input type="password" name="password" id="password" value="mdurand"></input>
+			<input type="password" name="password" id="password" placeholder="Veuillez saisir votre mot de passe"></input>
 		</div>
 		<div class="inline_input_connexion" id="input_connexion">
 			<input type="submit" name="valider" id="valider" value="Se connnecter">

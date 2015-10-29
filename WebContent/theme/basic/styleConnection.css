@@ -7,13 +7,17 @@
     text-align: center;
     margin: auto;
     margin-top : 15%;
-    width: 350px;
+    width: 500px;
     background-color: #F4FCFD;
 }
 
 #input_connexion {
 	margin-top:3%;
 	margin-bottom : 2%;
+}
+
+.inline_input_connexion input{
+	font-size : 0.9em;
 }
 
 #titre_bonjour {

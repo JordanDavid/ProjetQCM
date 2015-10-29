@@ -216,3 +216,9 @@ legend{
 	font-size : 0.8em;
 	font-style: italic;
 }
+
+.erreur{
+	font-size: 0.9em;
+	color: red;
+	font-style: italic;
+}

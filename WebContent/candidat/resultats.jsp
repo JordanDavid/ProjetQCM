@@ -23,15 +23,15 @@
 		<div id="details_resultat">
 			<h2>Détails du résultat</h2>
 			<ul>
-				<li>Nombre de bonnes questions : <%=resultat.getNbBonnesReponses()%>/<%=resultat.getTotalQuestion()%>
-				<li>Pourcentage réussite : <%=resultat.getPourcentagebonneReponse() %>%</li>
+				<li>Nombre de bonnes réponses : <%=resultat.getNbBonnesReponses()%>/<%=resultat.getTotalQuestion()%>
+				<li><%=resultat.getPourcentagebonneReponse() %>% de bonnes réponses</li>
 				<li>Seuil atteint : <%=resultat.getSeuilAtteint() %></li>
 				<li>Nombre d'incidents : <%=resultat.getNbIncidents() %></li>
 				<li>Temps passé : 5 min</li>
 			</ul>
 		</div>
 		<div align="right" style="margin-right: 5%;">
-			<a class="blueText underlineLink" href="<%=request.getContextPath()%>/accueil.jsp">Retour sur la page d'accueil</a>
+			<a class="blueText underlineLink" href="<%=request.getContextPath()%>/selectionTest.jsp">Retour à la sélection des test</a>
 		</div>
 	</div>
 
