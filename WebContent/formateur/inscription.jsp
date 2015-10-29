@@ -7,7 +7,8 @@
 <%@include file="/fragments/haut.jspf"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/fonctionMaxime.js"></script>
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath()%>/theme/basic/styleMaxime.css">
-<form id="insciptionCandidat" action="<%=request.getContextPath()%>/formateur/inscription?action=enregistrer" method="post">
+<form id="insciptionCandidat" action="<%=request.getContextPath()%>/formateur/inscription?action=enregistrer"
+		method="post" >
 	<fieldset>
 	<legend>Recherche</legend>
 		<table id="tableauCandidat" class="display select">
@@ -39,6 +40,7 @@
 			var tableCandidat = $('#tableauCandidat').dataTable( {
 				"bInfo":  false,
 				"bLengthChange": false,
+				"iDisplayLength": 3,
 		        "className": "dt-body-center",
 				"language": {
 					"url": "../Tools/French.json"
@@ -92,7 +94,7 @@
 		<div id="btn_ajout_plage_horaire">
 			<div id="ajout_candidat_theme">
 				<input type="button" name="ajouterCandidatToTheme" id="ajouterCandidatToTheme"
-					value="Ajouter" onclick="RechargerPlages()" >
+					value="Ajouter Plage Horaire" onclick="RechargerPlages()" >
 			</div>
 		</div>
 	</fieldset>
@@ -122,14 +124,14 @@
 		</div>
 	</fieldset>
 			<!-- INPUT caché -->
-			<input type="hidden" id="idTest" name="idTest" value="0"/>
+			<input type="hidden" id="idTest" name="idTest"/>
 			<input type="hidden" id="idPlage" name="idPlage" />
 			<input type="hidden" id="libelleTest" name="libelleTest"/>
 			<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
 			<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
 			<input type="hidden" id="idCandidats" name="idCandidats"/>
 	<p>
-		<input type="submit" value="Enregistrer l'Inscription">
+		<input type="button" value="Enregistrer l'Inscription" onclick="verifFormulaire()">
 		<a href="../accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>
 	</p>
 </form>

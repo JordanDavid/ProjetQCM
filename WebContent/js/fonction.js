@@ -23,7 +23,6 @@ $(document).ready(function(){
 	        width: 400,
 	        title : titre,
 	        modal: true,
-	        position : { my: "center", at: "top", of: window },
 		       open : function(){
 		    	   $("#message_erreur").html("<p>"+message+"</p>");
 		       }
