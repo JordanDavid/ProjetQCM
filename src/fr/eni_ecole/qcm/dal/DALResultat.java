@@ -32,8 +32,9 @@ public class DALResultat {
 		Connection cnx = null;
 		PreparedStatement cmd = null;
 		Statement st = null;
-		String sql = "INSERT INTO RESULTAT (nombre_bonnes_reponses,seuil_atteint,temps_passe,nombre_incidents "
-						+",idInscription,idUtilisateur,idTest) VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO RESULTAT (nombre_bonnes_reponses,pourcentage_bonne_reponse,total_question,seuil_atteint,"
+					+ "temps_passe,nombre_incidents,idInscription,idUtilisateur,idTest) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 		try{
 			cnx = AccesBase.getConnection();
 			
@@ -41,12 +42,14 @@ public class DALResultat {
 			
 			cmd = cnx.prepareStatement(sql);
 			cmd.setInt(1, resultat.getNbBonnesReponses());
-			cmd.setString(2,resultat.getSeuilAtteint());
-			cmd.setDate(3, ManipDate.dateUtilVersSQL(resultat.getTempsPasse()));
-			cmd.setInt(4,resultat.getNbIncidents());
-			cmd.setInt(5, resultat.getInscription().getIdInscription());
-			cmd.setInt(6,resultat.getUtilisateur().getId());
-			cmd.setInt(7,resultat.getTest().getId());
+			cmd.setInt(2, resultat.getPourcentagebonneReponse());
+			cmd.setInt(3, resultat.getTotalQuestion());			
+			cmd.setString(4, resultat.getSeuilAtteint());
+			cmd.setInt(5, resultat.getTempsPasse());
+			cmd.setInt(6,resultat.getNbIncidents());
+			cmd.setInt(7, resultat.getInscription().getIdInscription());
+			cmd.setInt(8,resultat.getUtilisateur().getId());
+			cmd.setInt(9,resultat.getTest().getId());
 			
 			cmd.executeUpdate();
 			

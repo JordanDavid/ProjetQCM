@@ -149,4 +149,82 @@ public class DALTirage {
 			if(cnx != null)cnx.close();
 		}
 	}
+
+	/**
+	 * Méthode en charge de récupérer le nombre de bonne réponse pour cet utilisateur
+	 * 29 oct. 2015
+	 * @param t Le tirage concerné
+	 * @return Le nombre de bonne réponse
+	 * @throws SQLException 
+	 */
+	public static int getNbBonneReponseUtilisateur(Tirage t) throws SQLException {
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "SELECT COUNT(*) as TOTAL FROM REPOND_A ra "
+					+"INNER JOIN REPONSE r ON r.idReponse = ra.idReponse "
+					+"INNER JOIN TIRAGE t ON t.idQuestion = ra.idQuestion "
+					+"INNER JOIN INSCRIPTION i ON i.idInscription = t.idInscription "
+					+"WHERE i.idInscription = ? AND i.idTest = ? AND i.idUtilisateur=? "
+					+"AND bonne_reponse=1 AND ra.idQuestion = ?";	;		
+		
+		try{
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, t.getInscription().getIdInscription());
+			cmd.setInt(2, t.getTest().getId());
+			cmd.setInt(3, t.getUtilisateur().getId());
+			cmd.setInt(4, t.getQuestion().getIdQuestion());
+			ResultSet rs =  cmd.executeQuery();
+
+			if(rs.next()){
+				return rs.getInt("TOTAL");
+			}
+			else{
+				return 0;
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+
+	/**
+	 * Méthode en charge de	récupérer le nombre de bonne réponse pour ce tirage 
+	 * 29 oct. 2015
+	 * @param t Tirage concerné
+	 * @return Le nombre de bonne réponse
+	 * @throws SQLException
+	 */
+	public static int getNbBonneReponseTirage(Tirage t) throws SQLException {
+		
+			Connection cnx = null;
+			PreparedStatement cmd = null;
+			String sql = "SELECT COUNT(*) as TOTAL FROM REPONSE r "
+						+"INNER JOIN TIRAGE t ON t.idQuestion = r.idQuestion "
+						+"INNER JOIN INSCRIPTION i ON i.idInscription = t.idInscription "
+						+"WHERE i.idInscription = ? AND i.idTest = ? AND i.idUtilisateur= ? "
+						+"AND bonne_reponse=1 AND r.idQuestion = ?";			
+			
+			try{
+				cnx = AccesBase.getConnection();
+				cmd = cnx.prepareStatement(sql);
+				cmd.setInt(1, t.getInscription().getIdInscription());
+				cmd.setInt(2, t.getTest().getId());
+				cmd.setInt(3, t.getUtilisateur().getId());
+				cmd.setInt(4, t.getQuestion().getIdQuestion());
+				ResultSet rs =  cmd.executeQuery();
+
+				if(rs.next()){
+					return rs.getInt("TOTAL");
+				}
+				else{
+					return 0;
+				}
+				
+			}finally{
+				if(cmd != null) cmd.close();
+				if(cnx != null) cnx.close();
+			}
+	}
 }

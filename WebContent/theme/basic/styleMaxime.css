@@ -6,7 +6,7 @@
 .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
 
 #div_choix_test {
-    width: 77%;
+    width: 70%;
     display: inline-block;
     height: 100%;
     padding-top: 3%;
@@ -15,6 +15,7 @@
 #btn_ajout_plage_horaire {
     float: right;
     margin-top: 85px;
+    width : 25%;
 }
 
 #div_tests_selectionnes{

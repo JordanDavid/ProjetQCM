@@ -300,7 +300,7 @@ $(document).ready(function(){
 					dtp_Fin.val(),"debut":dtp_Debut.val(),"fin":dtp_Fin.val()};
 			oTablePlageHorairesTest.fnAddData(add);
 		} else{
-			alert("Saisie invalide");
+			afficherErreur("Sélection plage horaire", "La date de début du test doit être antérieur à celle de fin. Veuillez modifier les horaires sélectionnés")
 		}
 	};
 

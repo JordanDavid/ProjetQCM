@@ -21,9 +21,9 @@ public class Resultat implements Serializable {
 	
 	private int idResultat;
 	private int nbBonnesReponses;
-	private int pourcentagebonneReponse;
+	private int totalQuestion;
 	private String seuilAtteint;
-	private Date tempsPasse;
+	private int tempsPasse;
 	private int nbIncidents;
 	private Inscription inscription;
 	private Utilisateur utilisateur;
@@ -38,13 +38,13 @@ public class Resultat implements Serializable {
 	 * @param tempsPasse Temps passe du resultat
 	 * @param nbIncidents Nombre d'incidents du resultat
 	 */
-	public Resultat(int idResultat, int nbBonnesReponses,int pourcentagebonneReponse, String seuilAtteint, Date tempsPasse, int nbIncidents){
+	public Resultat(int idResultat, int nbBonnesReponses,int totalQuestion, String seuilAtteint, int tempsPasse, int nbIncidents){
 		setIdResultat(idResultat);
 		setNbBonnesReponses(nbBonnesReponses);
 		setSeuilAtteint(seuilAtteint);
 		setTempsPasse(tempsPasse);
 		setNbIncidents(nbIncidents);
-		setPourcentagebonneReponse(pourcentagebonneReponse);
+		setTotalQuestion(totalQuestion);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class Resultat implements Serializable {
 	 * Getter for tempsPasse
 	 * @return the tempsPasse
 	 */
-	public Date getTempsPasse() {
+	public int getTempsPasse() {
 		return tempsPasse;
 	}
 
@@ -115,7 +115,7 @@ public class Resultat implements Serializable {
 	 * Setter for tempsPasse
 	 * @param tempsPasse the tempsPasse to set
 	 */
-	public void setTempsPasse(Date tempsPasse) {
+	public void setTempsPasse(int tempsPasse) {
 		this.tempsPasse = tempsPasse;
 	}
 
@@ -184,11 +184,23 @@ public class Resultat implements Serializable {
 	}
 
 	public int getPourcentagebonneReponse() {
-		return pourcentagebonneReponse;
+		return (100*this.nbBonnesReponses)/this.totalQuestion;
 	}
 
-	public void setPourcentagebonneReponse(int pourcentagebonneReponse) {
-		this.pourcentagebonneReponse = pourcentagebonneReponse;
+	/**
+	 * Getter for totalQuestion
+	 * @return the totalQuestion
+	 */
+	public int getTotalQuestion() {
+		return totalQuestion;
+	}
+
+	/**
+	 * Setter for totalQuestion
+	 * @param totalQuestion the totalQuestion to set
+	 */
+	public void setTotalQuestion(int totalQuestion) {
+		this.totalQuestion = totalQuestion;
 	}
 
 }

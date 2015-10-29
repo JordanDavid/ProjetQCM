@@ -167,7 +167,7 @@ public class GestionInscription extends HttpServlet {
 						// et CREATION d'une ligne sur l'entité PLAGE_HORAIRE_TEST
 						DALTest.ajoutPlage(testIncription, p);
 					}
-					dispatcher = request.getRequestDispatcher("/accueil.jsp");
+					dispatcher = request.getRequestDispatcher("/formateur/inscription?action=afficher");
 					dispatcher.forward(request, response);
 					
 					break;

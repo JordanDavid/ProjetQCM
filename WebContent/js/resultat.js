@@ -5,14 +5,22 @@
 	 */
 	$('#charts_bonnes_reponses').highcharts({
         chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
             type: 'pie'
         },
-        title: {
-            text: 'Pourcentage de bonnes réponses'
+        title: 'Pourcentage bonne réponse',
+        exporting: { enabled: false },
+        credits: { enabled: false },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: { enabled: false }
+            }
         },
         series: [{
-            name: 'Brands',
-            colorByPoint: true,
             data: [{
                 name: 'Bonne réponse',
                 y: ($("#charts_bonnes_reponses")[0].dataset.bonnereponse *100) / $("#charts_bonnes_reponses")[0].dataset.totalbonnereponse
