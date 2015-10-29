@@ -306,6 +306,8 @@
 /*********************** PASSER UN TEST *************************/
 /****************************************************************/
 
+/* SELECTION DU TEST */
+
 #div_form_selection_test{
 	width : 30%;
 	margin : auto;
@@ -324,4 +326,50 @@
 
 #tests{
 	width : 100%;
+}
+
+
+/* PASSER UN TEST */
+
+#passerTest{
+	height : 85%;
+}
+
+#formQuestionTest {
+	margin-top : 10%;
+	margin-bottom : 5%;
+	height : 75%;
+	padding-left : 5%;
+}
+
+#reponses{
+	margin-left : 5%;
+	margin-bottom : 10%;
+	min-height : 50%;
+}
+
+#action{
+	text-align: right;
+	margin-right: 10%;
+}
+
+#action input[type=button]{
+	margin-left : 10%;
+}
+
+.historique_questions{
+	margin-left : 1%;
+}
+
+.historique_questions{
+	font-size : 1em;
+}
+
+.question_encours{
+	font-weight: bold;
+	font-size : 1.1em;
+}
+
+.question_marquee{
+	color : red !important;
 }

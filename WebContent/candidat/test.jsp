@@ -4,14 +4,17 @@
 <%
 	Question question = (Question)request.getAttribute("question");
 	List<Reponse> reponses = (List<Reponse>)request.getAttribute("reponses");
-	int numQuestion = (int)request.getAttribute("q");
+	int numQuestion = Integer.parseInt(request.getAttribute("q").toString());
 	String titre = "Question n°"+numQuestion;
 	String menu = "passerTest";
 	String type = question.getTypeReponse() == false ? "radio" : "checkbox";
 %>
 <%@include file="/fragments/haut.jspf"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/test.js"></script>
-	<div>
+	<div id="passerTest">
+		<div id="temps_restant">
+		
+		</div>
 		<form id="formQuestionTest" action="<%=request.getContextPath()%>/candidat/test" method="post">
 			<div id="enonce">
 				<%= question.getEnonce() %>
@@ -27,9 +30,9 @@
 				<% } %>
 			</div>	
 			<div id="action">
-				<input type="checkbox" name="marquer" id="marquer" onclick="marquerQuestion()"/>
-				<% if((Boolean)request.getAttribute("terminer")) { %>
-						<input type="button" name="repondre" id="repondre"  data-q="<%=numQuestion%>" value="Suivant >>" onclick="Suivant()"/>
+				<input type="checkbox" name="marquer" id="marquer" onclick="marquerQuestion()"/><label for="marquer">Marquer la question</label>
+				<% if(!(Boolean)request.getAttribute("terminer")) { %>
+						<input type="button" name="repondre" id="repondre"  data-q="<%=numQuestion%>" value="Suivant >>" onclick="Suivant(this)"/>
 				<% }else{ %>
 						<input type="button" name="terminer" id="terminer" value="Terminer >>" onclick="Terminer()"/>
 				<% } %>
@@ -37,23 +40,24 @@
 		</form>
 		<div>
 			<div id="titre_historique">
-				<p>Naviguer sur les réponses</p>
+				<p>Historique des questions :</p>
 			</div>
 			<div id="historique">
 				<%  int y=1;
 					for(Tirage tirage : (List<Tirage>)session.getAttribute("tirage")) { 
-						String classe = "";
-						if(y==(numQuestion-1)) {
+						String classe = ""; 
+						if(y==(numQuestion)) {
 							classe+="question_encours ";
 						}
 						if(tirage.getMarque()){
 							classe+="question_marquee";
-						}					
+						} 			
 				%>
-					<a class="historique_questions <%=classe%>" 
-						href="./test?action=afficher&q=<%=y%>">Question <%=y%></a>
+				<a class="blueText underlineLink historique_questions <%=classe%>" 
+						href="<%=request.getContextPath() %>/candidat/test?action=afficher&q=<%=y%>">Question <%=y%></a>
 				<%	y++;
 					} %>
+					<a class="blueText underlineLink historique_questions" href="<%=request.getContextPath() %>/candidat/test?action=recapitulatif">Récapitualtif</a>
 			</div>
 		</div>
 	</div>

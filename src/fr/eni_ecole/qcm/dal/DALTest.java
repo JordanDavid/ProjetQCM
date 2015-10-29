@@ -126,11 +126,15 @@ public class DALTest implements Serializable {
 		String sql = "SELECT * FROM TEST te "
 				+ "INNER JOIN INSCRIPTION i ON i.idTest = te.idTest "
 				+ "INNER JOIN UTILISATEUR u ON u.idUtilisateur = i.idUtilisateur "
-				+ "WHERE i.idUtilisateur = ?";
+				+ "WHERE i.idUtilisateur = ? "
+				+ "AND i.idTest NOT IN "
+				+ "	( SELECT t.idTest FROM TIRAGE t WHERE t.idInscription = i.idInscription "
+				+ "		AND t.idUtilisateur = ?)";
 		try{
 			cnx = AccesBase.getConnection();
 			cmd = cnx.prepareStatement(sql);
 			cmd.setInt(1, user.getId());
+			cmd.setInt(2, user.getId());
 			ResultSet res = cmd.executeQuery();
 			
 			while (res.next()){

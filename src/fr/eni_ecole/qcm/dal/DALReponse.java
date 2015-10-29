@@ -16,6 +16,7 @@ import java.util.List;
 import fr.eni_ecole.qcm.bean.Question;
 import fr.eni_ecole.qcm.bean.Reponse;
 import fr.eni_ecole.qcm.bean.Theme;
+import fr.eni_ecole.qcm.bean.Tirage;
 import fr.eni_ecole.qcm.util.AccesBase;
 
 /**
@@ -205,4 +206,94 @@ public class DALReponse {
 		}
 	}
 
+	/**
+	 * Méthode en charge d'ajouter une réponse au tirage en cours 
+	 * 29 oct. 2015
+	 * @param tirage Tirage en cours
+	 * @param reponse Réponse à ajouter
+	 * @throws SQLException 
+	 */
+	public static void ajouterReponseAuTirage(Tirage tirage,Reponse reponse) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "INSERT INTO REPOND_A VALUES(?,?,?,?)";
+		try{
+			
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, reponse.getIdReponse());
+			cmd.setInt(2, tirage.getQuestion().getIdQuestion());
+			cmd.setInt(3, tirage.getInscription().getIdInscription());
+			cmd.setInt(4, tirage.getUtilisateur().getId());
+			cmd.executeUpdate();
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+
+	/**
+	 * Méthode en charge de récupérer la liste des réponses au tirage 
+	 * 29 oct. 2015
+	 * @param tirage Tirage concerné
+	 * @return La Liste des réponses 
+	 * @throws SQLException 
+	 */
+	public static List<Reponse> getReponseAuTirage(Tirage tirage) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		List<Reponse>ret = new ArrayList<Reponse>();
+		String sql = "SELECT idReponse FROM REPOND_A "
+					+ "WHERE idQuestion=? AND idInscription=?,idUtilisateur=?";
+		try{
+			
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, tirage.getQuestion().getIdQuestion());
+			cmd.setInt(2, tirage.getInscription().getIdInscription());
+			cmd.setInt(3, tirage.getUtilisateur().getId());
+			ResultSet res = cmd.executeQuery();
+			
+			while(res.next()){
+				Reponse reponse = new Reponse();
+				reponse.setIdReponse(res.getInt("idReponse"));
+				ret.add(reponse);
+			}
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Méthode en charge de supprime un e reponse du tirage 
+	 * 29 oct. 2015
+	 * @param tirage Tirage concernée
+	 * @param reponse Reponse à supprimer
+	 * @throws SQLException
+	 */
+	public static void supprimerReponseAuTirage(Tirage tirage,Reponse reponse) throws SQLException{
+		Connection cnx = null;
+		PreparedStatement cmd = null;
+		String sql = "DELETE FROM REPOND_A "
+					+ "WHERE idReponse = ? AND idQuestion=? AND idInscription=?,idUtilisateur=?";
+		try{
+			
+			cnx = AccesBase.getConnection();
+			cmd = cnx.prepareStatement(sql);
+			cmd.setInt(1, reponse.getIdReponse());
+			cmd.setInt(2, tirage.getQuestion().getIdQuestion());
+			cmd.setInt(3, tirage.getInscription().getIdInscription());
+			cmd.setInt(4, tirage.getUtilisateur().getId());
+			cmd.executeUpdate();
+			
+		}finally{
+			if(cmd != null) cmd.close();
+			if(cnx != null) cnx.close();
+		}
+	}
+	
 }

@@ -136,6 +136,8 @@ public class Test extends HttpServlet {
 									t.setUtilisateur(user);
 									t.setTest(test);
 									t.setInscription(inscription);
+									t.setEnCours(false);
+									t.setMarque(false);
 									DALTirage.ajouter(t);
 									tirages.add(t);
 									
@@ -162,24 +164,47 @@ public class Test extends HttpServlet {
 			} else {				
 				//Récupère le tirage de l'utilisateur
 				List<Tirage> tirages = (List<Tirage>)request.getSession().getAttribute("tirage");
-				
-				if("enregisterReponse".equals(action)){
-				//Récupérer les id des questions cochés dans l'attribut reponses
-				
-					//Si la question est marqué on l'a note en tant que question marqué
-//					if()
-//						DALTirage.marquerQuestion(tirage);
-					
-				}
-				
+
 				//Numéro de la question en cours
 				int numQuestion = Integer.parseInt(request.getParameter("q"));
 				
+				//Récupère le tirage
+				Tirage tirage = tirages.get(numQuestion-1);
+				
+				//récupère la liste des réponses existante pour ce tirage sinon null
+				List<Reponse>reponsesTirage = DALReponse.getReponseAuTirage(tirage);
+				
+				if("enregistrer".equals(action)){
+					//Récupérer les id des questions cochés dans l'attribut reponses
+					Tirage tirageAEnregister = tirages.get(numQuestion-2);
+					//Récupère les réponses de l'utilisateur
+					String[] lstReponses = request.getParameterValues("reponses");
+
+					//Récupère les réponses existantes pour ce tirage en base de données
+//					List<Reponse>lstReponseirageAEnregistrer = DALTirage.getQuestionByTirage(tirageAEnregister);
+					
+					if(lstReponses != null){
+						for(int i=0; i<lstReponses.length;i++){
+							//Construit une réponse en fonction de son identifiant
+							Reponse reponse = new Reponse();
+							reponse.setIdReponse(Integer.parseInt(lstReponses[i]));
+							//Lie une réponse au tirage
+							DALReponse.ajouterReponseAuTirage(tirageAEnregister,reponse);
+						}
+					}
+					
+					//Si la question est marqué on le note en tant que tirage marqué
+					if(request.getParameter("marquer") != null){
+						tirages.get(numQuestion-2).setMarque(true);
+						DALTirage.marquerQuestion(tirageAEnregister);	
+					}
+				}
+				
 				//Récupère la question en cours
-				Question question = tirages.get(numQuestion-1).getQuestion();
+				Question question = tirage.getQuestion();
 
 				//Enregistre la question en tantque question tirage en cours 
-				DALTirage.questionEnCours(tirages.get(numQuestion-1));
+				DALTirage.questionEnCours(tirage);
 				
 				//Récupère la liste des réponses pour cette question
 				List<Reponse>reponses = DALReponse.selectByThemeQuestion(question);
@@ -187,6 +212,8 @@ public class Test extends HttpServlet {
 				dispatcher= request.getRequestDispatcher("/candidat/test.jsp");
 				request.setAttribute("question", question);
 				request.setAttribute("reponses", reponses);
+				request.setAttribute("reponsesTirage", reponsesTirage);
+				
 				if(numQuestion == tirages.size())
 					request.setAttribute("terminer", true);
 				else

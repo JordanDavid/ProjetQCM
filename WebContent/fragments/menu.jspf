@@ -3,7 +3,7 @@
     <div id="menu">
     	<input id="li_menu" type="hidden" value="<%=menu%>">
 	    <ul>
-	    	<li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/authentification">Accueil</a></li>
+	    	<li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/accueil.jsp">Accueil</a></li>
 	   <% if("candidat".equals(request.getSession().getAttribute("typeUser"))) { %>
 	    	<li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/candidat/test?action=selection">Passer un test</a></li>
 	   <% } else { %> 

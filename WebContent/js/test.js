@@ -9,10 +9,10 @@ $(document).ready(function(){
 	Suivant = function(element){
 		var q = $(element)[0].dataset.q;
 		//passe à la question suivante
-		$("#formQuestionTest").attr("action","./test?action=enregistrer&q="+(q+1));
+		$("#formQuestionTest").attr("action","./test?action=enregistrer&q="+(parseInt(q)+1));
 		$("#formQuestionTest").submit();
 	};
-	
+
 	/**
 	 * Termine le test en cours et redirige vers la page des résultats s'il confirme la fin du test
 	 */
