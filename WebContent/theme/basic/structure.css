@@ -164,17 +164,17 @@ legend{
 	width : 100%;
 }
 
-#menu ul li a {
+#menu a {
 	text-decoration: none;
 	color : black;
 }
 
 #menu ul li:HOVER {
-	background-color: #d8d8d8;
+	background-color: #FFF;
 }
 
 #menu ul li.active {
-	background-color: white;
+	background-color: #FFF;
 }
 
 /* corps de page */

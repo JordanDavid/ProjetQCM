@@ -3,14 +3,14 @@
     <div id="menu">
     	<input id="li_menu" type="hidden" value="<%=menu%>">
 	    <ul>
-	    	<li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/accueil.jsp">Accueil</a></li>
+	    	<a href="<%=request.getContextPath()%>/accueil.jsp"><li class="liMenu" id="menu_accueil" onclick="SelectionMenu(this);">Accueil</li></a>
 	   <% if("candidat".equals(request.getSession().getAttribute("typeUser"))) { %>
-	    	<li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/candidat/test?action=selection">Passer un test</a></li>
+	    	<a href="<%=request.getContextPath()%>/candidat/test?action=selection"><li class="liMenu" id="menu_passerTest" onclick="SelectionMenu(this);">Passer un test</a></li>
 	   <% } else { %> 
-	    	<li class="liMenu" id="menu_resultats" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/#">Résultats</a></li>
-	    	<li class="liMenu" id="menu_inscription" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher">Inscription</a></li>
-	    	<li class="liMenu" id="menu_gestionTest" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/gestionTests">Gestion des tests</a></li>
-	    	<li class="liMenu" id="menu_referentiel" onclick="SelectionMenu(this);"><a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher">Référentiel</a></li>
+	    	<a href="<%=request.getContextPath()%>/accueil.jsp"><li class="liMenu" id="menu_resultats" onclick="SelectionMenu(this);">Résultats</li></a>
+	    	<a href="<%=request.getContextPath()%>/formateur/inscription?action=afficher"><li class="liMenu" id="menu_inscription" onclick="SelectionMenu(this);">Inscription</li></a>
+	    	<a href="<%=request.getContextPath()%>/formateur/gestionTests"><li class="liMenu" id="menu_gestionTest" onclick="SelectionMenu(this);">Gestion des tests</li></a>
+	    	<a href="<%=request.getContextPath()%>/formateur/referentiel?action=afficher"><li class="liMenu" id="menu_referentiel" onclick="SelectionMenu(this);">Référentiel</li></a>
 	   <% } %>
     	</ul>
     </div>
