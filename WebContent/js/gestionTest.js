@@ -332,7 +332,7 @@ $(document).ready(function(){
 			var div = $( ".new_section_test" ).eq(0).clone();
 			div.removeClass("hide");
 			div.removeClass("new_section_test");
-			div.removeClass("section_test");
+			div.addClass("section_test");
 			div.appendTo( "#sections_test");
 		}else{
 			//problème
