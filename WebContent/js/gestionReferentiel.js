@@ -78,15 +78,15 @@
 					divreponse += "<div class=\"reponse\">";
 					
 					divreponse += "<input type=\"hidden\" name=\"reponses\" value=\""+data[i].idReponse+"\"/>";
-					divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses["+data[i].idReponse+"][enonce]\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
+					divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses\" id=\"reponse_"+data[i].idReponse+"\" placeholder=\"Veuillez saisir la réponse\" value=\""+data[i].reponse+"\"/>";
 
 					if(data[i].bonneReponse === true)
 						checked="checked=\"checked\"";
 						
 					if(aadata.typeReponse == 0)
-						divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses["+data[i].idReponse+"][valide]\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+						divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 					else
-						divreponse += "<input class=\"input_reponse\" type=\"checkbox\" name=\"reponses["+data[i].idReponse+"][valide]\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+						divreponse += "<input class=\"input_reponse\" type=\"checkbox\" name=\"reponses\" id=\"\" "+checked+" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 					
 					divreponse += "</div>";
 				}	
@@ -203,8 +203,8 @@
 		for(var i=0; i<2;i++){
 			divreponse += "<div class=\"reponse\">";
 			divreponse += "<input type=\"hidden\" name=\"reponses\" value=\""+(i-1)+"\"/>";
-			divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses["+(i-1)+"][enonce]\" id=\"reponse_n"+(i-1)+"\" placeholder=\"Veuillez saisir la réponse\" />";
-			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses["+(i-1)+"][valide]\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
+			divreponse += "<input type=\"text\" class=\"enonce_reponse\" name=\"reponses\" id=\"reponse_n"+(i-1)+"\" placeholder=\"Veuillez saisir la réponse\" />";
+			divreponse += "<input class=\"input_reponse\" type=\"radio\" name=\"reponses\" id=\"\" title=\"Cocher pour indiquer la bonne réponse\"/>";					
 			divreponse += "</div>";
 		}	
 		$("#div_reponses_question").html(divreponse);

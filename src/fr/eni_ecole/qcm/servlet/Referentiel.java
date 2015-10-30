@@ -162,7 +162,13 @@ public class Referentiel extends HttpServlet {
 					question.setImage(image);
 					question.setTypeReponse(typeQuestion);
 					question.setTheme(theme);
-					question = DALQuestion.ajouter(question);
+					
+					if((Integer.parseInt(request.getParameter("idQuestion"))) == 0){
+						question = DALQuestion.ajouter(question);						
+					}else{
+						question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
+						DALQuestion.modifier(question);
+					}
 
 					//récupère la liste des réponses
 					JSONArray reponses = new JSONArray(request.getParameter("lst_reponses"));				

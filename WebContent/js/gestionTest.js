@@ -226,11 +226,12 @@ $(document).ready(function(){
 			var sections = new Array();
 			var y = 0 ;
 			$(".section_test").each(function(){
-				var idSection = $(this)[0].dataset.id
+				var idSection = $(this)[0].dataset.id;
+								
 				var idThemeSection = $("#select_theme_section_"+idSection +" option:selected")[0].value;
 				var nbQuestion = $("#nb_questions_section_"+idSection)[0].value;
 				sections[y] = {
-					"idSection" : idSection,
+					"idSection" : i,
 					"idTheme" : idThemeSection,
 					"nbQuestion" : nbQuestion
 				};
