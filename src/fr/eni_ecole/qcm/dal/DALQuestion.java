@@ -115,7 +115,7 @@ public class DALQuestion {
 			cmd.setInt(1, question.getTheme().getIdTheme());
 			cmd.setString(2, question.getEnonce());
 			cmd.setBoolean(3, question.getTypeReponse());
-			cmd.setString(4, question.getImage());
+			cmd.setString(4, null);
 			cmd.executeUpdate();
 			
 			st = cnx.createStatement();

@@ -35,11 +35,11 @@
 			</div>
 			<div class="inline_infos">
 				<div class="inline_block_infos_left">
-					<label for="seuil1">Seuil 1 :</label>
+					<label for="seuil1">Seuil non acquis :</label>
 					<input type="number" name="seuil1" id="seuil1" value="<%=t.getSeuil_minimum()%>">
 				</div>
 				<div class="inline_block_infos_right">				
-					<label for="seuil2">Seuil 2 :</label>
+					<label for="seuil2">Seuil acquis :</label>
 					<input type="number" name="seuil2" id="seuil2" value="<%=t.getSeuil_maximum()%>">
 				</div>
 			</div>

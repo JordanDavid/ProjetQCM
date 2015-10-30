@@ -31,7 +31,7 @@
 			</ul>
 		</div>
 		<div align="right" style="margin-right: 5%;">
-			<a class="blueText underlineLink" href="<%=request.getContextPath()%>/selectionTest.jsp">Retour à la sélection des test</a>
+			<a class="blueText underlineLink" href="<%=request.getContextPath()%>/candidat/test?action=selection">Retour à la sélection des tests</a>
 		</div>
 	</div>
 

@@ -36,11 +36,13 @@ $(document).ready(function(){
             $(this).removeClass('selected');
             $("#btn_modifierTest").attr("disabled","disabled");
             $("#btn_supprimerTest").attr("disabled","disabled");
+    		$("#details_test").removeClass("show");
         }else {
         	oTableTest.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             $("#btn_modifierTest").removeAttr("disabled");
             $("#btn_supprimerTest").removeAttr("disabled");
+    		$("#details_test").addClass("show");
         }
     });
 	
@@ -50,16 +52,15 @@ $(document).ready(function(){
 	 * @param row Ligne sélectionnée
 	 */
 	SelectionTest = function(row){
-		$("#details_test").addClass("show")
 		aaData = oTableTest.fnGetData($(row));
 
 		//Alimentation des données statiques du test sélectionné
 		$("#idTest")[0].value = aaData.id;
 		$("#idTestToDelete")[0].value = aaData.id;
 		$("#titre_test").html(aaData.libelle);
-		$("#duree_test").html("Durée : " + aaData.duree);
-		$("#seuil1_test").html("Seuil n°1 : " + aaData.seuil_maximum);
-		$("#seuil2_test").html("Seuil n°2 : " + aaData.seuil_minimum);
+		$("#duree_test").html("Durée : " + aaData.duree +" minutes");
+		$("#seuil1_test").html("Seuil acquis : " + aaData.seuil_maximum);
+		$("#seuil2_test").html("Seuil non acquis : " + aaData.seuil_minimum);
 		
 		//Récupération des plages horaires du test
 		$.ajax({
@@ -87,10 +88,11 @@ $(document).ready(function(){
 			data : "action=getSections&idTest="+aaData.id,
 			processData : false,
 			success : function(data){
+				console.log(data);
 				var sections = "";
 				var numSection = 1;
 				if(data.data.length == 0)
-					sections = "Aucunes plages horaires définies";
+					sections = "Aucune section définie";
 				for(var i=0;i<data.data.length;i++){
 					sections += "<div class=\"section\">";
 					sections += "<div class=\"nom_section\">Section "+numSection+" : " + data.data[i].theme.libelle +"</div>";
@@ -231,7 +233,7 @@ $(document).ready(function(){
 				var idThemeSection = $("#select_theme_section_"+idSection +" option:selected")[0].value;
 				var nbQuestion = $("#nb_questions_section_"+idSection)[0].value;
 				sections[y] = {
-					"idSection" : i,
+					"idSection" : idSection,
 					"idTheme" : idThemeSection,
 					"nbQuestion" : nbQuestion
 				};
@@ -254,24 +256,24 @@ $(document).ready(function(){
 		var debutMessage = "Erreur lors de l'enregistrement du test :";
 		
 		if($("#nom")[0].value == "" || $("#nom")[0].value == null){
-			message += "<br/>Le nom doit obligatoirement être saisi"
+			message += "<br/> - Le nom doit obligatoirement être saisi"
 		}
 		
 		if($("#duree")[0].value <= 1){
-			message += "<br/>La durée du test doit être supérieur à 1 minutes"
+			message += "<br/> - La durée du test doit être supérieur à 1 minutes"
 		}
 		
 		if($("#nbSections")[0].value < 1){
-			message += "<br/>Le nombre de section doit être supérieur à 1";
+			message += "<br/> - Le nombre de section doit être supérieur à 1";
 		}
 		
 		if(parseInt($("#seuil1")[0].value) >= parseInt($("#seuil2")[0].value)){
-			message += "<br/>Le 1er seuil doit être inférieur au deuxième";
+			message += "<br/> - Le 1er seuil doit être inférieur au deuxième";
 		}
 		
 		var dataPlage = oTablePlageHorairesTest.fnGetData();
 		if(dataPlage.length < 1){
-			message += "<br/>Vous devez créer au moins une plage horaire pour le test"
+			message += "<br/> - Vous devez créer au moins une plage horaire pour le test"
 		}
 		
 		var nbErreur = 0
@@ -281,7 +283,7 @@ $(document).ready(function(){
 		});
 		
 		if(nbErreur > 0){
-			message += "<br/>"+nbErreur+" champs section sont incorrect";
+			message += "<br/> - "+nbErreur+" champs section sont incorrect";
 		}
 
 		if(message != "")
@@ -348,6 +350,7 @@ $(document).ready(function(){
 	 */
 	changeNbQuestion = function(element){
 		var id = $(element)[0].id.split("_").pop();
+		console.log(id);
 		if(id != 0){
 			
 			var idTheme = $("#select_theme_section_"+id+" option:selected")[0].value;

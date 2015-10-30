@@ -122,7 +122,7 @@ public class ResultatsCandidat extends HttpServlet {
 
 			//note sur 20 (Seuil atteint)
 			int noteSurVingt = (nbbonneQuestion*20)/totalQuestion;
-			if(noteSurVingt >0 && noteSurVingt < test.getSeuil_minimum() ){
+			if(noteSurVingt >=0 && noteSurVingt < test.getSeuil_minimum() ){
 				resultat.setSeuilAtteint("Non acquis");
 			}else if(noteSurVingt >= test.getSeuil_minimum() && noteSurVingt < test.getSeuil_maximum()){
 				resultat.setSeuilAtteint("En cours d'acquisition");

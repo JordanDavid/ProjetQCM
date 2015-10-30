@@ -130,7 +130,7 @@
 			<input type="hidden" id="dateDebutPlage" name="dateDebutPlage"/>
 			<input type="hidden" id="dateFinPlage" name="dateFinPlage"/>
 			<input type="hidden" id="idCandidats" name="idCandidats"/>
-	<p>
+	<p align="center">
 		<input type="button" value="Enregistrer l'Inscription" onclick="verifFormulaire()">
 		<a href="../accueil.jsp"><input type="button" name="cancel" value="Annuler l'Inscription"></a>
 	</p>

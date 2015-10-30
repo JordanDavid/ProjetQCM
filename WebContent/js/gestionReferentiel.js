@@ -192,7 +192,7 @@
 	 * Passe en mode création d'une question
 	 */
 	AfficherAjouterQuestion = function(){
-		$("#idQuestion")[0].value = "-1";
+		$("#idQuestion")[0].value = "0";
 		$("#enonce")[0].value = "";
 		$("#image")[0].value = "";
 		$("#typeQuestion option").eq(0).prop("selected","selected");

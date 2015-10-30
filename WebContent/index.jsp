@@ -10,14 +10,14 @@
 </head>
 <body>
 <div id="formConnection">
-	<p class="blueText" id="titre_bonjour">Bonjour</p>
+	<p class="blueText" id="titre_bonjour">Connexion</p>
 	<p id="sous_titre_connexion">Merci de vous connecter à l'aide de vos identifiants</p>
 	<form action="<%= request.getContextPath()%>/authentification" method="POST">
 		<div class="inline_input_connexion">
-			<input type="text" name="login" id="login" value="" placeholder="Veuillez saisir votre login"></input>
+			<input type="text" name="login" id="login" value="" placeholder="Login"></input>
 		</div>
 		<div class="inline_input_connexion">
-			<input type="password" name="password" id="password" placeholder="Veuillez saisir votre mot de passe"></input>
+			<input type="password" name="password" id="password" placeholder="Mot de passe"></input>
 		</div>
 		<div class="inline_input_connexion" id="input_connexion">
 			<input type="submit" name="valider" id="valider" value="Se connnecter">

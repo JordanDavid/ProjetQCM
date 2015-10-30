@@ -248,11 +248,6 @@ $(document).ready(function() {
 			message += "<br/>  - Aucun test sélectionné"
 		}
 		
-		//La plage horaire doit etre sélectionnée
-		if($("#idPlage")[0].value == null || $("#idPlage")[0].value == ""){
-			message += "<br/>  - Aucune plage horaire sélectionnée"
-		}
-		
 		//Un candidat doit au minimum etre sélectionné
 		if($("#idCandidats")[0].value == null || $("#idCandidats")[0].value == ""){
 			message += "<br/>  - Aucun candidat sélectionné"

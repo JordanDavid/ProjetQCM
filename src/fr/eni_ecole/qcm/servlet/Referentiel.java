@@ -1,4 +1,4 @@
-package fr.eni_ecole.qcm.servlet;
+﻿package fr.eni_ecole.qcm.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -163,7 +163,7 @@ public class Referentiel extends HttpServlet {
 					question.setTypeReponse(typeQuestion);
 					question.setTheme(theme);
 					
-					if((Integer.parseInt(request.getParameter("idQuestion"))) == 0){
+					if(request.getParameter("idQuestion") == null || (Integer.parseInt(request.getParameter("idQuestion"))) <= 0 ){
 						question = DALQuestion.ajouter(question);						
 					}else{
 						question.setIdQuestion(Integer.parseInt(request.getParameter("idQuestion")));
